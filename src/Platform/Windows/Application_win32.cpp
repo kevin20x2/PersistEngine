@@ -1,9 +1,14 @@
 #include "Application_win32.hpp"
 #include <windows.h>
+
 #include <tchar.h>
 #include <stdlib.h>
 #include <string.h>
 #include <iostream>
+
+#include <FrameWork/Renderer/Renderer.hpp>
+#include <RHI/D3D11/Renderer_D3D11.hpp>
+
 namespace Persist
 {
 
@@ -24,7 +29,8 @@ int Application_win32 :: init()
     wc.hInstance = hInstance;
     wc.hCursor = LoadCursor(NULL ,IDC_ARROW);
     wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
-    wc.lpszClassName = _T("PersistEngine");
+
+    wc.lpszClassName = L"PersistEngine";
 
     DWORD ErrCode ;
 
@@ -44,6 +50,11 @@ int Application_win32 :: init()
             NULL,NULL,
             hInstance ,NULL
     );
+
+    Renderer_D3D11 * renderer = dynamic_cast<Renderer_D3D11 *>( IRenderer ::renderer() );
+    renderer->setHWND(hWnd);
+    renderer->init();
+
 
     ShowWindow(hWnd , SW_SHOW);
     std::cout << "init win32 application over";
@@ -81,6 +92,8 @@ LRESULT CALLBACK Application_win32 :: WindowProc(HWND hWnd , UINT message , WPAR
     {
     case WM_PAINT/* constant-expression */:
     {
+        IRenderer::renderer()->render();
+
     }
     break;
     case WM_DESTROY:

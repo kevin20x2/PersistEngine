@@ -1,1 +1,1 @@
-add_library(FrameWork Interface/IApplication.cpp)
+add_library(FrameWork Interface/IApplication.cpp Renderer/Renderer.cpp)

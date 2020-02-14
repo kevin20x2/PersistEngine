@@ -8,9 +8,19 @@ namespace Persist
     class IRenderer : extends IRunTimeModule
     {
         public :
-        virtual int init() = 0 ;
-        virtual void destroy() = 0;
-        virtual void tick() = 0 ;
+
+        static IRenderer * renderer();
+
+
+        public :
+
+        virtual ~IRenderer() {}
+        virtual int init() override = 0 ;
+        virtual void destroy() override = 0;
+        
+
+        // default 
+        virtual void tick() override {} ;
 
         virtual void beginFrame() = 0;
 

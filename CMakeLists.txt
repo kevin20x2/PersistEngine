@@ -11,12 +11,14 @@ include_directories(
 
 add_subdirectory(src/FrameWork)
 add_subdirectory(src/Platform)
+add_subdirectory(src/RHI)
 
 
 
 
 add_executable(app main.cpp)
 
-target_link_libraries(app FrameWork Platform)
+target_link_directories(app PUBLIC $ENV{DXSDK_DIR}\\Lib\\x64)
+target_link_libraries(app FrameWork Platform RHI )
 
 
