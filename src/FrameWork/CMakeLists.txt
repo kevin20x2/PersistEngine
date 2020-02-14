@@ -1,0 +1,1 @@
+add_library(FrameWork Interface/IApplication.cpp)
