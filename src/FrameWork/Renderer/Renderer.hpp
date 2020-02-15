@@ -1,6 +1,7 @@
 #pragma once 
 #include <FrameWork/Interface/IRunTimeModule.hpp>
 #include <cstdint>
+#include <RHI/RHI.hpp>
 
 namespace Persist 
 {
@@ -14,13 +15,13 @@ namespace Persist
 
         public :
 
+        // from runtime module
         virtual ~IRenderer() {}
         virtual int init() override = 0 ;
         virtual void destroy() override = 0;
-        
+        virtual void tick() override {} ;
 
         // default 
-        virtual void tick() override {} ;
 
         virtual void beginFrame() = 0;
 
@@ -29,6 +30,12 @@ namespace Persist
         virtual void endFrame() = 0;
 
         virtual void resize(uint32_t width , uint32_t height) = 0;
+
+        virtual RHIVertexBufferPtr createVertexBuffer(uint32_t size , uint32_t usage , RHIResourceCreateInfo & info) = 0;
+
+
+
+        
 
 
     };

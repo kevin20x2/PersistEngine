@@ -3,6 +3,7 @@
 #include <DirectXPackedVector.h>
 #include <DirectXColors.h>
 #include <iostream>
+#include "RHIResourceD3D11.hpp"
 
 const int screen_width = 800;
 const int screen_height = 600;
@@ -240,6 +241,30 @@ namespace Persist
         pSwapchain_->ResizeBuffers(0,width ,height,DXGI_FORMAT_UNKNOWN , DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH);
         createRenderTarget();
         //setViewPort();
+
+    }
+
+    RHIVertexBufferPtr Renderer_D3D11 :: createVertexBuffer(uint32_t size , uint32_t usage , RHIResourceCreateInfo & info) 
+    {
+        D3D11_BUFFER_DESC bd;
+        ZeroMemory(&bd ,sizeof(bd));
+        bd .Usage = (usage & Buf_Dynamic) ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
+        bd.ByteWidth = size;
+        bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+        bd.CPUAccessFlags = (usage & Buf_Dynamic) ? D3D11_CPU_ACCESS_WRITE : 0;
+
+        D3D11_SUBRESOURCE_DATA initData;
+        D3D11_SUBRESOURCE_DATA * pinitData = nullptr;
+
+        RHIRefPtr <ID3D11Buffer> vertexBuffer;
+        HRESULT hr = pDev_->CreateBuffer( &bd ,pinitData , vertexBuffer.initRef());
+
+
+        if(FAILED(hr))
+        {
+
+        }
+        return  new RHIVertexBufferD3D11(vertexBuffer, size, usage);
 
     }
 

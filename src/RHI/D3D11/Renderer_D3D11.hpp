@@ -28,6 +28,8 @@ namespace Persist
 
         virtual void resize( uint32_t width , uint32_t height) override ;
 
+        virtual RHIVertexBufferPtr createVertexBuffer(uint32_t size , uint32_t usage , RHIResourceCreateInfo & info) override;
+
 
         // d3d11 
 
