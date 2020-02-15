@@ -54,6 +54,9 @@ namespace Persist
 
         HWND hWnd_ ;
 
+        uint32_t rtWidth_ ;
+        uint32_t rtHeight_;
+
         bool inited_;
 
 

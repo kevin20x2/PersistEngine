@@ -2,9 +2,24 @@
 #include <DirectXMath.h>
 #include <DirectXPackedVector.h>
 #include <DirectXColors.h>
+#include <iostream>
 
 const int screen_width = 800;
 const int screen_height = 600;
+
+
+template <class T>
+void safeRelease(T ** InterfaceToRelease)
+{
+    if(*InterfaceToRelease != nullptr)
+    {
+        //delete (*InterfaceToRelease);
+        (*InterfaceToRelease)->Release();
+        *InterfaceToRelease = nullptr;
+    }
+
+
+}
 
 namespace Persist
 {
@@ -17,9 +32,16 @@ namespace Persist
 
             ZeroMemory(&scd ,sizeof(DXGI_SWAP_CHAIN_DESC));
 
+            RECT rect ;
+
+            GetWindowRect(hWnd_ , &rect);
+
+            rtWidth_ = rect.right - rect.left;
+            rtHeight_ = rect.bottom - rect.top;
+
             scd.BufferCount = 1;
-            scd.BufferDesc.Width =  screen_width;
-            scd.BufferDesc.Height = screen_height;
+            scd.BufferDesc.Width =  rtWidth_;
+            scd.BufferDesc.Height = rtHeight_;
             scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
             //60fps 
             scd.BufferDesc.RefreshRate.Numerator = 60;
@@ -108,10 +130,11 @@ namespace Persist
         D3D11_VIEWPORT viewport;
         ZeroMemory(&viewport , sizeof(D3D11_VIEWPORT));
 
+
         viewport.TopLeftX = 0;
         viewport.TopLeftY = 0;
-        viewport.Width = screen_width ;
-        viewport.Height = screen_height;
+        viewport.Width =  rtWidth_;
+        viewport.Height = rtHeight_;
         pDevContext_->RSSetViewports(1, & viewport);
     }
     void Renderer_D3D11 ::initPipeline()
@@ -199,10 +222,24 @@ namespace Persist
     }
     void Renderer_D3D11::destroy()
     {
+        safeRelease(&pLayout_);
+        safeRelease(&pRTView_);
+        safeRelease(&pSwapchain_);
+        safeRelease(&vs_);
+        safeRelease(&ps_);
+        safeRelease(&pVBuffer);
+        safeRelease(& pDev_);
+        safeRelease( &pDevContext_);
 
     }
     void Renderer_D3D11::resize(uint32_t width , uint32_t height)
     {
+        //std::cout <<  width << height << std::endl;
+        rtWidth_ = width;
+        rtHeight_ = height;
+        pSwapchain_->ResizeBuffers(0,width ,height,DXGI_FORMAT_UNKNOWN , DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH);
+        createRenderTarget();
+        //setViewPort();
 
     }
 

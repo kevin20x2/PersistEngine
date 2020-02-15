@@ -24,6 +24,8 @@ namespace Persist
 
         bool is_quit_  = false;
 
+        HWND hWnd_ ;
+
         MSG msg_ ;
 
 
