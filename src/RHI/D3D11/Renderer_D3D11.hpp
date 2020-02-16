@@ -11,6 +11,14 @@ namespace Persist
 {
     class Renderer_D3D11 : extends IRenderer
     {
+        public : 
+        static Renderer_D3D11 *instance ;
+        Renderer_D3D11()
+        {
+            Renderer_D3D11 ::instance = this;
+        }
+
+        
         public: 
 
         // common from IRenderer
@@ -29,6 +37,7 @@ namespace Persist
         virtual void resize( uint32_t width , uint32_t height) override ;
 
         virtual RHIVertexBufferPtr createVertexBuffer(uint32_t size , uint32_t usage , RHIResourceCreateInfo & info) override;
+        virtual int setVertexBuffer(uint32_t size , void * src , RHIVertexBuffer & dst );
 
 
         // d3d11 
@@ -42,6 +51,8 @@ namespace Persist
         void initPipeline();
         void initGraphics();
 
+        ID3D11DeviceContext * getDeviceContext() { return pDevContext_; }
+
 
         private : 
         IDXGISwapChain * pSwapchain_  = nullptr;
@@ -52,7 +63,7 @@ namespace Persist
         ID3D11PixelShader * ps_ = nullptr;
         ID3D11InputLayout * pLayout_ = nullptr;
 
-        ID3D11Buffer * pVBuffer = nullptr;
+        ID3D11Buffer * pVBuffer_ = nullptr;
 
         HWND hWnd_ ;
 

@@ -7,6 +7,7 @@ namespace Persist
     class IRHIResource 
     {
     public:
+        virtual ~IRHIResource() {}
         uint32_t AddRef() {  return ++ refCount_ ;}; 
         uint32_t Release()
         {
@@ -43,7 +44,7 @@ namespace Persist
             ref_ = rhs.ref_;
             if(ref_)
             {
-                ref_->AddRef():
+                ref_->AddRef();
             }
 
         }
@@ -66,6 +67,15 @@ namespace Persist
                 old->Release();
             }
             return *this;
+        }
+        RHIRefPtr & operator=(const RHIRefPtr & other)
+        {
+            ref_ = other.ref_;
+            if(ref_)
+            {
+                ref_->AddRef();
+            }
+            return * this;
         }
 
         refType ** initRef()
@@ -105,6 +115,8 @@ namespace Persist
         {
 
         }
+        virtual int setValue(uint32_t size ,const void * value)  = 0 ;
+
         private :
         uint32_t size_;
         uint32_t usage_;
@@ -112,8 +124,33 @@ namespace Persist
     };
     using RHIVertexBufferPtr = RHIRefPtr<RHIVertexBuffer> ;
 
+    interface IRHIResourceArray 
+    {
+        public :
+        virtual void * getArray() = 0 ;
+
+        virtual uint32_t getArraySize() = 0 ;
+
+    };
+
     class RHIResourceCreateInfo 
     {
+
+        public :
+        RHIResourceCreateInfo() : resourceArray_(nullptr)
+        {
+
+        }
+        RHIResourceCreateInfo( IRHIResourceArray * src) :
+            resourceArray_(src)
+        {
+
+        }
+
+        IRHIResourceArray * resourceArray() { return resourceArray_;}
+
+        private :
+        IRHIResourceArray  * resourceArray_;
 
     };
 

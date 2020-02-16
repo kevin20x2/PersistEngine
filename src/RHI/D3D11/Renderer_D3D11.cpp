@@ -8,6 +8,7 @@
 const int screen_width = 800;
 const int screen_height = 600;
 
+//ID3D11Buffer *g_buffer;
 
 template <class T>
 void safeRelease(T ** InterfaceToRelease)
@@ -24,6 +25,9 @@ void safeRelease(T ** InterfaceToRelease)
 
 namespace Persist
 {
+
+    Renderer_D3D11* Renderer_D3D11 ::instance = nullptr;
+
     int Renderer_D3D11::init()
     {
         HRESULT hr = S_OK;
@@ -164,46 +168,59 @@ namespace Persist
         PS->Release();
 
     }
+   
+    RHIVertexBufferPtr  buffer = nullptr ;
     void Renderer_D3D11::initGraphics()
     {
-        float Vertices[]=
-        {
-            0.0f , 0.5f , 0.0f ,
-            1.0f , 0.0f,0.0f,1.0f,
+        float Vertices[] =
+            {
+                0.0f, 0.5f, 0.0f,
+                1.0f, 0.0f, 0.0f, 1.0f,
 
-            0.45f,-0.5f,0.0f ,
-            0.0f,1.0f,0.0f,1.0f,
-            -0.45f,-0.5f,0.0f, 
-            0.0f,0.0f,1.0f,1.0f
-        };
-        D3D11_BUFFER_DESC bd ;
-        ZeroMemory(&bd ,sizeof(bd));
+                0.45f, -0.5f, 0.0f,
+                0.0f, 1.0f, 0.0f, 1.0f,
+                -0.45f, -0.5f, 0.0f,
+                0.0f, 0.0f, 1.0f, 1.0f};
+        uint32_t size = sizeof(float) * 7 *3;
+        RHIVertexDataArrayD3D11 *verticeData = new RHIVertexDataArrayD3D11(Vertices ,size);
+
+        RHIResourceCreateInfo info(verticeData);
+        buffer =  createVertexBuffer(size, Buf_Dynamic , info);
+
+        //buffer->AddRef();
+        //setVertexBuffer(size , Vertices , *buffer );
+        //D3D11_BUFFER_DESC bd ;
+        //ZeroMemory(&bd ,sizeof(bd));
 
 
-        bd.Usage = D3D11_USAGE_DYNAMIC;
+        //bd.Usage = D3D11_USAGE_DYNAMIC;
         // 3 vertex  , 7float each
-        bd.ByteWidth = sizeof(float)*7 * 3;
-        bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-        bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+        //bd.ByteWidth = sizeof(float)*7 * 3;
+        //bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+        //bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
-        pDev_->CreateBuffer(&bd ,NULL, &pVBuffer);
+        //pDev_->CreateBuffer(&bd ,NULL, &pVBuffer);
 
-        D3D11_MAPPED_SUBRESOURCE ms;
-        pDevContext_->Map(pVBuffer,NULL,D3D11_MAP_WRITE_DISCARD , NULL , &ms);
-        memcpy(ms.pData , Vertices ,sizeof(float)*3 *7);
-        pDevContext_->Unmap(pVBuffer ,NULL);
+        //D3D11_MAPPED_SUBRESOURCE ms;
+        //pDevContext_->Map(pVBuffer,NULL,D3D11_MAP_WRITE_DISCARD , NULL , &ms);
+        //memcpy(ms.pData , Vertices ,sizeof(float)*3 *7);
+        //pDevContext_->Unmap(pVBuffer ,NULL);
 
     }
 
     void Renderer_D3D11::render()
     {
+        RHIVertexBuffer * ptr = buffer;
+
+        RHIRefPtr <ID3D11Buffer>  vb = dynamic_cast<RHIVertexBufferD3D11*>(ptr)->vertexBuffer();
         const FLOAT clearColor [] = {0.0f, 0.2f,0.4f ,1.0f};
         pDevContext_->ClearRenderTargetView(pRTView_,clearColor);
+        pVBuffer_ = vb ;
 
         {
             UINT stride = sizeof(float ) * 7;
             UINT offset = 0 ;
-            pDevContext_->IASetVertexBuffers(0,1,&pVBuffer,&stride , &offset);
+            pDevContext_->IASetVertexBuffers(0,1,&pVBuffer_,&stride , &offset);
 
             pDevContext_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
@@ -228,7 +245,7 @@ namespace Persist
         safeRelease(&pSwapchain_);
         safeRelease(&vs_);
         safeRelease(&ps_);
-        safeRelease(&pVBuffer);
+        //safeRelease(&pVBuffer);
         safeRelease(& pDev_);
         safeRelease( &pDevContext_);
 
@@ -244,7 +261,7 @@ namespace Persist
 
     }
 
-    RHIVertexBufferPtr Renderer_D3D11 :: createVertexBuffer(uint32_t size , uint32_t usage , RHIResourceCreateInfo & info) 
+    RHIVertexBufferPtr  Renderer_D3D11 :: createVertexBuffer(uint32_t size , uint32_t usage , RHIResourceCreateInfo & info) 
     {
         D3D11_BUFFER_DESC bd;
         ZeroMemory(&bd ,sizeof(bd));
@@ -252,16 +269,41 @@ namespace Persist
         bd.ByteWidth = size;
         bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
         bd.CPUAccessFlags = (usage & Buf_Dynamic) ? D3D11_CPU_ACCESS_WRITE : 0;
+        bd.MiscFlags = 0;
 
         D3D11_SUBRESOURCE_DATA initData;
         D3D11_SUBRESOURCE_DATA * pinitData = nullptr;
+        if(info.resourceArray())
+        {
+            initData.pSysMem = info.resourceArray()->getArray();
+            initData.SysMemPitch = 0 ; 
+            initData.SysMemSlicePitch = 0;
+            pinitData = & initData;
+
+/*
+            float *pData = (float *)info.resourceArray()->getArray();
+            int len = info.resourceArray()->getArraySize() / sizeof(float);
+
+            for(int i = 0 ;i < len ;++i)
+            {
+                std::cout <<pData[i]  <<" " <<std::endl ; 
+            }
+            */
+        }
 
         RHIRefPtr <ID3D11Buffer> vertexBuffer;
         HRESULT hr = pDev_->CreateBuffer( &bd ,pinitData , vertexBuffer.initRef());
-
+        /*
+        D3D11_MAPPED_SUBRESOURCE ms;
+        pDevContext_->Map(vertexBuffer , NULL , D3D11_MAP_WRITE_DISCARD , NULL, &ms);
+        memcpy(ms.pData , Vertices ,info.resourceArray()->getArraySize());
+        pDevContext_->Unmap(vertexBuffer , NULL);
+        */
+//       g_buffer = vertexBuffer;
 
         if(FAILED(hr))
         {
+            assert(!"create buffer error");
 
         }
         return  new RHIVertexBufferD3D11(vertexBuffer, size, usage);
