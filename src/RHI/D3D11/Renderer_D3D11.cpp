@@ -245,7 +245,7 @@ namespace Persist
         safeRelease(&pSwapchain_);
         safeRelease(&vs_);
         safeRelease(&ps_);
-        //safeRelease(&pVBuffer);
+        safeRelease(&pVBuffer_);
         safeRelease(& pDev_);
         safeRelease( &pDevContext_);
 

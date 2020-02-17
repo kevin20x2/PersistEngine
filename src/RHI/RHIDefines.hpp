@@ -1,4 +1,5 @@
 #pragma once
+#include <FrameWork/Common/Common.hpp>
 
 namespace Persist
 {
@@ -14,7 +15,7 @@ enum ENMBufferUsageFlags
 
 enum ENMVertexFormatType
 {
-    VFT_NONE,
+    VFT_None,
     VFT_Float1,
     VFT_Float2,
     VFT_Float3,
@@ -24,6 +25,33 @@ enum ENMVertexFormatType
     VFT_Color ,
 
     VFT_MAX
+};
+enum ENMVertexUsageType
+{
+    VUT_None,
+    VUT_POSITION,
+    VUT_COLOR,
+    VUT_NORMAL,
+    VUT_TANTENT,
+
+    VUT_MAX
+};
+
+template <typename EnumType>
+class EnumAsByte
+{
+    public :
+        EnumAsByte(EnumType value) 
+        {
+            if(value > 0xff)
+            {
+                throw Error(Status::InvalidArg);
+            }
+            byte_ = static_cast<uint8_t>(value);
+        }
+        uint8_t value() { return byte_;}
+private :
+    uint8_t byte_;
 };
 
 }

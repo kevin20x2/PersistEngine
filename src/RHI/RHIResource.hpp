@@ -153,5 +153,19 @@ namespace Persist
         IRHIResourceArray  * resourceArray_;
 
     };
+    
+    struct RHIVertexFormatElement 
+    {
+        RHIVertexFormatElement (ENMVertexUsageType & usage , ENMVertexFormatType & format , uint16_t stride ):
+            vertexUsageType(usage ) , vertexFormatType(format), stride(stride)
+        {
+
+        }
+        EnumAsByte<ENMVertexUsageType> vertexUsageType ;
+        EnumAsByte<ENMVertexFormatType> vertexFormatType;
+        uint16_t stride;
+    };
+    using RHIVertexFormatElementList = Array <RHIVertexFormatElement>;
+
 
 }
