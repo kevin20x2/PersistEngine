@@ -33,6 +33,10 @@ namespace Persist
 
         virtual RHIVertexBufferPtr createVertexBuffer(uint32_t size , uint32_t usage , RHIResourceCreateInfo & info) = 0;
 
+        virtual void setViewPort(uint32_t topLeftX , uint32_t topLeftY , uint32_t width , uint32_t height) = 0;
+
+        
+
 
 
         

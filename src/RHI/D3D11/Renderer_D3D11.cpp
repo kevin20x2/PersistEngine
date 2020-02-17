@@ -260,55 +260,18 @@ namespace Persist
         //setViewPort();
 
     }
-
-    RHIVertexBufferPtr  Renderer_D3D11 :: createVertexBuffer(uint32_t size , uint32_t usage , RHIResourceCreateInfo & info) 
+    void Renderer_D3D11::setViewPort(uint32_t topLeftX , uint32_t topLeftY , uint32_t width, uint32_t height)
     {
-        D3D11_BUFFER_DESC bd;
-        ZeroMemory(&bd ,sizeof(bd));
-        bd .Usage = (usage & Buf_Dynamic) ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
-        bd.ByteWidth = size;
-        bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-        bd.CPUAccessFlags = (usage & Buf_Dynamic) ? D3D11_CPU_ACCESS_WRITE : 0;
-        bd.MiscFlags = 0;
-
-        D3D11_SUBRESOURCE_DATA initData;
-        D3D11_SUBRESOURCE_DATA * pinitData = nullptr;
-        if(info.resourceArray())
-        {
-            initData.pSysMem = info.resourceArray()->getArray();
-            initData.SysMemPitch = 0 ; 
-            initData.SysMemSlicePitch = 0;
-            pinitData = & initData;
-
-/*
-            float *pData = (float *)info.resourceArray()->getArray();
-            int len = info.resourceArray()->getArraySize() / sizeof(float);
-
-            for(int i = 0 ;i < len ;++i)
-            {
-                std::cout <<pData[i]  <<" " <<std::endl ; 
-            }
-            */
-        }
-
-        RHIRefPtr <ID3D11Buffer> vertexBuffer;
-        HRESULT hr = pDev_->CreateBuffer( &bd ,pinitData , vertexBuffer.initRef());
-        /*
-        D3D11_MAPPED_SUBRESOURCE ms;
-        pDevContext_->Map(vertexBuffer , NULL , D3D11_MAP_WRITE_DISCARD , NULL, &ms);
-        memcpy(ms.pData , Vertices ,info.resourceArray()->getArraySize());
-        pDevContext_->Unmap(vertexBuffer , NULL);
-        */
-//       g_buffer = vertexBuffer;
-
-        if(FAILED(hr))
-        {
-            assert(!"create buffer error");
-
-        }
-        return  new RHIVertexBufferD3D11(vertexBuffer, size, usage);
-
+        D3D11_VIEWPORT viewport;
+        ZeroMemory(&viewport , sizeof(D3D11_VIEWPORT));
+        viewport.TopLeftX = topLeftX;
+        viewport.TopLeftY = topLeftY;
+        viewport.Width =  width;
+        viewport.Height = height;
+        pDevContext_->RSSetViewports(1, & viewport);
     }
+
+  
 
 
 }
