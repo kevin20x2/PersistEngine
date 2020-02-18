@@ -4,23 +4,25 @@
 namespace Persist 
 {
 
-HashMap <uint64_t , RHIRefPtr < D3D11_INPUT_ELEMENT_DESC > >  RHIVertexLayout_D3D11 :: LayoutCache = 
-HashMap<uint64_t , RHIRefPtr< D3D11_INPUT_ELEMENT_DESC> > () ;
+HashMap <uint64_t ,  D3D11_INPUT_ELEMENT_DESC  >  RHIVertexLayout_D3D11 :: LayoutCache = 
+HashMap<uint64_t ,  D3D11_INPUT_ELEMENT_DESC > () ;
 
-RHIVertexLayout_D3D11 ::RHIVertexLayout_D3D11(const RHIVertexFormatElementList & elementList)
+RHIVertexLayout_D3D11 ::RHIVertexLayout_D3D11(RHIVertexFormatElementList & elementList)
 {
-    std::sort(elementList.begin(), elementList.end());
+    //elementList.sort();
+    std::sort(elementList.begin() , elementList.end());
+    //rt(elementList.begin(), elementList.end());
 
     uint64_t key = IRHIVertexLayout::GenerateKey(elementList);
     if(LayoutCache.find(key) == LayoutCache.end())
     {
         //LayoutCache.insert()
         VertexLayout_ = getD3D11VertexLayout(elementList);
-        LayoutCache[key] = VertexLayout_;
+        LayoutCache[key] = * VertexLayout_;
     }
     else 
     {
-        VertexLayout_ = LayoutCache[key] ;
+        VertexLayout_ =  &LayoutCache[key] ;
     }
 }
 
@@ -32,9 +34,9 @@ D3D11_INPUT_ELEMENT_DESC * RHIVertexLayout_D3D11::getD3D11VertexLayout(const RHI
 
     for(int i = 0 ; i < len ; ++ i)
     {
-        D3D11_INPUT_ELEMENT_DESC layout = LayoutList[i];
-        ENMVertexUsageType usage = elementList[i].vertexUsageType;
-        ENMVertexFormatType format = elementList[i].vertexFormatType;
+        D3D11_INPUT_ELEMENT_DESC & layout = LayoutList[i];
+        const ENMVertexUsageType &  usage = elementList[i].vertexUsageType;
+        const ENMVertexFormatType & format = elementList[i].vertexFormatType;
         switch(usage)
         {
             case VUT_POSITION : layout.SemanticName = "POSITION" ; break;
@@ -58,7 +60,8 @@ D3D11_INPUT_ELEMENT_DESC * RHIVertexLayout_D3D11::getD3D11VertexLayout(const RHI
         layout.InputSlot = 0 ;
         layout.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
         layout.AlignedByteOffset = 0;
-        layout.AlignedByteOffset = 0;
+        layout.InstanceDataStepRate = 0;
+        //layout.AlignedByteOffset = 0;
         /// for matrix  normal 0
         layout.SemanticIndex = 0;
     }

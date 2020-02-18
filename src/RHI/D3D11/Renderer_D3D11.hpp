@@ -1,5 +1,6 @@
 #pragma once 
 #include <FrameWork/Renderer/Renderer.hpp>
+#include "../RHIResource.hpp"
 #include <dxgi.h>
 #include <d3dcommon.h>
 #include <d3d11.h>
@@ -37,6 +38,8 @@ namespace Persist
         virtual void resize( uint32_t width , uint32_t height) override ;
 
         virtual RHIVertexBufferPtr createVertexBuffer(uint32_t size , uint32_t usage , RHIResourceCreateInfo & info) override;
+        virtual RHIVertexLayoutPtr createVertexLayout(RHIVertexFormatElementList & elementList)  override;
+        
         virtual int setVertexBuffer(uint32_t size , void * src , RHIVertexBuffer & dst );
         virtual void setViewPort(uint32_t  topLeftX, uint32_t topLeftY , uint32_t width , uint32_t height); 
 
@@ -56,6 +59,7 @@ namespace Persist
 
 
         private : 
+
         IDXGISwapChain * pSwapchain_  = nullptr;
         ID3D11Device * pDev_           = nullptr;
         ID3D11DeviceContext * pDevContext_ = nullptr;
@@ -65,6 +69,8 @@ namespace Persist
         ID3D11InputLayout * pLayout_ = nullptr;
 
         ID3D11Buffer * pVBuffer_ = nullptr;
+
+        RHIVertexLayoutPtr layout_;
 
 
         HWND hWnd_ ;

@@ -4,6 +4,7 @@
 #include <DirectXColors.h>
 #include <iostream>
 #include "RHIResourceD3D11.hpp"
+#include "RHIVertexLayout_D3D11.hpp"
 
 const int screen_width = 800;
 const int screen_height = 600;
@@ -156,13 +157,15 @@ namespace Persist
         pDevContext_->VSSetShader(vs_ ,0,0);
         pDevContext_->PSSetShader(ps_,0,0);
 
-        D3D11_INPUT_ELEMENT_DESC ied[] =
-        {
-            {"POSITION" , 0 , DXGI_FORMAT_R32G32B32_FLOAT , 0, 0 , D3D11_INPUT_PER_VERTEX_DATA,0},
-            {"COLOR" , 0 , DXGI_FORMAT_R32G32B32_FLOAT , 0, 0 , D3D11_INPUT_PER_VERTEX_DATA,0}
-        };
+        RHIVertexFormatElementList elementList = 
+         { { VUT_POSITION ,VFT_Float3 ,  16},
+            { VUT_COLOR , VFT_Float3 , 16} };
+       layout_ = createVertexLayout(elementList);
+       RHIVertexLayout_D3D11 * layout_D3d11 = dynamic_cast<RHIVertexLayout_D3D11*>(layout_.get());
 
-        pDev_->CreateInputLayout(ied , 2, VS->GetBufferPointer(), VS->GetBufferSize(),&pLayout_);
+
+        pDev_->CreateInputLayout(layout_D3d11->layout_D3D11(), 2, VS->GetBufferPointer(), VS->GetBufferSize(),&pLayout_);
+        //pDev_->CreateInputLayout(ied, 2, VS->GetBufferPointer(), VS->GetBufferSize(),&pLayout_);
         pDevContext_->IASetInputLayout(pLayout_);
         VS->Release();
         PS->Release();
@@ -240,7 +243,7 @@ namespace Persist
     }
     void Renderer_D3D11::destroy()
     {
-        safeRelease(&pLayout_);
+        //safeRelease(&pLayout_);
         safeRelease(&pRTView_);
         safeRelease(&pSwapchain_);
         safeRelease(&vs_);
@@ -269,6 +272,10 @@ namespace Persist
         viewport.Width =  width;
         viewport.Height = height;
         pDevContext_->RSSetViewports(1, & viewport);
+    }
+    RHIVertexLayoutPtr Renderer_D3D11::createVertexLayout(RHIVertexFormatElementList & elementList) 
+    {
+        return new  RHIVertexLayout_D3D11(elementList);
     }
 
   

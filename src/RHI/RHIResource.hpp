@@ -55,6 +55,7 @@ namespace Persist
             rhs.ref_ = nullptr;
         }
 
+
         RHIRefPtr & operator=(refType * ref)
         {
             refType *  old = ref_;
@@ -84,6 +85,10 @@ namespace Persist
             *this = nullptr;
             return &ref_;
         }
+        refType * get()
+        {
+            return ref_;
+        }
         ~RHIRefPtr()
         {
             if(ref_)
@@ -96,6 +101,10 @@ namespace Persist
             return ref_;
         }
         operator ptrType() const
+        {
+            return ref_;
+        }
+        operator ptrType()
         {
             return ref_;
         }
@@ -159,14 +168,14 @@ namespace Persist
     
     struct RHIVertexFormatElement 
     {
-        RHIVertexFormatElement (ENMVertexUsageType & usage , ENMVertexFormatType & format , uint16_t stride ):
+        EnumAsByte<ENMVertexUsageType> vertexUsageType;
+        EnumAsByte<ENMVertexFormatType> vertexFormatType;
+        uint16_t stride;
+        RHIVertexFormatElement (ENMVertexUsageType && usage , ENMVertexFormatType && format , uint16_t stride ):
             vertexUsageType(usage ) , vertexFormatType(format), stride(stride)
         {
 
         }
-        EnumAsByte<ENMVertexUsageType> vertexUsageType ;
-        EnumAsByte<ENMVertexFormatType> vertexFormatType;
-        uint16_t stride;
 
         bool operator < (const RHIVertexFormatElement & rhs)
         {
@@ -206,9 +215,8 @@ namespace Persist
             }
             return std::hash<std::string>()(ans);
         }
-
-
     };
+    using RHIVertexLayoutPtr  = RHIRefPtr <IRHIVertexLayout>;
 
 
 }

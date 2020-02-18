@@ -51,7 +51,7 @@ class EnumAsByte
         }
         uint8_t value()const { return byte_;}
         operator  EnumType() const  {
-            return byte_;
+            return static_cast <EnumType>(byte_);
         }
 
 private :

@@ -1,7 +1,7 @@
 
 
 
-add_library(RHI D3D11/Renderer_D3D11.cpp  D3D11/RHIVertexBuffer_D3D11.cpp)
+add_library(RHI D3D11/Renderer_D3D11.cpp  D3D11/RHIVertexBuffer_D3D11.cpp D3D11/RHIVertexLayout_D3D11.cpp)
 
 
 message($ENV{DXSDK_DIR})

@@ -12,12 +12,14 @@ namespace Persist
     {
 
         public : 
-        RHIVertexLayout_D3D11 (const RHIVertexFormatElementList & elmentList) ;
-        static D3D11_INPUT_ELEMENT_DESC * getD3D11VertexLayout( const RHIVertexFormatElementList & elementList);
+        RHIVertexLayout_D3D11 (RHIVertexFormatElementList & elmentList) ;
+        static D3D11_INPUT_ELEMENT_DESC * getD3D11VertexLayout(const RHIVertexFormatElementList & elementList);
+
+        D3D11_INPUT_ELEMENT_DESC * layout_D3D11() { return VertexLayout_;}
 
         private : 
         
-        static HashMap<uint64_t , RHIRefPtr < D3D11_INPUT_ELEMENT_DESC> >  LayoutCache;
+        static HashMap<uint64_t ,  D3D11_INPUT_ELEMENT_DESC >  LayoutCache;
 
         D3D11_INPUT_ELEMENT_DESC * VertexLayout_;
 
