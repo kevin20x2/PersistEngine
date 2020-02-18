@@ -66,6 +66,7 @@ namespace Persist
 
         ID3D11Buffer * pVBuffer_ = nullptr;
 
+
         HWND hWnd_ ;
 
         uint32_t rtWidth_ ;

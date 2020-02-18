@@ -45,11 +45,15 @@ class EnumAsByte
         {
             if(value > 0xff)
             {
-                throw Error(Status::InvalidArg);
+                throw Status:: Error(Status::InvalidArg);
             }
             byte_ = static_cast<uint8_t>(value);
         }
-        uint8_t value() { return byte_;}
+        uint8_t value()const { return byte_;}
+        operator  EnumType() const  {
+            return byte_;
+        }
+
 private :
     uint8_t byte_;
 };

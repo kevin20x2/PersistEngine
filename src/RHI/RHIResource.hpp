@@ -1,5 +1,6 @@
 #pragma once
 #include <stdint.h>
+#include <string>
 
 
 namespace Persist 
@@ -124,6 +125,8 @@ namespace Persist
     };
     using RHIVertexBufferPtr = RHIRefPtr<RHIVertexBuffer> ;
 
+
+
     interface IRHIResourceArray 
     {
         public :
@@ -164,9 +167,48 @@ namespace Persist
         EnumAsByte<ENMVertexUsageType> vertexUsageType ;
         EnumAsByte<ENMVertexFormatType> vertexFormatType;
         uint16_t stride;
+
+        bool operator < (const RHIVertexFormatElement & rhs)
+        {
+            if(vertexUsageType.value() != rhs.vertexUsageType.value())
+            {
+                return vertexUsageType.value() < rhs.vertexUsageType.value()
+                ? true : false;
+            }
+            if(vertexFormatType.value() != rhs.vertexUsageType.value()) 
+            {
+                return vertexFormatType.value() < rhs.vertexFormatType.value() 
+                ? true : false;
+            }
+            if(stride < rhs.stride) return true;
+            return false;
+        }
+
     };
     using RHIVertexFormatElementList = Array <RHIVertexFormatElement>;
 
+
+    interface IRHIVertexLayout : extends IRHIResource
+    {
+
+        public : 
+        // ugly string based hash function
+        uint64_t static GenerateKey(const RHIVertexFormatElementList & elementList)
+        {
+         //  std::hash <std::string> ( )
+            std::string ans("");
+            for(int i = 0 ;i < elementList.size() ; ++i) 
+            {
+                const RHIVertexFormatElement & element = elementList[i];
+                ans += "%" + std::to_string(element.vertexUsageType.value()) + "%"
+                + std::to_string(element.vertexFormatType.value()) + "%" + 
+                std::to_string(element.stride);
+            }
+            return std::hash<std::string>()(ans);
+        }
+
+
+    };
 
 
 }
