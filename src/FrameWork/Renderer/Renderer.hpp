@@ -2,6 +2,7 @@
 #include <FrameWork/Interface/IRunTimeModule.hpp>
 #include <cstdint>
 #include <RHI/RHI.hpp>
+#include <FrameWork/Shaders/GpuProgram.hpp>
 
 namespace Persist 
 {
@@ -34,6 +35,8 @@ namespace Persist
         virtual RHIVertexBufferPtr createVertexBuffer(uint32_t size , uint32_t usage , RHIResourceCreateInfo & info) = 0;
 
         virtual RHIVertexLayoutPtr createVertexLayout(RHIVertexFormatElementList & elementList ) = 0 ;  
+
+        virtual Status createVertexShader(const GpuProgram & program) = 0;
 
 
         virtual void setViewPort(uint32_t topLeftX , uint32_t topLeftY , uint32_t width , uint32_t height) = 0;

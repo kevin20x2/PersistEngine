@@ -5,6 +5,9 @@
 #include <iostream>
 #include "RHIResourceD3D11.hpp"
 #include "RHIVertexLayout_D3D11.hpp"
+#include "GpuProgram_D3D11.hpp"
+#include <FrameWork/Serialize/Serialize.hpp>
+#include <FrameWork/Shaders/SerializeShaderData.hpp>
 
 const int screen_width = 800;
 const int screen_height = 600;
@@ -145,9 +148,17 @@ namespace Persist
     }
     void Renderer_D3D11 ::initPipeline()
     {
+        SerializedGpuProgram program;
+        TransferContext::addReadRequest("copy.vso", program);
+        GpuProgram_D3D11 * pro = GpuProgram_D3D11::createFromSerializedProgram(program);
+
         ID3DBlob * VS , *PS;
+
+        D3DCreateBlob(pro->buffer_size_,&VS);
+        memcpy(VS->GetBufferPointer(),pro->buffer_.data(),pro->buffer_size_);
+
     
-        D3DReadFileToBlob(L"copy.vso" , &VS);
+        //D3DReadFileToBlob(L"copy.vso" , &VS);
         D3DReadFileToBlob(L"copy.pso" , & PS);
         pDev_->CreateVertexShader(VS->GetBufferPointer() , VS->GetBufferSize(),
         NULL , &vs_) ;

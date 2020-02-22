@@ -7,17 +7,17 @@
 namespace Persist
 {
 
-#define SERIALIZE (Name) \
+#define SERIALIZE(Name) \
 public : \
-virtual const String & getName() { return #Name; }\
+virtual String  getName() { return #Name ; }\
 
 
 interface ISerializeable 
 {
     public : 
-    virtual const String &  getName () = 0;
-    template <typename TransferFunc>
-    Status transfer(TransferFunc func) = 0 ;
+    virtual String   getName () = 0;
+    //template <typename TransferFunc>
+    //Status transfer(TransferFunc func) = 0 ;
 
 };
 
