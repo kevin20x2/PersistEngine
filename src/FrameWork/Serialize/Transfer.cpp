@@ -16,7 +16,20 @@ void ReadTransferBase :: transfer(const String & name ,Type & value)
 template <>
 void ReadTransferBase :: transfer <ArrayBuffer>(const  String & name ,ArrayBuffer & buffer) 
 {
-    std::copy( std::istreambuf_iterator<char>(*ifs_) , std::istreambuf_iterator<char>(),
+    //ifs_->seekg(0, std::ios_base::end);
+    //uint32_t fileSize = ifs_->tellg(); 
+    //ifs_->seekg(0,std::ios_base::beg);
+
+/*
+    buffer.reserve(fileSize);
+    if(fileSize > 0)
+    {
+        ifs_->read(buffer.data(),sizeof(uint8_t) * fileSize);
+    }
+    */
+
+
+    std::copy( std::istreambuf_iterator<uint8_t>(*ifs_) , std::istreambuf_iterator<uint8_t>(),
     std::back_inserter(buffer)
     );
 

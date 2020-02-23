@@ -36,7 +36,8 @@ namespace Persist
 
         virtual RHIVertexLayoutPtr createVertexLayout(RHIVertexFormatElementList & elementList ) = 0 ;  
 
-        virtual Status createVertexShader(const GpuProgram & program) = 0;
+        virtual Status createVertexShader(GpuProgram & program) = 0;
+        virtual Status createPixelShader(GpuProgram & program) = 0;
 
 
         virtual void setViewPort(uint32_t topLeftX , uint32_t topLeftY , uint32_t width , uint32_t height) = 0;

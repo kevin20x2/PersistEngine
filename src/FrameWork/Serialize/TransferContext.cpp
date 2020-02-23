@@ -14,13 +14,15 @@ template <>
 Status TransferContext::addReadRequest <SerializedGpuProgram>
 (const String & path , SerializedGpuProgram & dst)
 {
-    std::ifstream *  ifs = new std::ifstream(path);
+    // must use binary otherwise shader will get error
+    ReadTransferBase::byte_ifstream *  ifs = new ReadTransferBase::byte_ifstream(path ,std::ios::binary);
     if(!ifs->is_open())
     {
         throw Status::Error("open file error");
 
     }
     ReadTransferBase Trans(ifs);
+    
 
     dst.transfer(Trans);
 

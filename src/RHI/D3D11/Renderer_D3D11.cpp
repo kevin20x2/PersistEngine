@@ -9,10 +9,7 @@
 #include <FrameWork/Serialize/Serialize.hpp>
 #include <FrameWork/Shaders/SerializeShaderData.hpp>
 
-const int screen_width = 800;
-const int screen_height = 600;
 
-//ID3D11Buffer *g_buffer;
 
 template <class T>
 void safeRelease(T ** InterfaceToRelease)
@@ -34,7 +31,6 @@ namespace Persist
 
     int Renderer_D3D11::init()
     {
-        HRESULT hr = S_OK;
         if(pSwapchain_ == nullptr)
         {
             DXGI_SWAP_CHAIN_DESC scd;
@@ -149,24 +145,31 @@ namespace Persist
     void Renderer_D3D11 ::initPipeline()
     {
         SerializedGpuProgram program;
+        SerializedGpuProgram ps_program;
         TransferContext::addReadRequest("copy.vso", program);
+        TransferContext::addReadRequest("copy.pso" , ps_program);
         GpuProgram_D3D11 * pro = GpuProgram_D3D11::createFromSerializedProgram(program);
+        GpuProgram_D3D11 * ps_pro = GpuProgram_D3D11::createFromSerializedProgram(ps_program , GpuProgram::PT_Pixel);
 
-        ID3DBlob * VS , *PS;
-
-        D3DCreateBlob(pro->buffer_size_,&VS);
-        memcpy(VS->GetBufferPointer(),pro->buffer_.data(),pro->buffer_size_);
+        //ID3DBlob * VS , *PS ; 
+        //ID3DBlob * VS2;
 
     
-        //D3DReadFileToBlob(L"copy.vso" , &VS);
-        D3DReadFileToBlob(L"copy.pso" , & PS);
-        pDev_->CreateVertexShader(VS->GetBufferPointer() , VS->GetBufferSize(),
-        NULL , &vs_) ;
-        pDev_->CreatePixelShader(PS->GetBufferPointer() , PS->GetBufferSize(),
-        NULL, &ps_);
+        createVertexShader(* pro);
+        createPixelShader(*ps_pro);
 
-        pDevContext_->VSSetShader(vs_ ,0,0);
-        pDevContext_->PSSetShader(ps_,0,0);
+      
+
+
+//        D3DReadFileToBlob(L"copy.pso" , & PS);
+
+        //pDev_->CreateVertexShader(VS2->GetBufferPointer() , VS2->GetBufferSize(),
+        //NULL , &vs_) ;
+        //pDev_->CreatePixelShader(PS->GetBufferPointer() , PS->GetBufferSize(),
+        //NULL, &ps_);
+
+        pDevContext_->VSSetShader(pro->vertexShader_ ,0,0);
+        pDevContext_->PSSetShader(ps_pro->pixelShader_,0,0);
 
         RHIVertexFormatElementList elementList = 
          { { VUT_POSITION ,VFT_Float3 ,  16},
@@ -175,11 +178,11 @@ namespace Persist
        RHIVertexLayout_D3D11 * layout_D3d11 = dynamic_cast<RHIVertexLayout_D3D11*>(layout_.get());
 
 
-        pDev_->CreateInputLayout(layout_D3d11->layout_D3D11(), 2, VS->GetBufferPointer(), VS->GetBufferSize(),&pLayout_);
+        pDev_->CreateInputLayout(layout_D3d11->layout_D3D11(), 2, pro->buffer_.data(), pro->buffer_size_,&pLayout_);
         //pDev_->CreateInputLayout(ied, 2, VS->GetBufferPointer(), VS->GetBufferSize(),&pLayout_);
         pDevContext_->IASetInputLayout(pLayout_);
-        VS->Release();
-        PS->Release();
+        //VS2->Release();
+        //PS->Release();
 
     }
    

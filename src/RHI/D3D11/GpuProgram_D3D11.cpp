@@ -3,9 +3,11 @@
 namespace Persist
 {
 
-    GpuProgram_D3D11 * GpuProgram_D3D11 :: createFromSerializedProgram(const SerializedGpuProgram & program)
+    GpuProgram_D3D11 * GpuProgram_D3D11 :: createFromSerializedProgram
+    (const SerializedGpuProgram & program , GpuProgram::ProgramType type)
     {
         GpuProgram_D3D11 * ans = new GpuProgram_D3D11();
+        ans->type_ = type;
         ans->buffer_ =   program.buffer_ ;
         ans->buffer_size_ = program.buffer_.size();
         return ans;

@@ -4,11 +4,24 @@
 namespace Persist
 {
 class SubShader;
-class SerializedGpuProgram;
+struct SerializedGpuProgram;
 
 class GpuProgram 
 {
-//    static GpuProgram createFromSerailizedProgram(const SerialiedGpuProgram & program);
+public:
+    enum ProgramType
+    {
+        PT_Vertex = 0,
+        PT_Pixel = 1
+    };
+
+    ProgramType type() { return type_; }
+    virtual ~GpuProgram() {}
+
+protected:
+    ProgramType type_;
+
+    //    static GpuProgram createFromSerailizedProgram(const SerialiedGpuProgram & program);
 
 };
 

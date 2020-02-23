@@ -40,7 +40,9 @@ namespace Persist
         virtual RHIVertexBufferPtr createVertexBuffer(uint32_t size , uint32_t usage , RHIResourceCreateInfo & info) override;
         virtual RHIVertexLayoutPtr createVertexLayout(RHIVertexFormatElementList & elementList)  override;
 
-        virtual Status createVertexShader(const GpuProgram  & program);
+        virtual Status createVertexShader(GpuProgram  & program) override;
+        virtual Status createPixelShader(GpuProgram & program ) override; 
+
         
         virtual int setVertexBuffer(uint32_t size , void * src , RHIVertexBuffer & dst );
         virtual void setViewPort(uint32_t  topLeftX, uint32_t topLeftY , uint32_t width , uint32_t height); 

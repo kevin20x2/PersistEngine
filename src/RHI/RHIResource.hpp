@@ -1,6 +1,7 @@
 #pragma once
 #include <stdint.h>
 #include <string>
+#include "RHIDefines.hpp"
 
 
 namespace Persist 
@@ -85,6 +86,7 @@ namespace Persist
             *this = nullptr;
             return &ref_;
         }
+        
         refType * get()
         {
             return ref_;
