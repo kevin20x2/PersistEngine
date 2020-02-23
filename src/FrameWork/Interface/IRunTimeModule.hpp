@@ -1,5 +1,6 @@
 #pragma once
 #include "Macro.hpp"
+#include <FrameWork/Common/Status.hpp>
 
 namespace Persist
 {
@@ -9,7 +10,7 @@ namespace Persist
     public:
         virtual ~IRunTimeModule() {}
 
-        virtual int init() = 0 ; 
+        virtual Status init() = 0 ; 
 
         virtual void tick() = 0 ;
 

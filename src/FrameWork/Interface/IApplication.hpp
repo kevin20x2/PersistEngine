@@ -14,7 +14,7 @@ namespace Persist {
 
         virtual ~IApplication() {}
 
-        virtual int init() = 0 ;
+        virtual Status init() = 0 ;
 
         virtual void destroy() = 0 ;
 

@@ -25,7 +25,7 @@ namespace Persist
         // common from IRenderer
         virtual ~Renderer_D3D11() {};
 
-        virtual int init() override ;
+        virtual Status init() override ;
 
         virtual void destroy() override;
 
@@ -45,7 +45,7 @@ namespace Persist
 
         
         virtual int setVertexBuffer(uint32_t size , void * src , RHIVertexBuffer & dst );
-        virtual void setViewPort(uint32_t  topLeftX, uint32_t topLeftY , uint32_t width , uint32_t height); 
+        virtual void setViewPort(uint32_t  topLeftX, uint32_t topLeftY , uint32_t width , uint32_t height) override; 
 
 
         // d3d11 

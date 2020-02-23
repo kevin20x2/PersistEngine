@@ -122,16 +122,16 @@ namespace Persist
     class RHIVertexBuffer : public IRHIResource
     {
         public : 
-        RHIVertexBuffer(uint32_t size , uint32_t usage) :
-        size_(size),usage_(usage)
+        RHIVertexBuffer(uint32_t size , uint32_t usage) //:
+        //size_(size),usage_(usage)
         {
 
         }
-        virtual int setValue(uint32_t size ,const void * value)  = 0 ;
+        //virtual int setValue(uint32_t size ,const void * value)  = 0 ;
 
         private :
-        uint32_t size_;
-        uint32_t usage_;
+        //uint32_t size_;
+        //uint32_t usage_;
 
     };
     using RHIVertexBufferPtr = RHIRefPtr<RHIVertexBuffer> ;

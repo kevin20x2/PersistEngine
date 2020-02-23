@@ -13,7 +13,7 @@ namespace Persist
 
         virtual ~Application_win32() {}
 
-        virtual int init() override;
+        virtual Status init() override;
 
         virtual void destroy() override;
 

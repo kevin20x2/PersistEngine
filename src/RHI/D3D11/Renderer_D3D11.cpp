@@ -29,7 +29,7 @@ namespace Persist
 
     Renderer_D3D11* Renderer_D3D11 ::instance = nullptr;
 
-    int Renderer_D3D11::init()
+    Status Renderer_D3D11::init()
     {
         if(pSwapchain_ == nullptr)
         {
@@ -109,16 +109,14 @@ namespace Persist
                 initGraphics();
 
             }
-            return hr;
+            return Status::Ok();
 
         }
-
-
-
+        return Status::Error("Init Error");
     }
     void Renderer_D3D11::createRenderTarget()
     {
-        HRESULT hr;
+        //HRESULT hr;
         ID3D11Texture2D * pBackBuffer ;
 
         pSwapchain_->GetBuffer(0 , __uuidof(ID3D11Texture2D) ,

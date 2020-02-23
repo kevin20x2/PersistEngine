@@ -1,6 +1,6 @@
 #pragma 
-#include "../RHI.hpp";
-#include "Renderer_D3D11.hpp";
+#include "../RHI.hpp"
+#include "Renderer_D3D11.hpp"
 
 namespace Persist
 {
@@ -13,7 +13,7 @@ class RHIVertexBufferD3D11 : public RHIVertexBuffer
     {
 
     }
-    int setValue(uint32_t size , const void * value ) override
+    int setValue(uint32_t size , const void * value ) 
     {
         D3D11_MAPPED_SUBRESOURCE ms;
         //ms.pData = new uint8_t [size];
@@ -46,8 +46,8 @@ public:
     uint32_t getArraySize() override {return size_ ;}
     
 private : 
-    uint32_t size_ ;
     void * array_ ;
+    uint32_t size_ ;
 };
 
 

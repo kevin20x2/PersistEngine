@@ -12,7 +12,7 @@
 namespace Persist
 {
 
-int Application_win32 :: init()
+Status Application_win32 :: init()
 {
 
     std::cout << "init win32 application" ;
@@ -37,7 +37,7 @@ int Application_win32 :: init()
     {
         ErrCode = GetLastError();
         //MessageBoxW(NULL , _T("error"), L"PersistEngine" ,MB_ICONERROR);
-        return -1;
+        return Status::Error("Register window Error");
     }
 
     hWnd_ = CreateWindowEx(0, L"PersistEngine",
@@ -57,7 +57,7 @@ int Application_win32 :: init()
 
     ShowWindow(hWnd_ , SW_SHOW);
     std::cout << "init win32 application over";
-    return 0;
+    return Status::Ok();
 }
 
 void Application_win32 :: tick()

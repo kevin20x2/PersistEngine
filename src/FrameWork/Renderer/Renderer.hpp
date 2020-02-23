@@ -18,7 +18,7 @@ namespace Persist
 
         // from runtime module
         virtual ~IRenderer() {}
-        virtual int init() override = 0 ;
+        virtual Status init() override = 0 ;
         virtual void destroy() override = 0;
         virtual void tick() override {} ;
 
