@@ -6,6 +6,12 @@ namespace Persist
 class Transform 
 {
 public:
+    Transform() : 
+    localPos_(Vector3f(0,0,0)), 
+    worldMat_(Matrix4x4f::Identity)
+    {
+
+    }
 
 
 private:

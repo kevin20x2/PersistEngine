@@ -30,6 +30,21 @@ using Matrix3x3f = Matrix3x3<float> ;
 template <typename T>
 class Matrix4x4
 {
+    public :
+        static constexpr Matrix4x4 Identity =
+            Matrix4x4({1, 0, 0, 0,
+                       0, 1, 0, 0,
+                       0, 0, 1, 0,
+                       0, 0, 0, 1});
+
+        Matrix4x4(const Matrix4x4 &rhs)
+        {
+            memcpy(data_, rhs.data_, sizeof(Matrix4x4));
+        }
+        Matrix4x4(const T array[16])
+        {
+            memcpy(data_, array, sizeof(Matrix4x4));
+        }
 
 protected : 
 #ifdef DATA_TYPE_DX
