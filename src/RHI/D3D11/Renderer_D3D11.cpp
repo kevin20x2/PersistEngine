@@ -185,22 +185,41 @@ namespace Persist
     }
    
     RHIVertexBufferPtr  buffer = nullptr ;
+    RHIIndexBufferPtr index_buffer = nullptr;
     void Renderer_D3D11::initGraphics()
     {
         float Vertices[] =
             {
-                0.0f, 0.5f, 0.0f,
+                0.45f, 0.5f, 0.0f,
                 1.0f, 0.0f, 0.0f, 1.0f,
+
+                -0.45 , 0.5f, 0.0f,
+                1.0f,1.0f,1.0f,1.0f,
 
                 0.45f, -0.5f, 0.0f,
                 0.0f, 1.0f, 0.0f, 1.0f,
+
                 -0.45f, -0.5f, 0.0f,
-                0.0f, 0.0f, 1.0f, 1.0f};
-        uint32_t size = sizeof(float) * 7 *3;
-        RHIVertexDataArrayD3D11 *verticeData = new RHIVertexDataArrayD3D11(Vertices ,size);
+                0.0f, 0.0f, 1.0f, 1.0f
+                };
+        int Indexes[] =
+            {
+                1, 0, 2,
+                2,1 , 3
+            };
+        uint32_t size = sizeof(float) * 7 *4;
+        RHIBufferDataArrayD3D11 *verticeData = new RHIBufferDataArrayD3D11(Vertices ,size);
+
+        uint32_t index_size = sizeof(int) * 6;
+        RHIBufferDataArrayD3D11 * indexData = new RHIBufferDataArrayD3D11(Indexes , index_size);
+
 
         RHIResourceCreateInfo info(verticeData);
         buffer =  createVertexBuffer(size, Buf_Dynamic , info);
+
+        RHIResourceCreateInfo indexInfo(indexData);
+        index_buffer = createIndexBuffer(index_size , Buf_Dynamic , indexInfo);
+        
 
         //buffer->AddRef();
         //setVertexBuffer(size , Vertices , *buffer );
@@ -223,23 +242,46 @@ namespace Persist
 
     }
 
+    void Renderer_D3D11::drawTriangleList(uint32_t vertexCount , uint32_t startPoint)
+    {
+        pDevContext_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+        pDevContext_->Draw(vertexCount, startPoint);
+    }
+    
+    void Renderer_D3D11::drawTriangleListRip(uint32_t indexCount ,uint32_t startPoint,uint32_t vertexOffset)
+    {
+        pDevContext_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+        pDevContext_->DrawIndexed(indexCount,startPoint,vertexOffset);
+    }
+
+
+
+
     void Renderer_D3D11::render()
     {
         RHIVertexBuffer * ptr = buffer;
+        RHIIndexBuffer * ptr_index = index_buffer;
 
         RHIRefPtr <ID3D11Buffer>  vb = dynamic_cast<RHIVertexBufferD3D11*>(ptr)->vertexBuffer();
+        RHIRefPtr <ID3D11Buffer> ib =  dynamic_cast<RHIIndexBufferD3D11*>(ptr_index)->indexBuffer();
+
+
         const FLOAT clearColor [] = {0.0f, 0.2f,0.4f ,1.0f};
         pDevContext_->ClearRenderTargetView(pRTView_,clearColor);
         pVBuffer_ = vb ;
+        pIBuffer_ = ib;
 
         {
             UINT stride = sizeof(float ) * 7;
             UINT offset = 0 ;
             pDevContext_->IASetVertexBuffers(0,1,&pVBuffer_,&stride , &offset);
+            pDevContext_->IASetIndexBuffer(pIBuffer_ , DXGI_FORMAT_R32_UINT , 0);
 
-            pDevContext_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+            drawTriangleListRip(6);
 
-            pDevContext_->Draw(3,0);
+            //pDevContext_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+            //pDevContext_->Draw(3,0);
 
         }
         pSwapchain_->Present(0,0);

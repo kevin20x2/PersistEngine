@@ -38,6 +38,7 @@ namespace Persist
         virtual void resize( uint32_t width , uint32_t height) override ;
 
         virtual RHIVertexBufferPtr createVertexBuffer(uint32_t size , uint32_t usage , RHIResourceCreateInfo & info) override;
+        virtual RHIIndexBufferPtr createIndexBuffer(uint32_t size , uint32_t usage , RHIResourceCreateInfo & info) override;
         virtual RHIVertexLayoutPtr createVertexLayout(RHIVertexFormatElementList & elementList)  override;
 
         virtual Status createVertexShader(GpuProgram  & program) override;
@@ -46,6 +47,9 @@ namespace Persist
         
         virtual int setVertexBuffer(uint32_t size , void * src , RHIVertexBuffer & dst );
         virtual void setViewPort(uint32_t  topLeftX, uint32_t topLeftY , uint32_t width , uint32_t height) override; 
+
+        virtual void drawTriangleList(uint32_t vertexCount , uint32_t startPoint = 0) override;
+        virtual void drawTriangleListRip(uint32_t indexCount , uint32_t startPoint = 0 , uint32_t vertexOffset = 0) override;
 
 
         // d3d11 
@@ -73,6 +77,7 @@ namespace Persist
         ID3D11InputLayout * pLayout_ = nullptr;
 
         ID3D11Buffer * pVBuffer_ = nullptr;
+        ID3D11Buffer * pIBuffer_ = nullptr;
 
         RHIVertexLayoutPtr layout_;
 

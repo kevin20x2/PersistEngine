@@ -5,6 +5,22 @@
 namespace Persist
 {
 
+class RHIIndexBufferD3D11 : public RHIIndexBuffer
+{
+    public : 
+    RHIIndexBufferD3D11(ID3D11Buffer * ib , uint32_t size , uint32_t usage) :
+        indexBuffer_(ib ) , RHIIndexBuffer(size, usage)
+    {
+
+    }
+    RHIRefPtr <ID3D11Buffer> indexBuffer() {return indexBuffer_;}
+    private:
+    RHIRefPtr <ID3D11Buffer> indexBuffer_;
+
+
+
+};
+
 class RHIVertexBufferD3D11 : public RHIVertexBuffer
 {
     public :
@@ -34,10 +50,12 @@ class RHIVertexBufferD3D11 : public RHIVertexBuffer
 
 };
 
-class RHIVertexDataArrayD3D11 : public IRHIResourceArray
+
+
+class RHIBufferDataArrayD3D11 : public IRHIResourceArray
 {
 public:
-    RHIVertexDataArrayD3D11(void * src , uint32_t size ) :
+    RHIBufferDataArrayD3D11(void * src , uint32_t size ) :
     array_(src),size_(size)
     {
 

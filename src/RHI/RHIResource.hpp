@@ -136,6 +136,17 @@ namespace Persist
     };
     using RHIVertexBufferPtr = RHIRefPtr<RHIVertexBuffer> ;
 
+    class RHIIndexBuffer : public IRHIResource
+    {
+        public : 
+        RHIIndexBuffer(uint32_t size , uint32_t usage)
+        {
+
+        }
+
+    };
+    using RHIIndexBufferPtr = RHIRefPtr <RHIIndexBuffer>;
+
 
 
     interface IRHIResourceArray 
