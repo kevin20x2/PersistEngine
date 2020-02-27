@@ -1,12 +1,12 @@
 #pragma once
-#include <FrameWork/Renderer/Renderer.hpp>
+#include <FrameWork/RHIContext/RHIContext.hpp>
 
 namespace  Persist{
     
-    class Renderer_Empty : extends IRenderer
+    class RHIContext_Empty : extends IRHIContext
     {
         public : 
-        ~Renderer_Empty() {}
+        ~RHIContext_Empty() {}
         
         int init() {return 0;}
         void destroy() {}

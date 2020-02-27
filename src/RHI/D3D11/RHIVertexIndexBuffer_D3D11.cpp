@@ -1,10 +1,10 @@
-#include "Renderer_D3D11.hpp"
+#include "RHIContext_D3D11.hpp"
 #include <FrameWork/Common/Status.hpp>
 #include "RHIResourceD3D11.hpp"
 namespace Persist
 {
 
-RHIIndexBufferPtr Renderer_D3D11::createIndexBuffer(uint32_t size , uint32_t usage,RHIResourceCreateInfo & info)
+RHIIndexBufferPtr RHIContext_D3D11::createIndexBuffer(uint32_t size , uint32_t usage,RHIResourceCreateInfo & info)
 {
     D3D11_BUFFER_DESC bd;
     ZeroMemory(&bd , sizeof(bd));

@@ -7,17 +7,17 @@
 namespace Persist 
 {
 
-    class IRenderer : extends IRunTimeModule
+    class IRHIContext : extends IRunTimeModule
     {
         public :
 
-        static IRenderer * renderer();
+        static IRHIContext * RHIContext();
 
 
         public :
 
         // from runtime module
-        virtual ~IRenderer() {}
+        virtual ~IRHIContext() {}
         virtual Status init() override = 0 ;
         virtual void destroy() override = 0;
         virtual void tick() override {} ;

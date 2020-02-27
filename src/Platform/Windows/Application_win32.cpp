@@ -6,8 +6,8 @@
 #include <string.h>
 #include <iostream>
 
-#include <FrameWork/Renderer/Renderer.hpp>
-#include <RHI/D3D11/Renderer_D3D11.hpp>
+#include <FrameWork/RHIContext/RHIContext.hpp>
+#include <RHI/D3D11/RHIContext_D3D11.hpp>
 
 namespace Persist
 {
@@ -50,9 +50,9 @@ Status Application_win32 :: init()
             hInstance ,NULL
     );
 
-    Renderer_D3D11 * renderer = dynamic_cast<Renderer_D3D11 *>( IRenderer ::renderer() );
-    renderer->setHWND(hWnd_);
-    renderer->init();
+    RHIContext_D3D11 * RHIContext = dynamic_cast<RHIContext_D3D11 *>( IRHIContext ::RHIContext() );
+    RHIContext->setHWND(hWnd_);
+    RHIContext->init();
 
 
     ShowWindow(hWnd_ , SW_SHOW);
@@ -91,14 +91,14 @@ LRESULT CALLBACK Application_win32 :: WindowProc(HWND hWnd , UINT message , WPAR
     {
     case WM_PAINT/* constant-expression */:
     {
-        IRenderer::renderer()->render();
+        IRHIContext::RHIContext()->render();
 
     }
     break;
     case WM_DESTROY:
     {
         Application_win32 * app = dynamic_cast<Application_win32 *>( IApplication :: currentApplication());
-        IRenderer::renderer()->destroy();
+        IRHIContext::RHIContext()->destroy();
         app->is_quit_ = true;
 
         PostQuitMessage(0);
@@ -110,7 +110,7 @@ LRESULT CALLBACK Application_win32 :: WindowProc(HWND hWnd , UINT message , WPAR
     //    std::cout << "resize" << std::endl;
         RECT rect;
         GetWindowRect(hWnd , &rect);
-        IRenderer::renderer()->resize(rect.right - rect.left , rect.bottom - rect.top);
+        IRHIContext::RHIContext()->resize(rect.right - rect.left , rect.bottom - rect.top);
 
     }
 

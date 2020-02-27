@@ -1,5 +1,5 @@
 #pragma once 
-#include <FrameWork/Renderer/Renderer.hpp>
+#include <FrameWork/RHIContext/RHIContext.hpp>
 #include "../RHIResource.hpp"
 #include <dxgi.h>
 #include <d3dcommon.h>
@@ -10,20 +10,20 @@
 
 namespace Persist
 {
-    class Renderer_D3D11 : extends IRenderer
+    class RHIContext_D3D11 : extends IRHIContext
     {
         public : 
-        static Renderer_D3D11 *instance ;
-        Renderer_D3D11()
+        static RHIContext_D3D11 *instance ;
+        RHIContext_D3D11()
         {
-            Renderer_D3D11 ::instance = this;
+            RHIContext_D3D11 ::instance = this;
         }
 
         
         public: 
 
-        // common from IRenderer
-        virtual ~Renderer_D3D11() {};
+        // common from IRHIContext
+        virtual ~RHIContext_D3D11() {};
 
         virtual Status init() override ;
 

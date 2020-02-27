@@ -1,4 +1,4 @@
-#include "Renderer_D3D11.hpp"
+#include "RHIContext_D3D11.hpp"
 #include <DirectXMath.h>
 #include <DirectXPackedVector.h>
 #include <DirectXColors.h>
@@ -27,9 +27,9 @@ void safeRelease(T ** InterfaceToRelease)
 namespace Persist
 {
 
-    Renderer_D3D11* Renderer_D3D11 ::instance = nullptr;
+    RHIContext_D3D11* RHIContext_D3D11 ::instance = nullptr;
 
-    Status Renderer_D3D11::init()
+    Status RHIContext_D3D11::init()
     {
         if(pSwapchain_ == nullptr)
         {
@@ -114,7 +114,7 @@ namespace Persist
         }
         return Status::Error("Init Error");
     }
-    void Renderer_D3D11::createRenderTarget()
+    void RHIContext_D3D11::createRenderTarget()
     {
         //HRESULT hr;
         ID3D11Texture2D * pBackBuffer ;
@@ -128,7 +128,7 @@ namespace Persist
 
         pDevContext_->OMSetRenderTargets(1, & pRTView_, NULL);
     }
-    void Renderer_D3D11::setViewPort()
+    void RHIContext_D3D11::setViewPort()
     {
         D3D11_VIEWPORT viewport;
         ZeroMemory(&viewport , sizeof(D3D11_VIEWPORT));
@@ -140,7 +140,7 @@ namespace Persist
         viewport.Height = rtHeight_;
         pDevContext_->RSSetViewports(1, & viewport);
     }
-    void Renderer_D3D11 ::initPipeline()
+    void RHIContext_D3D11 ::initPipeline()
     {
         SerializedGpuProgram program;
         SerializedGpuProgram ps_program;
@@ -186,7 +186,7 @@ namespace Persist
    
     RHIVertexBufferPtr  buffer = nullptr ;
     RHIIndexBufferPtr index_buffer = nullptr;
-    void Renderer_D3D11::initGraphics()
+    void RHIContext_D3D11::initGraphics()
     {
         float Vertices[] =
             {
@@ -242,13 +242,13 @@ namespace Persist
 
     }
 
-    void Renderer_D3D11::drawTriangleList(uint32_t vertexCount , uint32_t startPoint)
+    void RHIContext_D3D11::drawTriangleList(uint32_t vertexCount , uint32_t startPoint)
     {
         pDevContext_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
         pDevContext_->Draw(vertexCount, startPoint);
     }
     
-    void Renderer_D3D11::drawTriangleListRip(uint32_t indexCount ,uint32_t startPoint,uint32_t vertexOffset)
+    void RHIContext_D3D11::drawTriangleListRip(uint32_t indexCount ,uint32_t startPoint,uint32_t vertexOffset)
     {
         pDevContext_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
         pDevContext_->DrawIndexed(indexCount,startPoint,vertexOffset);
@@ -257,7 +257,7 @@ namespace Persist
 
 
 
-    void Renderer_D3D11::render()
+    void RHIContext_D3D11::render()
     {
         RHIVertexBuffer * ptr = buffer;
         RHIIndexBuffer * ptr_index = index_buffer;
@@ -287,15 +287,15 @@ namespace Persist
         pSwapchain_->Present(0,0);
 
     }
-    void Renderer_D3D11::beginFrame()
+    void RHIContext_D3D11::beginFrame()
     {
 
     }
-    void Renderer_D3D11::endFrame()
+    void RHIContext_D3D11::endFrame()
     {
         
     }
-    void Renderer_D3D11::destroy()
+    void RHIContext_D3D11::destroy()
     {
         //safeRelease(&pLayout_);
         safeRelease(&pRTView_);
@@ -307,7 +307,7 @@ namespace Persist
         safeRelease( &pDevContext_);
 
     }
-    void Renderer_D3D11::resize(uint32_t width , uint32_t height)
+    void RHIContext_D3D11::resize(uint32_t width , uint32_t height)
     {
         //std::cout <<  width << height << std::endl;
         rtWidth_ = width;
@@ -317,7 +317,7 @@ namespace Persist
         //setViewPort();
 
     }
-    void Renderer_D3D11::setViewPort(uint32_t topLeftX , uint32_t topLeftY , uint32_t width, uint32_t height)
+    void RHIContext_D3D11::setViewPort(uint32_t topLeftX , uint32_t topLeftY , uint32_t width, uint32_t height)
     {
         D3D11_VIEWPORT viewport;
         ZeroMemory(&viewport , sizeof(D3D11_VIEWPORT));
@@ -327,7 +327,7 @@ namespace Persist
         viewport.Height = height;
         pDevContext_->RSSetViewports(1, & viewport);
     }
-    RHIVertexLayoutPtr Renderer_D3D11::createVertexLayout(RHIVertexFormatElementList & elementList) 
+    RHIVertexLayoutPtr RHIContext_D3D11::createVertexLayout(RHIVertexFormatElementList & elementList) 
     {
         return new  RHIVertexLayout_D3D11(elementList);
     }

@@ -1,11 +1,11 @@
-#include "Renderer_D3D11.hpp"
+#include "RHIContext_D3D11.hpp"
 #include "RHIResourceD3D11.hpp"
 #include "../RHI.hpp"
 //#include "../RHIResource.hpp"
 namespace Persist
 {
 
-  RHIVertexBufferPtr  Renderer_D3D11 :: createVertexBuffer(uint32_t size , uint32_t usage , RHIResourceCreateInfo & info) 
+  RHIVertexBufferPtr  RHIContext_D3D11 :: createVertexBuffer(uint32_t size , uint32_t usage , RHIResourceCreateInfo & info) 
     {
         D3D11_BUFFER_DESC bd;
         ZeroMemory(&bd ,sizeof(bd));
@@ -34,7 +34,7 @@ namespace Persist
         return  new RHIVertexBufferD3D11(vertexBuffer, size, usage);
 
     }
-    int Renderer_D3D11 :: setVertexBuffer(uint32_t size , void * src ,RHIVertexBuffer & dst )
+    int RHIContext_D3D11 :: setVertexBuffer(uint32_t size , void * src ,RHIVertexBuffer & dst )
     {
         //dst.setValue(size, src);
         return 0;

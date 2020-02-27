@@ -1,6 +1,6 @@
 #pragma 
 #include "../RHI.hpp"
-#include "Renderer_D3D11.hpp"
+#include "RHIContext_D3D11.hpp"
 
 namespace Persist
 {
@@ -34,7 +34,7 @@ class RHIVertexBufferD3D11 : public RHIVertexBuffer
         D3D11_MAPPED_SUBRESOURCE ms;
         //ms.pData = new uint8_t [size];
 
-        ID3D11DeviceContext * context  = Renderer_D3D11::instance->getDeviceContext(); 
+        ID3D11DeviceContext * context  = RHIContext_D3D11::instance->getDeviceContext(); 
         context->Map( vertexBuffer_ ,NULL ,D3D11_MAP_WRITE_DISCARD ,NULL , &ms );
         memcpy(ms.pData , value,  size);
         context->Unmap(vertexBuffer_ , NULL);
