@@ -5,6 +5,20 @@ namespace Persist
 {
 
 template <typename T>
+struct Vector2
+{
+    Vector2(T _x, T _y) :
+        x(_x)
+    {
+
+    }
+
+    T x,y;
+};
+using Vector2f = Vector2<float>;
+
+
+template <typename T>
 struct Vector3
 {
     Vector3(T _x,T _y , T _z) : 
