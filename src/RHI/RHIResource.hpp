@@ -147,6 +147,15 @@ namespace Persist
     };
     using RHIIndexBufferPtr = RHIRefPtr <RHIIndexBuffer>;
 
+    class RHIConstantBuffer : public IRHIResource
+    {
+        public : 
+        RHIConstantBuffer(uint32_t size , uint32_t usage)
+        {
+
+        }
+    } ;
+    using RHIConstantBufferPtr = RHIRefPtr <RHIConstantBuffer>;
 
 
     interface IRHIResourceArray 
