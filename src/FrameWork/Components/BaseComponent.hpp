@@ -1,10 +1,11 @@
 #pragma once
 #include <FrameWork/Interface/IObject.hpp>
-#include <FrameWork/Unit/Unit.hpp>
+//#include <FrameWork/Unit/Unit.hpp>
 
 
 namespace Persist
 {
+class Unit;
 interface BaseComponent : extends IObject
 {
 
@@ -14,7 +15,7 @@ interface BaseComponent : extends IObject
         {
         }
 
-        virtual ~BaseComponent(){}
+        virtual ~BaseComponent() {};
         Unit* unit() { return unit_; } 
 
     protected: 

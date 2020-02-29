@@ -30,7 +30,7 @@ namespace Persist
             {
                 comp = new T(this);
             }
-            SharePtr ptr (static_cast<BaseComponent * >(comp));
+            SharePtr <BaseComponent > ptr ((BaseComponent *)comp);
             components_.push_back(ptr);
             return comp;
         }

@@ -15,9 +15,31 @@ class TransformComponent : public BaseComponent
         {
         }
         Transform & transform() { return transform_;}
+        TransformComponent * addChild(TransformComponent * com)
+        {
+            com->parent_->removeChild(com);
+            com->parent_ = this;
+            childList_.push_back(com);
+            return com;
+        }
+        TransformComponent * getChildAt(int index)
+        {
+            return childList_[index];
+        }
+        TransformComponent * removeChild(TransformComponent * com)
+        {
+            for(auto it = childList_.begin(); it != childList_.end(); ++it)
+            {
+                if(com == *it)
+                {
+                    childList_.erase(it);
+                    return com;
+                }
+            }
+        }
     private : 
-
-
+    Array <TransformComponent * > childList_;
+    TransformComponent * parent_;
     Transform transform_;
 
 };
