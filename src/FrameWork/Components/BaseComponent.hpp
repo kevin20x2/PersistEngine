@@ -9,6 +9,11 @@ interface BaseComponent : extends IObject
 {
 
     public :
+        BaseComponent(Unit * unit = nullptr) : 
+            unit_(unit)
+        {
+        }
+
         virtual ~BaseComponent(){}
         Unit* unit() { return unit_; } 
 

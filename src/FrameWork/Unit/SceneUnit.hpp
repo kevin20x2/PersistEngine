@@ -11,6 +11,7 @@ class SceneUnit : public Unit
         SceneUnit( ) : 
         tranform_comp_( new TransformComponent())
         {
+            addComponent<TransformComponent>(tranform_comp_);
         }
 
 

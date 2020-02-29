@@ -8,12 +8,13 @@ namespace Persist
 // Component with transform 
 class TransformComponent : public BaseComponent
 {
-    public : 
-     TransformComponent()  :
-     transform_()
-     {
-
-     }
+    public :
+        TransformComponent(Unit *unit = nullptr) : 
+        BaseComponent(unit),
+        transform_()
+        {
+        }
+        Transform & transform() { return transform_;}
     private : 
 
 

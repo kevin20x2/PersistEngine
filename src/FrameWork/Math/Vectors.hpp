@@ -47,6 +47,12 @@ struct Vector3
     {
         return Vector3(x *mul , y * mul , z * mul);
     }
+    // no pram
+    Vector3 operator-() const
+    {
+        return Vector3(-x,-y,-z);
+    }
+
     T length()
     {
         return sqrt(x*x + y*y + z*z);

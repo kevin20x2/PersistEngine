@@ -24,6 +24,16 @@ namespace Persist
             }
             return nullptr;
         } 
+        template <typename T>
+        T * addComponent( T * comp = nullptr) {
+            if(comp != nullptr )
+            {
+                comp = new T(this);
+            }
+            SharePtr ptr (static_cast<BaseComponent * >(comp));
+            components_.push_back(ptr);
+            return comp;
+        }
 
         protected : 
         //T * queryComponentByType()
