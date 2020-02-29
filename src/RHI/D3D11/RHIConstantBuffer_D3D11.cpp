@@ -1,20 +1,8 @@
 #include "RHIContext_D3D11.hpp"
+#include "RHIResourceD3D11.hpp"
 namespace Persist
 {
-    class RHIConstantBufferD3D11 : public RHIConstantBuffer
-    {
-        public :
-        RHIConstantBufferD3D11(ID3D11Buffer * cb , uint32_t size , uint32_t usage):
-            constantBuffer_(cb) , RHIConstantBuffer(size, usage)
-        {
-
-        }
-        RHIRefPtr <ID3D11Buffer> constantBuffer() {return constantBuffer_ ;}
-        private : 
-        RHIRefPtr <ID3D11Buffer> constantBuffer_;
-
-
-    };
+    
 
 RHIConstantBufferPtr RHIContext_D3D11::createConstantBuffer(uint32_t size ,uint32_t usage , RHIResourceCreateInfo & info)
 {
@@ -45,5 +33,26 @@ RHIConstantBufferPtr RHIContext_D3D11::createConstantBuffer(uint32_t size ,uint3
 
 
 }
+
+Status RHIContext_D3D11 :: setConstantBuffer( RHIConstantBufferPtr buffer , IRHIResourceArray * data  )
+{
+    //RHIBufferDataArrayD3D11 * data_ptr = dynamic_cast <RHIBufferDataArrayD3D11 * > (data);
+
+    RHIConstantBufferD3D11 * buffer_ptr = dynamic_cast <RHIConstantBufferD3D11 *>(buffer.get());
+    D3D11_MAPPED_SUBRESOURCE mappedResource;
+    HRESULT hr = pDevContext_->Map(buffer_ptr->constantBuffer(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+
+    if(FAILED(hr))
+    {
+        return Status::Error("set Constant buffer error");
+    }
+    memcpy (mappedResource.pData ,data->getArray(), data->getArraySize()) ;
+
+    pDevContext_->Unmap(buffer_ptr->constantBuffer(), 0 );
+
+    return Status::Ok();
+
+}
+
 
 }

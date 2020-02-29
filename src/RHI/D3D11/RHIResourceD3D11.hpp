@@ -67,7 +67,15 @@ private :
     void * array_ ;
     uint32_t size_ ;
 };
+class RHIConstantBufferD3D11 : public RHIConstantBuffer
+{
+public:
+    RHIConstantBufferD3D11(ID3D11Buffer *cb, uint32_t size, uint32_t usage) : constantBuffer_(cb), RHIConstantBuffer(size, usage)
+    {
+    }
+    RHIRefPtr<ID3D11Buffer> constantBuffer() { return constantBuffer_; }
 
-
-
+private:
+    RHIRefPtr<ID3D11Buffer> constantBuffer_;
+};
 }

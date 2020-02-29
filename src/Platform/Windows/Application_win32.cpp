@@ -63,12 +63,16 @@ Status Application_win32 :: init()
 void Application_win32 :: tick()
 {
 
-    if(GetMessage(&msg_ , NULL , 0 , 0 ) )
+
+    if(PeekMessage(&msg_ , NULL , 0 , 0 , PM_REMOVE )  )
     {
         TranslateMessage(&msg_);
 
         DispatchMessage(&msg_);
-
+    }
+    else 
+    {
+        IRHIContext::RHIContext()->render();
     }
 
     //std::cout << " tick in win32" << std::endl;
@@ -91,7 +95,8 @@ LRESULT CALLBACK Application_win32 :: WindowProc(HWND hWnd , UINT message , WPAR
     {
     case WM_PAINT/* constant-expression */:
     {
-        IRHIContext::RHIContext()->render();
+        //std::cout << "paint" <<std::endl;
+        //std::flush(std::cout);
 
     }
     break;

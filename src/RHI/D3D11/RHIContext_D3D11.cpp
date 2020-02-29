@@ -186,6 +186,7 @@ namespace Persist
    
     RHIVertexBufferPtr  buffer = nullptr ;
     RHIIndexBufferPtr index_buffer = nullptr;
+    RHIConstantBufferPtr constant_buffer= nullptr;
     void RHIContext_D3D11::initGraphics()
     {
         float Vertices[] =
@@ -212,6 +213,14 @@ namespace Persist
 
         uint32_t index_size = sizeof(int) * 6;
         RHIBufferDataArrayD3D11 * indexData = new RHIBufferDataArrayD3D11(Indexes , index_size);
+
+
+        float color [4 ] = { 1.0,0.5,0.5,1.0};
+
+
+        RHIBufferDataArrayD3D11 * colorData = new RHIBufferDataArrayD3D11(color ,sizeof(color));
+        RHIResourceCreateInfo colorInfo(colorData);
+        constant_buffer = createConstantBuffer(sizeof(color), Buf_Dynamic , colorInfo);
 
 
         RHIResourceCreateInfo info(verticeData);
@@ -256,26 +265,43 @@ namespace Persist
 
 
 
+    float deltaTime = 0;
 
     void RHIContext_D3D11::render()
     {
         RHIVertexBuffer * ptr = buffer;
         RHIIndexBuffer * ptr_index = index_buffer;
+        RHIConstantBuffer * ptr_constant = constant_buffer;
 
         RHIRefPtr <ID3D11Buffer>  vb = dynamic_cast<RHIVertexBufferD3D11*>(ptr)->vertexBuffer();
         RHIRefPtr <ID3D11Buffer> ib =  dynamic_cast<RHIIndexBufferD3D11*>(ptr_index)->indexBuffer();
+        RHIRefPtr <ID3D11Buffer> cb = dynamic_cast <RHIConstantBufferD3D11*>(ptr_constant)->constantBuffer();
+
+        deltaTime += 0.016;
+        float color[4];
+        color[0] = sin(deltaTime);
+        color[1] = 0.0;
+        color[2] = 1.0;
+        color[3] = 1.0;
+        //std::cout << color[0] <<std::endl;
+        //std::flush(std::cout);
+        RHIBufferDataArrayD3D11 data(color , sizeof(color));
+        setConstantBuffer(ptr_constant,&data);
 
 
         const FLOAT clearColor [] = {0.0f, 0.2f,0.4f ,1.0f};
         pDevContext_->ClearRenderTargetView(pRTView_,clearColor);
         pVBuffer_ = vb ;
         pIBuffer_ = ib;
+        pCBuffer = cb;
 
         {
             UINT stride = sizeof(float ) * 7;
             UINT offset = 0 ;
+            pDevContext_->VSSetConstantBuffers(0,1,&pCBuffer);
             pDevContext_->IASetVertexBuffers(0,1,&pVBuffer_,&stride , &offset);
             pDevContext_->IASetIndexBuffer(pIBuffer_ , DXGI_FORMAT_R32_UINT , 0);
+
 
             drawTriangleListRip(6);
 
@@ -284,7 +310,7 @@ namespace Persist
             //pDevContext_->Draw(3,0);
 
         }
-        pSwapchain_->Present(0,0);
+        pSwapchain_->Present(1,0);
 
     }
     void RHIContext_D3D11::beginFrame()

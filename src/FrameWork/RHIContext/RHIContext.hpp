@@ -35,6 +35,8 @@ namespace Persist
         virtual RHIVertexBufferPtr createVertexBuffer(uint32_t size , uint32_t usage , RHIResourceCreateInfo & info) = 0;
         virtual RHIIndexBufferPtr createIndexBuffer(uint32_t size , uint32_t usage , RHIResourceCreateInfo & info) = 0 ;
         virtual RHIConstantBufferPtr createConstantBuffer(uint32_t size , uint32_t usage , RHIResourceCreateInfo & info) = 0 ;
+        virtual Status setConstantBuffer(RHIConstantBufferPtr buffer , IRHIResourceArray *  data  ) = 0 ;
+
         
 
         virtual RHIVertexLayoutPtr createVertexLayout(RHIVertexFormatElementList & elementList ) = 0 ;  

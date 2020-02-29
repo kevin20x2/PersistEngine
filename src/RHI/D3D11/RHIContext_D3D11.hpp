@@ -41,6 +41,7 @@ namespace Persist
         virtual RHIIndexBufferPtr createIndexBuffer(uint32_t size , uint32_t usage , RHIResourceCreateInfo & info) override;
         virtual RHIVertexLayoutPtr createVertexLayout(RHIVertexFormatElementList & elementList)  override;
         virtual RHIConstantBufferPtr createConstantBuffer(uint32_t size ,uint32_t usage , RHIResourceCreateInfo & info) override ;
+        virtual Status setConstantBuffer( RHIConstantBufferPtr , IRHIResourceArray * data) override ;
 
         virtual Status createVertexShader(GpuProgram  & program) override;
         virtual Status createPixelShader(GpuProgram & program ) override; 
@@ -79,6 +80,7 @@ namespace Persist
 
         ID3D11Buffer * pVBuffer_ = nullptr;
         ID3D11Buffer * pIBuffer_ = nullptr;
+        ID3D11Buffer * pCBuffer = nullptr;
 
         RHIVertexLayoutPtr layout_;
 
