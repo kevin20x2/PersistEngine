@@ -1,3 +1,3 @@
 
 
-add_library(Components MeshRenderer.cpp BaseComponent.cpp)
+add_library(Components MeshRenderer.cpp BaseComponent.cpp CameraComponent.cpp)

@@ -9,7 +9,7 @@ class SceneUnit : public Unit
 {
     public : 
         SceneUnit( ) : 
-        tranform_comp_( new TransformComponent())
+        tranform_comp_( new TransformComponent(this))
         {
             addComponent<TransformComponent>(tranform_comp_);
         }

@@ -9,7 +9,7 @@ namespace Persist
 class TransformComponent : public BaseComponent
 {
     public :
-        TransformComponent(Unit *unit = nullptr) : 
+        TransformComponent(Unit *unit ) : 
         BaseComponent(unit),
         transform_()
         {
@@ -17,7 +17,10 @@ class TransformComponent : public BaseComponent
         Transform & transform() { return transform_;}
         TransformComponent * addChild(TransformComponent * com)
         {
-            com->parent_->removeChild(com);
+            if(com->parent_)
+            {
+                com->parent_->removeChild(com);
+            }
             com->parent_ = this;
             childList_.push_back(com);
             return com;
@@ -37,10 +40,11 @@ class TransformComponent : public BaseComponent
                     return com;
                 }
             }
+            return com;
         }
     private : 
     Array <TransformComponent * > childList_;
-    TransformComponent * parent_;
+    TransformComponent * parent_ = nullptr;
     Transform transform_;
 
 };

@@ -1,12 +1,16 @@
 #include "Matrix.hpp"
 namespace Persist
 {
-template <typename T>
-Matrix4x4 <T> Matrix4x4<T>::Identity = Matrix4x4<T>({1, 0, 0, 0,
+static constexpr float _tmp[] = 
+                                              {1, 0, 0, 0,
                                               0, 1, 0, 0,
                                               0, 0, 1, 0,
-                                              0, 0, 0, 1});
+                                              0, 0, 0, 1};
 
+template <>
+Matrix4x4 <float> Matrix4x4<float>::Identity = Matrix4x4<float>(_tmp);
+
+/*
 template <typename T>
 Matrix4x4<T> Matrix4x4<T>::scaleMatrix(const Vector3<T> &scale)
 {
@@ -109,5 +113,6 @@ Matrix4x4<T> Matrix4x4<T>::mul(const Matrix4x4<T> & rhs)
     }
     return ans;
 }
+*/
 
 }

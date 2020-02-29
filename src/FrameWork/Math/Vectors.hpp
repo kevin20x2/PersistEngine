@@ -43,7 +43,7 @@ struct Vector3
     {
         return Vector3(x * rhs.x , y * rhs.y , z * rhs.z);
     }
-    Vector3 operator*( T mul)
+    Vector3 operator*(T mul) const
     {
         return Vector3(x *mul , y * mul , z * mul);
     }

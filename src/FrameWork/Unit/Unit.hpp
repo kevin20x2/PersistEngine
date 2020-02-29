@@ -2,10 +2,13 @@
 #include <FrameWork/Interface/IObject.hpp>
 #include <FrameWork/Common/Array.hpp>
 #include <FrameWork/Memory/SharePtr.hpp>
-#include <FrameWork/Components/BaseComponent.hpp>
+//#include <FrameWork/Components/BaseComponent.hpp>
+
+
 
 namespace Persist
 {
+    class BaseComponent;
     // base class of object in game world
     class Unit : extends IObject
     {
@@ -26,7 +29,7 @@ namespace Persist
         } 
         template <typename T>
         T * addComponent( T * comp = nullptr) {
-            if(comp != nullptr )
+            if(comp == nullptr )
             {
                 comp = new T(this);
             }

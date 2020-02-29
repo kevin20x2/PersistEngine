@@ -1,6 +1,7 @@
 #pragma once
 #include "Vectors.hpp"
 #include "PersistMath.hpp"
+#include <memory>
 
 
 namespace Persist
@@ -33,11 +34,7 @@ template <typename T>
 class Matrix4x4
 {
     public :
-        static constexpr Matrix4x4 Identity =
-            Matrix4x4({1, 0, 0, 0,
-                       0, 1, 0, 0,
-                       0, 0, 1, 0,
-                       0, 0, 0, 1});
+        static Matrix4x4 Identity ;  
         static Matrix4x4 scaleMatrix(const Vector3 <T> & scale)
         {
             Matrix4x4 ans;
@@ -131,12 +128,14 @@ class Matrix4x4
         {
             memcpy(data_, array, sizeof(Matrix4x4));
         }
+
         Matrix4x4() :
             Matrix4x4(Matrix4x4::Identity)
         {
 
         }
 
+/*
         Matrix4x4(Matrix4x4 && rhs)
         {
             if(this != & rhs)
@@ -157,6 +156,7 @@ class Matrix4x4
             }
 
         }
+        */
 
         Matrix4x4 mul(const Matrix4x4 & rhs)
         {

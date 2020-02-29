@@ -1,5 +1,10 @@
 #pragma once
 #include "BaseComponent.hpp"
+#include <FrameWork/Unit/Unit.hpp>
+#include <FrameWork/Math/Vectors.hpp>
+#include <FrameWork/Math/Matrix.hpp>
+#include "TransformComponent.hpp"
+
 namespace Persist
 {
 class CameraComponent : public BaseComponent
