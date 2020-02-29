@@ -16,6 +16,15 @@ class World : public IRunTimeModule
     }
 
 
+    static World * thisWorld() { 
+        if(thisWorld_ == nullptr)
+        {
+            thisWorld_ = new World();
+        }
+        return thisWorld_ ;
+
+    }
+
     virtual Status init() override;
 
     virtual void tick() override ;
@@ -31,6 +40,8 @@ class World : public IRunTimeModule
     protected:
     int activeLevelIdx = 0 ;
     Array <SharePtr <Level> > levelList_;
+
+    static World * thisWorld_;
 
 
 };

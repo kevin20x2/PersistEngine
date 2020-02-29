@@ -26,6 +26,7 @@ class TransformComponent : public BaseComponent
         {
             return childList_[index];
         }
+        uint32_t childNum() { return childList_.size();}
         TransformComponent * removeChild(TransformComponent * com)
         {
             for(auto it = childList_.begin(); it != childList_.end(); ++it)

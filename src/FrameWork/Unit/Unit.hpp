@@ -16,7 +16,7 @@ namespace Persist
         T * getComponent() {
             for(int i = 0 ;i < components_.size() ; ++ i)
             {
-                T * tmp = dynamic_cast<T*>(components_[i]);
+                T * tmp = dynamic_cast<T*>(components_[i].get());
                 if(tmp != nullptr)
                 {
                     return tmp;

@@ -13,6 +13,7 @@ class CameraUnit : public SceneUnit
         addComponent<CameraComponent>(cameraComponent_);
 
     }
+    void render() { cameraComponent_->render(); }
 
     protected:
 

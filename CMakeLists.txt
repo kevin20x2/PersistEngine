@@ -11,9 +11,6 @@ include_directories(
 
 set(RHI_Platform DX11)
 
-add_subdirectory(src/FrameWork)
-add_subdirectory(src/Platform)
-add_subdirectory(src/RHI)
 
 
 
@@ -25,6 +22,10 @@ if(${RHI_Platform} STREQUAL "DX11")
     add_compile_definitions(RHI_DX11)
     add_compile_definitions(DATA_TYPE_DX)
 endif()
+
+add_subdirectory(src/FrameWork)
+add_subdirectory(src/Platform)
+add_subdirectory(src/RHI)
 
 target_link_libraries(app FrameWork Platform RHI )
 

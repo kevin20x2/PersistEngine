@@ -106,7 +106,7 @@ namespace Persist
                 createRenderTarget();
                 setViewPort();
                 initPipeline();
-                initGraphics();
+                //initGraphics();
 
             }
             return Status::Ok();

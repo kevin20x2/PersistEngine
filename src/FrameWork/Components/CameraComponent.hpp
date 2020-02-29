@@ -18,7 +18,8 @@ class CameraComponent : public BaseComponent
         }
         updatePrjectionMat();
     }
-
+    public : 
+    void render();
     protected:
     void updateViewMatrix ()
     {

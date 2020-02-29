@@ -8,6 +8,8 @@
 
 #include <FrameWork/RHIContext/RHIContext.hpp>
 #include <RHI/D3D11/RHIContext_D3D11.hpp>
+#include <FrameWork/Scene/World.hpp>
+
 
 namespace Persist
 {
@@ -72,7 +74,8 @@ void Application_win32 :: tick()
     }
     else 
     {
-        IRHIContext::RHIContext()->render();
+        World::thisWorld()->tick();
+        //IRHIContext::RHIContext()->render();
     }
 
     //std::cout << " tick in win32" << std::endl;

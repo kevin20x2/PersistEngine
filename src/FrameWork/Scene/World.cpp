@@ -2,6 +2,8 @@
 
 namespace Persist
 {
+World * World::thisWorld_ = nullptr;
+
 Status World::init()
 {
 }

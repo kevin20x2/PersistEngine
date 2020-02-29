@@ -12,8 +12,8 @@ namespace Persist
         }
 
         virtual ~IBaseRenderer() {}
+        virtual void _commit() = 0 ;
         protected:
-        virtual void _render() = 0 ;
 
     };
 

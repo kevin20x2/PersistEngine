@@ -17,20 +17,20 @@ namespace Persist
 
         void setVertice(Array <Vector3f> * vertice) 
         {
-            vertices_ = vertice;
+            vertices_.reset(vertice) ;
         }
 
         void setUV(Array <Vector2f> * uv)
         {
-            uv_ = uv;
+            uv_.reset(uv);
         }
         void setTriangles(Array <int> * triangles)
         {
-            triangles_ = triangles;
+            triangles_.reset(triangles);
         }
         void setColor(Array <Vector4f> * color )
         {
-            color_ = color;
+            color_ .reset( color ) ;
         }
 
 

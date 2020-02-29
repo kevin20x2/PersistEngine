@@ -14,6 +14,9 @@ interface BaseComponent : extends IObject
             unit_(unit)
         {
         }
+        template <typename T>
+        T * getComponent(); 
+
 
         virtual ~BaseComponent() {};
         Unit* unit() { return unit_; } 

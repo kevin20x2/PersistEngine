@@ -1,4 +1,5 @@
 #include "BaseRenderer.hpp"
+#include "StaticMeshComponent.hpp"
 
 namespace Persist
 {
@@ -8,11 +9,13 @@ namespace Persist
         MeshRenderer(Unit * unit = nullptr) :
             IBaseRenderer(unit)
         {
-
+            meshComp_ = getComponent<StaticMeshComponent>();
         }
 
+        virtual void _commit() override ;
         protected :
-        virtual void _render() override ;
+        // TODO : remove here
+        StaticMeshComponent * meshComp_;
 
     };
 
