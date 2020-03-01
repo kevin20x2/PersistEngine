@@ -3,6 +3,13 @@
 namespace Persist
 {
 
+    GpuProgram * GpuProgram ::createFromSerializedProgram(const SerializedGpuProgram & program , GpuProgram::ProgramType type)
+    {
+        return GpuProgram_D3D11 :: createFromSerializedProgram(program , type);
+
+    }
+
+
     GpuProgram_D3D11 * GpuProgram_D3D11 :: createFromSerializedProgram
     (const SerializedGpuProgram & program , GpuProgram::ProgramType type)
     {

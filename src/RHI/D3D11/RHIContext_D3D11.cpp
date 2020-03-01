@@ -8,6 +8,7 @@
 #include "GpuProgram_D3D11.hpp"
 #include <FrameWork/Serialize/Serialize.hpp>
 #include <FrameWork/Shaders/SerializeShaderData.hpp>
+#include <FrameWork/RHIContext/RHIContext.hpp>
 
 
 
@@ -26,6 +27,13 @@ void safeRelease(T ** InterfaceToRelease)
 
 namespace Persist
 {
+    IRHIContext *IRHIContext ::RHIContext()
+    {
+        static RHIContext_D3D11 s_local;
+        return &s_local;
+    }
+
+
 
     RHIContext_D3D11* RHIContext_D3D11 ::instance = nullptr;
 
@@ -105,7 +113,7 @@ namespace Persist
             {
                 createRenderTarget();
                 setViewPort();
-                initPipeline();
+                //initPipeline();
                 //initGraphics();
 
             }
@@ -262,6 +270,11 @@ namespace Persist
         pDevContext_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
         pDevContext_->DrawIndexed(indexCount,startPoint,vertexOffset);
     }
+    void RHIContext_D3D11::clearRenderTargetView(const Vector4f & color)
+    {
+        pDevContext_->ClearRenderTargetView(pRTView_ ,reinterpret_cast<const float *>( & color) );
+
+    }
 
 
 
@@ -310,7 +323,6 @@ namespace Persist
             //pDevContext_->Draw(3,0);
 
         }
-        pSwapchain_->Present(1,0);
 
     }
     void RHIContext_D3D11::beginFrame()
@@ -319,7 +331,7 @@ namespace Persist
     }
     void RHIContext_D3D11::endFrame()
     {
-        
+        pSwapchain_->Present(1,0);
     }
     void RHIContext_D3D11::destroy()
     {
@@ -356,6 +368,16 @@ namespace Persist
     RHIVertexLayoutPtr RHIContext_D3D11::createVertexLayout(RHIVertexFormatElementList & elementList) 
     {
         return new  RHIVertexLayout_D3D11(elementList);
+    }
+
+    RHIVertexLayoutPtr RHIContext_D3D11::createVertexLayout(RHIVertexFormatElementList & elementList , GpuProgram & program) 
+    {
+
+        GpuProgram_D3D11 & pro_d3d11 = dynamic_cast<GpuProgram_D3D11&>(program);
+        RHIVertexLayout_D3D11 *layout = new RHIVertexLayout_D3D11(elementList);
+        pDev_->CreateInputLayout(layout->layout_D3D11(), elementList.size(),pro_d3d11.buffer_.data(),pro_d3d11.buffer_size_ ,layout->layout_.initRef());
+
+        return layout;
     }
 
   

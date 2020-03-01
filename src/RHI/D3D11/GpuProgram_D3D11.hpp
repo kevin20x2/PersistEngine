@@ -16,6 +16,7 @@ namespace Persist
             uint32_t buffer_size_;
             RHIRefPtr <ID3D11VertexShader> vertexShader_;
             RHIRefPtr <ID3D11PixelShader> pixelShader_;
+            //RHIRefPtr <ID3D11InputLayout> layout_;
     };
 
 

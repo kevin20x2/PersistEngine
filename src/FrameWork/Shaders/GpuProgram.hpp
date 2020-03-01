@@ -17,11 +17,11 @@ public:
 
     ProgramType type() { return type_; }
     virtual ~GpuProgram() {}
+    static GpuProgram *  createFromSerializedProgram(const SerializedGpuProgram & program,GpuProgram ::ProgramType type);
 
 protected:
     ProgramType type_;
 
-    //    static GpuProgram createFromSerailizedProgram(const SerialiedGpuProgram & program);
 
 };
 

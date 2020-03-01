@@ -14,6 +14,7 @@ namespace Persist
                 
             }
         void setMesh(Mesh * mesh ) { mesh_ = mesh;}
+        Mesh * mesh() { return mesh_;}
 
         protected:
             Mesh *mesh_;

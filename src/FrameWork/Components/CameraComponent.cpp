@@ -2,6 +2,7 @@
 #include "TransformComponent.hpp"
 #include "MeshRenderer.hpp"
 #include <FrameWork/Scene/World.hpp>
+#include <FrameWork/RHIContext/RHIContext.hpp>
 #include <stdint.h>
 namespace Persist
 {
@@ -29,7 +30,11 @@ void CameraComponent::render()
 {
     //TODO : Cull 
     TransformComponent * root = World::thisWorld()->activeLevel()->root();
+    IRHIContext::RHIContext()->beginFrame();
+    IRHIContext::RHIContext()->clearRenderTargetView(clearColor_);
+
     IterateTransform(root);
+    IRHIContext::RHIContext()->endFrame();
 }
 
 }

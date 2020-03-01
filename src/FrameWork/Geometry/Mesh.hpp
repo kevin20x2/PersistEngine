@@ -3,6 +3,7 @@
 #include <FrameWork/Memory/SharePtr.hpp>
 #include <FrameWork/Common/Array.hpp>
 #include <FrameWork/Math/Vectors.hpp>
+#include <FrameWork/Components/MeshRenderer.hpp>
 
 namespace Persist
 {
@@ -10,6 +11,8 @@ namespace Persist
     {
 
         public :
+
+        friend class MeshRenderer;
         Mesh()
         {
 
@@ -33,6 +36,11 @@ namespace Persist
             color_ .reset( color ) ;
         }
 
+        Array <Vector3f> * vertices()  { return vertices_.get();}
+        Array <Vector4f> * color() { return color_.get();}
+        Array <int> * triangles() {return triangles_.get();}
+
+
 
 
         
@@ -44,6 +52,8 @@ namespace Persist
         /// TODO : need a Color class
         SharePtr <Array <Vector4f>> color_ = nullptr;
         SharePtr <Array <int> > triangles_ = nullptr;
+
+
 
 
     };

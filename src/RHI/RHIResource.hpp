@@ -161,6 +161,8 @@ namespace Persist
     interface IRHIResourceArray 
     {
         public :
+        static IRHIResourceArray * create(uint8_t * buffer, uint32_t size );
+
         virtual void * getArray() = 0 ;
 
         virtual uint32_t getArraySize() = 0 ;
@@ -237,6 +239,10 @@ namespace Persist
             }
             return std::hash<std::string>()(ans);
         }
+
+        virtual uint32_t vertexSize() = 0 ;
+
+
     };
     using RHIVertexLayoutPtr  = RHIRefPtr <IRHIVertexLayout>;
 

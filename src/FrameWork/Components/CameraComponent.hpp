@@ -11,7 +11,8 @@ class CameraComponent : public BaseComponent
 {
     public : 
     CameraComponent(Unit * unit = nullptr ) : 
-        BaseComponent(unit)
+        BaseComponent(unit),
+        clearColor_(Vector4f(0.0f , 0.2f , 0.4f,1.0f))
     {
         if(unit_ != nullptr)
         {
@@ -58,6 +59,8 @@ class CameraComponent : public BaseComponent
 
     Matrix4x4f viewMat_;
     Matrix4x4f projMat_;
+    Vector4f clearColor_ ;
+
 
 
 };
