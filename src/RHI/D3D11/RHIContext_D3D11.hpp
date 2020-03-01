@@ -37,15 +37,24 @@ namespace Persist
 
         virtual void resize( uint32_t width , uint32_t height) override ;
 
-        virtual RHIVertexBufferPtr createVertexBuffer(uint32_t size , uint32_t usage , RHIResourceCreateInfo & info) override;
+        virtual RHIVertexBufferPtr createVertexBuffer(uint32_t size , uint32_t usage , RHIResourceCreateInfo & info  ) override;
         virtual RHIIndexBufferPtr createIndexBuffer(uint32_t size , uint32_t usage , RHIResourceCreateInfo & info) override;
         virtual RHIVertexLayoutPtr createVertexLayout(RHIVertexFormatElementList & elementList)  override;
         virtual RHIVertexLayoutPtr createVertexLayout(RHIVertexFormatElementList & elementList , GpuProgram & vs)  override;
         virtual RHIConstantBufferPtr createConstantBuffer(uint32_t size ,uint32_t usage , RHIResourceCreateInfo & info) override ;
-        virtual Status setConstantBuffer( RHIConstantBufferPtr , IRHIResourceArray * data) override ;
+        virtual Status setConstantBufferValue( RHIConstantBufferPtr , IRHIResourceArray * data) override ;
 
         virtual Status createVertexShader(GpuProgram  & program) override;
         virtual Status createPixelShader(GpuProgram & program ) override; 
+
+        virtual Status setVertexShader(GpuProgram & program ) override ;
+        virtual Status setPixelShader(GpuProgram & program) override;
+        virtual Status setVertexLayout(RHIVertexLayoutPtr & layout) override;
+
+        virtual Status setVertexBuffer(RHIVertexBufferPtr buffer ,RHIVertexLayoutPtr layout) override;
+        virtual Status setIndexBuffer(RHIIndexBufferPtr buffer) override;
+        virtual Status setConstantBuffer(RHIConstantBufferPtr buffer) override;
+
 
         
         virtual int setVertexBuffer(uint32_t size , void * src , RHIVertexBuffer & dst );

@@ -4,6 +4,10 @@
 namespace Persist
 {
 
+#pragma pack(push)
+
+#pragma pack(4)
+
 template <typename T>
 struct Vector2
 {
@@ -105,6 +109,8 @@ struct Vector4
     union { T w,a; };
 };
 using Vector4f = Vector4<float>;
+
+#pragma pack(pop)
 
     
 }

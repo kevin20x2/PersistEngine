@@ -36,7 +36,7 @@ namespace Persist
         virtual RHIVertexBufferPtr createVertexBuffer(uint32_t size , uint32_t usage , RHIResourceCreateInfo & info) = 0;
         virtual RHIIndexBufferPtr createIndexBuffer(uint32_t size , uint32_t usage , RHIResourceCreateInfo & info) = 0 ;
         virtual RHIConstantBufferPtr createConstantBuffer(uint32_t size , uint32_t usage , RHIResourceCreateInfo & info) = 0 ;
-        virtual Status setConstantBuffer(RHIConstantBufferPtr buffer , IRHIResourceArray *  data  ) = 0 ;
+        virtual Status setConstantBufferValue(RHIConstantBufferPtr buffer , IRHIResourceArray *  data  ) = 0 ;
 
         
 
@@ -46,6 +46,14 @@ namespace Persist
 
         virtual Status createVertexShader(GpuProgram & program) = 0;
         virtual Status createPixelShader(GpuProgram & program) = 0;
+
+        virtual Status setVertexShader(GpuProgram & program) = 0 ;
+        virtual Status setPixelShader(GpuProgram & program ) = 0 ;
+        virtual Status setVertexLayout(RHIVertexLayoutPtr &layout) = 0 ;
+        
+        virtual Status setVertexBuffer(RHIVertexBufferPtr buffer , RHIVertexLayoutPtr layout) = 0;
+        virtual Status setIndexBuffer(RHIIndexBufferPtr buffer) = 0;
+        virtual Status setConstantBuffer(RHIConstantBufferPtr buffer) = 0 ;
 
 
         virtual void setViewPort(uint32_t topLeftX , uint32_t topLeftY , uint32_t width , uint32_t height) = 0;

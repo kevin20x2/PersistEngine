@@ -8,12 +8,15 @@ class CameraUnit : public SceneUnit
 {
     public : 
     CameraUnit () : 
-    cameraComponent_(new CameraComponent())
+    cameraComponent_(new CameraComponent(this))
     {
         addComponent<CameraComponent>(cameraComponent_);
 
     }
     void render() { cameraComponent_->render(); }
+
+    CameraComponent * camera() { return cameraComponent_;}
+
 
     protected:
 

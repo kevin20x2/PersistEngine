@@ -3,6 +3,9 @@
 #include <FrameWork/Serialize/TransferContext.hpp>
 #include <FrameWork/Shaders/GpuProgram.hpp>
 #include <FrameWork/RHIContext/RHIContext.hpp>
+#include <FrameWork/Math/Matrix.hpp>
+#include <FrameWork/Scene/World.hpp>
+#include <FrameWork/Unit/CameraUnit.hpp>
 namespace Persist
 {
 
@@ -11,21 +14,21 @@ void MeshRenderer::initShader()
     SerializedGpuProgram vs;
     TransferContext::addReadRequest("copy.vso", vs);
 
-    GpuProgram * vs_pro = GpuProgram::createFromSerializedProgram(vs ,GpuProgram::PT_Vertex);
-    IRHIContext::RHIContext()->createVertexShader(*vs_pro);
+    vs_= GpuProgram::createFromSerializedProgram(vs ,GpuProgram::PT_Vertex);
+    IRHIContext::RHIContext()->createVertexShader(*vs_);
 
     SerializedGpuProgram ps;
     TransferContext::addReadRequest("copy.pso",ps);
 
-    GpuProgram * ps_pro = GpuProgram::createFromSerializedProgram(ps , GpuProgram::PT_Pixel);
-    IRHIContext::RHIContext()->createPixelShader(*ps_pro);
+    ps_= GpuProgram::createFromSerializedProgram(ps , GpuProgram::PT_Pixel);
+    IRHIContext::RHIContext()->createPixelShader(*ps_);
 
     RHIVertexFormatElementList eleList =
     {
         {VUT_POSITION , VFT_Float3 , 16} , 
-        {VUT_COLOR,VFT_Float3 , 16}
+        {VUT_COLOR,VFT_Float4 , 16}
     };
-    layout_ = IRHIContext::RHIContext()->createVertexLayout(eleList,*vs_pro);
+    layout_ = IRHIContext::RHIContext()->createVertexLayout(eleList,*vs_);
 
 }
 void MeshRenderer::commitMesh()
@@ -40,7 +43,7 @@ void MeshRenderer::commitMesh()
        Array <Vector3f> & vertice = * ( mesh->vertices());
        Array <Vector4f> & colors = *( mesh->color());
        Array <int> & triangles = *(mesh->triangles());
-       uint8_t offset = 0;
+       uint32_t offset = 0;
 
        for(int i = 0 ;i < vertex_count ; ++ i)
        {
@@ -54,17 +57,66 @@ void MeshRenderer::commitMesh()
 
        IRHIResourceArray * vertex_data = IRHIResourceArray::create(buffer, offset);
        RHIResourceCreateInfo info (vertex_data);
-       IRHIContext::RHIContext()->createVertexBuffer(offset ,Buf_Dynamic , info);
+       vertexBuffer_ = IRHIContext::RHIContext()->createVertexBuffer(offset ,Buf_Dynamic , info);
 
+       IRHIResourceArray *index_data =
+       IRHIResourceArray::create(reinterpret_cast<uint8_t *>(triangles.data()), triangles.size() * sizeof(int));
+       RHIResourceCreateInfo index_info(index_data);
+       indexBuffer_ = IRHIContext::RHIContext()->createIndexBuffer(triangles.size()*sizeof(int), Buf_Dynamic, index_info);
+
+       RHIResourceCreateInfo constant_info;
+       // MVP
+       uint32_t size = sizeof(Matrix4x4f) * 3;
+       constant_buffer_ =IRHIContext::RHIContext()->createConstantBuffer(size ,Buf_Dynamic , constant_info);
 
 
 
     }
 
 }
+void MeshRenderer::commitConstant()
+{
+    IRHIContext::RHIContext()->setVertexLayout(layout_);
+    IRHIContext::RHIContext()->setVertexShader(*vs_);
+    IRHIContext::RHIContext()->setPixelShader(*ps_);
+
+    IRHIContext::RHIContext()->setVertexBuffer(vertexBuffer_ , layout_);
+    IRHIContext::RHIContext()->setIndexBuffer(indexBuffer_);
+    //set mvp 
+    CameraUnit * camera = World::thisWorld()->activeLevel()->currentCamera();
+    CameraComponent * com = camera->camera();
+
+    const Matrix4x4f & worldMat = getComponent<TransformComponent>()->worldMat();
+    const Matrix4x4f & viewMat = com->viewMat();
+    const Matrix4x4f & projMat = com->projectionMat();
+
+    uint8_t matBuffer [sizeof(Matrix4x4f) * 3];
+    uint32_t size = sizeof(Matrix4x4f) ;
+    memcpy(matBuffer, & worldMat  ,sizeof(Matrix4x4f));
+    memcpy(matBuffer+ size, & viewMat  ,sizeof(Matrix4x4f));
+    memcpy(matBuffer + 2*size, & projMat  ,sizeof(Matrix4x4f));
+
+
+    IRHIResourceArray * array = IRHIResourceArray::create(matBuffer, sizeof(Matrix4x4f)*3);
+    IRHIContext::RHIContext()->setConstantBufferValue(constant_buffer_,array);
+
+
+    IRHIContext::RHIContext()->setConstantBuffer(constant_buffer_);
+
+    IRHIContext::RHIContext()->drawTriangleListRip(indexBuffer_->indexNum(), 0, 0);
+    //IRHIContext::RHIContext()->drawTriangleList(3,0);
+
+}
 
 void MeshRenderer:: _commit()
 {
+    if(!inited_)
+    {
+        initShader();
+        commitMesh();
+        inited_ =true;
+    }
+    commitConstant();
 
 }
 

@@ -19,10 +19,11 @@ namespace Persist
         T * getComponent() {
             for(int i = 0 ;i < components_.size() ; ++ i)
             {
-                T * tmp = dynamic_cast<T*>(components_[i].get());
+                //SharePtr <BaseComponent> base = components_[i];
+                SharePtr<T> tmp = std::dynamic_pointer_cast<T>(components_[i]);
                 if(tmp != nullptr)
                 {
-                    return tmp;
+                    return tmp.get();
                 }
             }
             return nullptr;
@@ -33,7 +34,10 @@ namespace Persist
             {
                 comp = new T(this);
             }
-            SharePtr <BaseComponent > ptr ((BaseComponent *)comp);
+            else {
+                comp->unit_ = this;
+            }
+            SharePtr <T > ptr (comp);
             components_.push_back(ptr);
             return comp;
         }

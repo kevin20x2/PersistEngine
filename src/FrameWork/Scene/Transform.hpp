@@ -23,9 +23,19 @@ public:
         worldMat_ = transMat * rotationMat * scaleMat;
     }
 
+
+    void setLocalPosition(const Vector3f & pos)
+    {
+        localPos_ = pos;
+        updateWorldMat();
+    }
+
+
+
     Vector3f localPosition() { return localPos_ ; }  
     Vector3f localRotation() { return localRotation_; } 
     Vector3f localScale() { return localScale_; }
+    const Matrix4x4f & worldMatrix() { return worldMat_;}
 
 
 

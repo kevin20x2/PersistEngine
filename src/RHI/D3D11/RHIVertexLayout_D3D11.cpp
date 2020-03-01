@@ -1,5 +1,6 @@
 #include "RHIVertexLayout_D3D11.hpp"
 #include <algorithm>
+#include <FrameWork/Math/Vectors.hpp>
 
 namespace Persist 
 {
@@ -17,10 +18,11 @@ static uint32_t getSize(RHIVertexFormatElementList & elemmentList)
         switch (format)
         {
         case VFT_Float3:
-            size += sizeof(float) * 3;
+            size += sizeof(Vector3f);
             break;
         case VFT_Float4:
-            size += sizeof(float) * 4;
+            size += sizeof(Vector4f);
+            break;
         default:
             throw Status::Error("invalid type");
             break;
@@ -64,6 +66,8 @@ D3D11_INPUT_ELEMENT_DESC * RHIVertexLayout_D3D11::getD3D11VertexLayout(const RHI
     uint32_t len = elementList.size();
     D3D11_INPUT_ELEMENT_DESC * LayoutList = new D3D11_INPUT_ELEMENT_DESC[len];
 
+    uint32_t offset = 0; 
+
     for(int i = 0 ; i < len ; ++ i)
     {
         D3D11_INPUT_ELEMENT_DESC & layout = LayoutList[i];
@@ -78,11 +82,12 @@ D3D11_INPUT_ELEMENT_DESC * RHIVertexLayout_D3D11::getD3D11VertexLayout(const RHI
             default : throw Status::Error(Status::InvalidArg);
         };
 
+        layout.AlignedByteOffset = offset;
 
         switch (format)
         {
-        case VFT_Float3 : layout.Format = DXGI_FORMAT_R32G32B32_FLOAT; break;
-        case VFT_Float4 : layout.Format = DXGI_FORMAT_R32G32B32A32_FLOAT ;  break;
+        case VFT_Float3 : layout.Format = DXGI_FORMAT_R32G32B32_FLOAT; offset+= sizeof(float)*3 ; break;
+        case VFT_Float4 : layout.Format = DXGI_FORMAT_R32G32B32A32_FLOAT; offset+=sizeof(float)*4;  break;
         // TODO : fill all types 
         default:
             break;
@@ -91,7 +96,6 @@ D3D11_INPUT_ELEMENT_DESC * RHIVertexLayout_D3D11::getD3D11VertexLayout(const RHI
         // TODO: add more argments
         layout.InputSlot = 0 ;
         layout.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-        layout.AlignedByteOffset = 0;
         layout.InstanceDataStepRate = 0;
         //layout.AlignedByteOffset = 0;
         /// for matrix  normal 0

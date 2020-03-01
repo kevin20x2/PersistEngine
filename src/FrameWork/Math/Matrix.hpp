@@ -17,7 +17,7 @@ protected:
 #ifdef DATA_TYPE_DX
 union{
     T data_[9];
-    T m11,m12,m13,m21,m22,m23,m31,m32,m33;
+    struct {T m11,m12,m13,m21,m22,m23,m31,m32,m33; };
 };
 #else // OpenGL 
 union {
@@ -183,7 +183,7 @@ class Matrix4x4
 union {
     T data_[16];
     T nm_[4][4];
-    T m11,m12,m13,m14,m21,m22,m23,m24,m31,m32,m33,m34,m41,m42,m43,m44;
+    struct { T m11,m12,m13,m14,m21,m22,m23,m24,m31,m32,m33,m34,m41,m42,m43,m44;};
 };
 #else 
 union {

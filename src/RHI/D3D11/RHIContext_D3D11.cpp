@@ -191,6 +191,71 @@ namespace Persist
         //PS->Release();
 
     }
+
+    Status RHIContext_D3D11 ::setVertexLayout(RHIVertexLayoutPtr & layout)
+    {
+        RHIVertexLayout_D3D11 * layout_d3d11 = dynamic_cast<RHIVertexLayout_D3D11 *>(layout.get());
+        pLayout_ = layout_d3d11->layout_.get();
+        pDevContext_->IASetInputLayout(pLayout_);
+        return Status::Ok();
+
+    }
+
+    Status RHIContext_D3D11 :: setVertexShader(GpuProgram & program)
+    {
+        if(program.type() != GpuProgram::PT_Vertex)
+        {
+            return Status::Error(" setVertexShader : shader type error");
+        }
+        GpuProgram_D3D11 & pro = dynamic_cast <GpuProgram_D3D11 &>(program);
+        pDevContext_->VSSetShader(pro.vertexShader_ ,0 , 0);
+        return Status::Ok();
+
+    }
+    Status RHIContext_D3D11 :: setPixelShader(GpuProgram & program)
+    {
+        if(program.type() != GpuProgram::PT_Pixel)
+        {
+            return Status::Error(" setPixelShader : shader type error");
+        }
+        GpuProgram_D3D11 & pro = dynamic_cast <GpuProgram_D3D11 &>(program);
+        pDevContext_->PSSetShader(pro.pixelShader_ , 0 , 0);
+        return Status::Ok();
+
+    }
+
+    Status RHIContext_D3D11 :: setVertexBuffer(RHIVertexBufferPtr buffer , RHIVertexLayoutPtr layout)
+    {
+        RHIVertexBufferD3D11 * ptr = dynamic_cast<RHIVertexBufferD3D11 *>(buffer.get());
+        pVBuffer_ =   ptr->vertexBuffer();
+        uint32_t offset = 0;
+        uint32_t stride  = layout->vertexSize();
+        pDevContext_->IASetVertexBuffers(0 , 1, &pVBuffer_ , &stride , & offset);
+
+        return Status :: Ok();
+
+
+    }
+
+    Status RHIContext_D3D11 :: setIndexBuffer(RHIIndexBufferPtr buffer)
+    {
+        RHIIndexBufferD3D11 * ptr = dynamic_cast <RHIIndexBufferD3D11 *>(buffer.get());
+        pIBuffer_ = ptr->indexBuffer();
+        pDevContext_->IASetIndexBuffer(pIBuffer_,DXGI_FORMAT_R32_UINT,0);
+        return Status :: Ok();
+
+    }
+    Status RHIContext_D3D11 ::setConstantBuffer(RHIConstantBufferPtr buffer) 
+    {
+        RHIConstantBufferD3D11 * ptr = dynamic_cast <RHIConstantBufferD3D11*>(buffer.get());
+        pCBuffer = ptr->constantBuffer();
+        pDevContext_->VSSetConstantBuffers(0,1,&pCBuffer);
+
+        return Status::Ok();
+
+    }
+
+
    
     RHIVertexBufferPtr  buffer = nullptr ;
     RHIIndexBufferPtr index_buffer = nullptr;
@@ -299,7 +364,7 @@ namespace Persist
         //std::cout << color[0] <<std::endl;
         //std::flush(std::cout);
         RHIBufferDataArrayD3D11 data(color , sizeof(color));
-        setConstantBuffer(ptr_constant,&data);
+        setConstantBufferValue(ptr_constant,&data);
 
 
         const FLOAT clearColor [] = {0.0f, 0.2f,0.4f ,1.0f};

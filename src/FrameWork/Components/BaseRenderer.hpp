@@ -12,7 +12,7 @@ namespace Persist
         }
 
         virtual ~IBaseRenderer() {}
-        virtual void _commit() = 0 ;
+        virtual void _commit() {} ;
         protected:
 
     };

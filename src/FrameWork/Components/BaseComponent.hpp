@@ -26,6 +26,7 @@ interface BaseComponent : extends IObject
 
     protected: 
         Unit * unit_  = nullptr; 
+        friend class Unit;
 
 
 };

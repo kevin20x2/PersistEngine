@@ -24,8 +24,8 @@ class RHIIndexBufferD3D11 : public RHIIndexBuffer
 class RHIVertexBufferD3D11 : public RHIVertexBuffer
 {
     public :
-    RHIVertexBufferD3D11(ID3D11Buffer *  vb , uint32_t size, uint32_t usage) :
-        vertexBuffer_( vb),RHIVertexBuffer(size, usage)
+    RHIVertexBufferD3D11(ID3D11Buffer *  vb , uint32_t size, uint32_t usage ) :
+        vertexBuffer_( vb),RHIVertexBuffer(size, usage )
     {
 
     }

@@ -13,7 +13,11 @@ namespace Persist
         public :
 
         friend class MeshRenderer;
-        Mesh()
+        Mesh():
+            vertices_(new Array <Vector3f>),
+            uv_(new Array <Vector2f>) , 
+            color_(new Array <Vector4f>),
+            triangles_(new Array <int>())
         {
 
         }

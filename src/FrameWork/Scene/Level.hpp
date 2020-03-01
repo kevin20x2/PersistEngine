@@ -15,6 +15,8 @@ class Level : public Unit
         root_->addChild(currentCamera_->getComponent<TransformComponent>());
     }
     TransformComponent * root() { return root_;}
+    CameraUnit * currentCamera() { return currentCamera_;}
+
     void tick() ;
 
     protected:

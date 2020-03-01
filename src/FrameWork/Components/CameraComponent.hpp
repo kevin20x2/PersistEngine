@@ -3,6 +3,7 @@
 #include <FrameWork/Unit/Unit.hpp>
 #include <FrameWork/Math/Vectors.hpp>
 #include <FrameWork/Math/Matrix.hpp>
+#include <FrameWork/Unit/SceneUnit.hpp>
 #include "TransformComponent.hpp"
 
 namespace Persist
@@ -16,6 +17,7 @@ class CameraComponent : public BaseComponent
     {
         if(unit_ != nullptr)
         {
+            //pTransform_ = dynamic_cast<SceneUnit*> (unit_)->getTransformComponent();
             pTransform_ = unit_->getComponent<TransformComponent>();
         }
         if(pTransform_)
@@ -25,8 +27,10 @@ class CameraComponent : public BaseComponent
         updatePrjectionMat();
     }
     public : 
+    const Matrix4x4f & viewMat() { return viewMat_;}
+    const Matrix4x4f & projectionMat() { return projMat_; }
+
     void render();
-    protected:
     void updateViewMatrix ()
     {
         if(pTransform_)
@@ -39,17 +43,18 @@ class CameraComponent : public BaseComponent
     }
     void updatePrjectionMat()
     {
-        float cotHalfFov= 1.0f / tan(fov_/2);
+        float cotHalfFov= 1.0f / tan(fov_* Degree2Rad/2);
         projMat_.m11 =  cotHalfFov / aspect_;
         projMat_.m22 = cotHalfFov;
         float FarMinusNear = farPlane_ - nearPlane_;
-        projMat_.m33 = (farPlane_ + nearPlane_) / FarMinusNear;
+        projMat_.m33 = -1.0f *(farPlane_ + nearPlane_) / FarMinusNear;
         projMat_.m43 = -1.0f;
         projMat_.m34 = - 2.0 * farPlane_ * nearPlane_ / (FarMinusNear);
 
 
 
     }
+    protected:
 
     TransformComponent * pTransform_ = nullptr;
     float fov_ = 45.0f;

@@ -14,6 +14,12 @@ class TransformComponent : public BaseComponent
         transform_()
         {
         }
+
+        void setLocalPosition(Vector3f pos)
+        {
+            transform_.setLocalPosition(pos);
+        }
+        
         Transform & transform() { return transform_;}
         TransformComponent * addChild(TransformComponent * com)
         {
@@ -42,6 +48,7 @@ class TransformComponent : public BaseComponent
             }
             return com;
         }
+        const Matrix4x4f & worldMat() { return transform_.worldMatrix();}
     private : 
     Array <TransformComponent * > childList_;
     TransformComponent * parent_ = nullptr;

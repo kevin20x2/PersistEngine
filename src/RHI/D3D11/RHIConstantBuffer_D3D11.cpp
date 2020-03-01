@@ -34,7 +34,7 @@ RHIConstantBufferPtr RHIContext_D3D11::createConstantBuffer(uint32_t size ,uint3
 
 }
 
-Status RHIContext_D3D11 :: setConstantBuffer( RHIConstantBufferPtr buffer , IRHIResourceArray * data  )
+Status RHIContext_D3D11 :: setConstantBufferValue( RHIConstantBufferPtr buffer , IRHIResourceArray * data  )
 {
     //RHIBufferDataArrayD3D11 * data_ptr = dynamic_cast <RHIBufferDataArrayD3D11 * > (data);
 
