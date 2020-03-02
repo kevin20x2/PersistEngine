@@ -30,6 +30,8 @@ namespace Persist
         RHIIndexBufferPtr indexBuffer_ = nullptr;
         RHIConstantBufferPtr constant_buffer_ = nullptr;
 
+        RHIDepthStencilStatePtr depthState_ = nullptr;
+
         GpuProgram * vs_ = nullptr;
         GpuProgram * ps_ = nullptr;
 

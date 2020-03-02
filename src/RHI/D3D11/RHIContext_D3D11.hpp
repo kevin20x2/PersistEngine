@@ -44,6 +44,10 @@ namespace Persist
         virtual RHIConstantBufferPtr createConstantBuffer(uint32_t size ,uint32_t usage , RHIResourceCreateInfo & info) override ;
         virtual Status setConstantBufferValue( RHIConstantBufferPtr , IRHIResourceArray * data) override ;
 
+
+        virtual RHIDepthStencilStatePtr createDepthStencilState(const RHIDepthStencilStateInitializer & init ) override ;
+        virtual Status setDepthStencilState(RHIDepthStencilState * state) override ;
+
         virtual Status createVertexShader(GpuProgram  & program) override;
         virtual Status createPixelShader(GpuProgram & program ) override; 
 
@@ -77,7 +81,7 @@ namespace Persist
         void initGraphics();
 
         ID3D11DeviceContext * getDeviceContext() { return pDevContext_; }
-
+        Status createDepthStencilBuffer();
 
         private : 
 
@@ -92,6 +96,10 @@ namespace Persist
         ID3D11Buffer * pVBuffer_ = nullptr;
         ID3D11Buffer * pIBuffer_ = nullptr;
         ID3D11Buffer * pCBuffer = nullptr;
+
+        ID3D11Texture2D * pDepthStencil_ = nullptr;
+        ID3D11DepthStencilView * pDSV_ = nullptr;
+        ID3D11DepthStencilState * pDepthState_ = nullptr;
 
         RHIVertexLayoutPtr layout_;
 

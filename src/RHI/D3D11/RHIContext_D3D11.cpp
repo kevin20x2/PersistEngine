@@ -111,8 +111,10 @@ namespace Persist
 
             if(hr == S_OK)
             {
+                createDepthStencilBuffer();
                 createRenderTarget();
                 setViewPort();
+
                 //initPipeline();
                 //initGraphics();
 
@@ -122,10 +124,37 @@ namespace Persist
         }
         return Status::Error("Init Error");
     }
+
+    Status RHIContext_D3D11 ::createDepthStencilBuffer()
+    {
+        //ID3D11Texture2D *
+        D3D11_TEXTURE2D_DESC descDepth;
+        descDepth.Width = rtWidth_;
+        descDepth.Height = rtHeight_;
+        descDepth.MipLevels = 1;
+        descDepth.ArraySize = 1;
+        descDepth.Format = DXGI_FORMAT_D32_FLOAT_S8X24_UINT;
+        descDepth.SampleDesc.Count = 1;
+        descDepth.SampleDesc.Quality = 0;
+        descDepth.Usage = D3D11_USAGE_DEFAULT;
+        descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+        descDepth.CPUAccessFlags = 0;
+        descDepth.MiscFlags = 0;
+        HRESULT hr = pDev_->CreateTexture2D(&descDepth , NULL , &pDepthStencil_);
+        if(FAILED(hr))
+        {
+            return Status::Error("create Depth buffer error");
+        }
+        return Status::Ok();
+        //descDepth.Format = 
+
+    }
+
     void RHIContext_D3D11::createRenderTarget()
     {
         //HRESULT hr;
         ID3D11Texture2D * pBackBuffer ;
+
 
         pSwapchain_->GetBuffer(0 , __uuidof(ID3D11Texture2D) ,
                     (LPVOID*) & pBackBuffer
@@ -134,7 +163,28 @@ namespace Persist
 
         pBackBuffer->Release();
 
-        pDevContext_->OMSetRenderTargets(1, & pRTView_, NULL);
+        D3D11_DEPTH_STENCIL_VIEW_DESC descDSV;
+        descDSV.Format = DXGI_FORMAT_D32_FLOAT_S8X24_UINT;
+        descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+        descDSV.Texture2D.MipSlice = 0;
+        descDSV.Flags = 0 ;
+
+        HRESULT hr = pDev_->CreateDepthStencilView(pDepthStencil_ ,
+            &descDSV,
+            &pDSV_);
+
+        DWORD errcode ; 
+        if(FAILED(hr))
+        {
+            errcode= GetLastError();
+        }
+
+
+        pDevContext_->OMSetRenderTargets(1, & pRTView_, pDSV_);
+
+
+
+
     }
     void RHIContext_D3D11::setViewPort()
     {
@@ -392,6 +442,7 @@ namespace Persist
     }
     void RHIContext_D3D11::beginFrame()
     {
+        pDevContext_->ClearDepthStencilView(pDSV_ ,D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL ,1.0 , 0.0);
 
     }
     void RHIContext_D3D11::endFrame()
@@ -415,8 +466,10 @@ namespace Persist
         //std::cout <<  width << height << std::endl;
         rtWidth_ = width;
         rtHeight_ = height;
-        pSwapchain_->ResizeBuffers(0,width ,height,DXGI_FORMAT_UNKNOWN , DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH);
-        createRenderTarget();
+        //pSwapchain_->ResizeBuffers(0,width ,height,DXGI_FORMAT_UNKNOWN , DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH);
+        //createRenderTarget();
+        //setViewPort(0,0,width ,height);
+
         //setViewPort();
 
     }

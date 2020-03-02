@@ -38,7 +38,11 @@ namespace Persist
         virtual RHIConstantBufferPtr createConstantBuffer(uint32_t size , uint32_t usage , RHIResourceCreateInfo & info) = 0 ;
         virtual Status setConstantBufferValue(RHIConstantBufferPtr buffer , IRHIResourceArray *  data  ) = 0 ;
 
+
+        virtual RHIDepthStencilStatePtr createDepthStencilState(const RHIDepthStencilStateInitializer & init ) = 0 ;
+        virtual Status setDepthStencilState(RHIDepthStencilState * state) = 0 ;
         
+
 
         virtual RHIVertexLayoutPtr createVertexLayout(RHIVertexFormatElementList & elementList ) = 0 ;  
         virtual RHIVertexLayoutPtr createVertexLayout(RHIVertexFormatElementList & elementList , GpuProgram & vs ) = 0 ;  

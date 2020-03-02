@@ -30,6 +30,8 @@ void MeshRenderer::initShader()
     };
     layout_ = IRHIContext::RHIContext()->createVertexLayout(eleList,*vs_);
 
+    depthState_ = IRHIContext::RHIContext()->createDepthStencilState(RHIDepthStencilStateInitializer());
+
 }
 void MeshRenderer::commitMesh()
 {
@@ -102,6 +104,10 @@ void MeshRenderer::commitConstant()
 
 
     IRHIContext::RHIContext()->setConstantBuffer(constant_buffer_);
+
+    IRHIContext::RHIContext()->setDepthStencilState(depthState_);
+
+
 
     IRHIContext::RHIContext()->drawTriangleListRip(indexBuffer_->indexNum(), 0, 0);
     //IRHIContext::RHIContext()->drawTriangleList(3,0);

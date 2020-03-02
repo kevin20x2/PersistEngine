@@ -13,6 +13,23 @@ enum ENMBufferUsageFlags
 
 };
 
+enum ENMBufferFormatType
+{
+    BFT_R8G8B8_Float ,
+    BFT_R32G32B32_Float 
+};
+
+enum ENMCompareFunctionType
+{
+    CFT_Less ,
+    CFT_LessEqual,
+    CFT_Greater,
+    CFT_GreaterEqual,
+    CFT_Equal,
+    CFT_NotEqual,
+    CFT_Always
+};
+
 enum ENMVertexFormatType
 {
     VFT_None,

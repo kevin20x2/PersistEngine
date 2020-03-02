@@ -253,4 +253,14 @@ namespace Persist
     using RHIVertexLayoutPtr  = RHIRefPtr <IRHIVertexLayout>;
 
 
+    struct RHIDepthStencilStateInitializer ; 
+    struct RHIDepthStencilState : public IRHIResource
+    {
+        virtual bool getInitializer(struct RHIDepthStencilInitializer & init ) { return false ; } 
+
+
+    };
+    using RHIDepthStencilStatePtr = RHIRefPtr<RHIDepthStencilState>;
+
+
 }

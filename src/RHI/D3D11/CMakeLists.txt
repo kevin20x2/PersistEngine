@@ -8,7 +8,8 @@ RHIShader_D3D11.cpp
 RHIVertexBuffer_D3D11.cpp 
 RHIVertexIndexBuffer_D3D11.cpp 
 RHIVertexLayout_D3D11.cpp 
-RHIResource_D3D11.cpp
+RHIResource_D3D11.cpp 
+RHIRenderState.cpp
 )
 
 target_link_directories(RHI_D3D11 PUBLIC $ENV{DXSDK_DIR}\\Lib\\x64)
