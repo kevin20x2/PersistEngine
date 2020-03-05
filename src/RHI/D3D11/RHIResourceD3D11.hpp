@@ -25,7 +25,7 @@ class RHIVertexBufferD3D11 : public RHIVertexBuffer
 {
     public :
     RHIVertexBufferD3D11(ID3D11Buffer *  vb , uint32_t size, uint32_t usage ) :
-        vertexBuffer_( vb),RHIVertexBuffer(size, usage )
+        vertexBuffer_( vb),RHIVertexBuffer(size, usage ) , vertexCount_(size / sizeof(float))
     {
 
     }
@@ -41,10 +41,12 @@ class RHIVertexBufferD3D11 : public RHIVertexBuffer
 
 
     };
+    virtual uint32_t vertexCount() override { return  vertexCount_ ; } 
 
     RHIRefPtr < ID3D11Buffer>  vertexBuffer()  {return vertexBuffer_;}
 
     private :
+    uint32_t vertexCount_ = 0;
 
     RHIRefPtr <ID3D11Buffer>  vertexBuffer_;
 

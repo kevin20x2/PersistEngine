@@ -29,9 +29,9 @@ RHIContext_D3D11::createDepthStencilState(const RHIDepthStencilStateInitializer 
     //dsDesc.DepthEnable = false ;
     dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
     //dsDesc.DepthFunc = TranslateCompFunc(init.depthCompFunc);
-    dsDesc.DepthFunc = TranslateCompFunc(CFT_Always);
+    dsDesc.DepthFunc = TranslateCompFunc(init.depthCompFunc);
 
-    dsDesc.StencilEnable = false;
+    dsDesc.StencilEnable = true;
     dsDesc.StencilReadMask = 0xFF;
     dsDesc.StencilWriteMask = 0xFF;
 

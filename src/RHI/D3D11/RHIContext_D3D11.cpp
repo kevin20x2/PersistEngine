@@ -98,7 +98,7 @@ namespace Persist
                 hr = D3D11CreateDeviceAndSwapChain(NULL,
                                                    D3D_DRIVER_TYPE_HARDWARE,
                                                    NULL,
-                                                   0,
+                                                   D3D11_CREATE_DEVICE_DEBUG,
                                                    &FeatureLevelSupported,
                                                    1,
                                                    D3D11_SDK_VERSION,
@@ -134,7 +134,7 @@ namespace Persist
         descDepth.MipLevels = 1;
         descDepth.ArraySize = 1;
         descDepth.Format = DXGI_FORMAT_D32_FLOAT_S8X24_UINT;
-        descDepth.SampleDesc.Count = 1;
+        descDepth.SampleDesc.Count = 4;
         descDepth.SampleDesc.Quality = 0;
         descDepth.Usage = D3D11_USAGE_DEFAULT;
         descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
@@ -182,6 +182,11 @@ namespace Persist
 
         pDevContext_->OMSetRenderTargets(1, & pRTView_, pDSV_);
 
+        //D3D11_VIEWPORT screenViewport;
+        
+        //pDevContext_->RSSetViewports(1, &screenViewport);
+
+
 
 
 
@@ -196,6 +201,8 @@ namespace Persist
         viewport.TopLeftY = 0;
         viewport.Width =  rtWidth_;
         viewport.Height = rtHeight_;
+        viewport.MinDepth = 0;
+        viewport.MaxDepth = 1;
         pDevContext_->RSSetViewports(1, & viewport);
     }
     void RHIContext_D3D11 ::initPipeline()

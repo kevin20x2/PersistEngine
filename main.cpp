@@ -23,25 +23,79 @@ int main()
 
     std::cout <<"sizeof Persit:: Matrix4x4f" << sizeof(Persist::Matrix4x4f) << std::endl  ;
 
+    //clock wise front
     Array <Vector3f> * vertice = new Array <Vector3f>({
-        Vector3f(-0.5f ,0.5f,-0.5) , // 0 left - front - bottom
-        Vector3f(0.5 ,0.5,-0.5 ) , // 1 right - front  - bottom
-        Vector3f(-0.5 ,0.5,0.5),  //  2 left - front - top
-        Vector3f(0.5,0.5, 0.5) , //  3 right - front - top
-        Vector3f(-0.5,0.5,-0.5) , //  4 left - back - bottom
-        Vector3f(0.5,0.5,-0.5 ) , //  5 right - back  - bottom
-        Vector3f(-0.5,0.5,0.5),  //   6 left - back - top
-        Vector3f(0.5,0.5, 0.5) , //   7 right - back - top
+        Vector3f(0.5 ,-0.5,-0.5 ) , // 1 right - front  - bottom
+        Vector3f(-0.5f ,-0.5f,-0.5) , // 0 left - front - bottom
+        Vector3f(-0.5 ,-0.5,0.5),  //  2 left - front - top
+
+        Vector3f(0.5, -0.5,0.5) , 
+        Vector3f(0.5, -0.5,-0.5),
+        Vector3f(-0.5,-0.5,0.5),
+
+       //bottom
+        Vector3f(-0.5 ,- 0.5, -0.5), 
+        Vector3f(-0.5, 0.5 , -0.5 ),
+        Vector3f(0.5, 0.5, -0.5),
+
+        Vector3f( -0.5 ,-0.5,-0.5) ,
+        Vector3f(0.5,0.5,-0.5),
+        Vector3f( 0.5 , -0.5 ,-0.5 ) ,
+        //left
+
+        Vector3f(-0.5 , -0.5 ,-0.5) ,
+        Vector3f(-0.5 , 0.5 , -0.5),
+        Vector3f(-0.5, -0.5 , 0.5 )
+
+
+
+
+
+
+
+
+
+
+//        Vector3f(0.5,0.5, 0.5) , //  3 right - front - top
+        //Vector3f(-0.5,0.5,-0.5) , //  4 left - back - bottom
+        //Vector3f(0.5,0.5,-0.5 ) , //  5 right - back  - bottom
+        //Vector3f(-0.5,0.5,0.5),  //   6 left - back - top
+        //Vector3f(0.5,0.5, 0.5) , //   7 right - back - top
     });
     Array <Vector4f> * color = new Array <Vector4f> ({
         Vector4f(1.0,0.0,0.0,1.0) , 
+        Vector4f(1.0,0.0,0.0,1.0) , 
+        Vector4f(1.0,0.0,0.0,1.0) , 
+
+        Vector4f(1.0,0.0,0.0,1.0) , 
+        Vector4f(1.0,0.0,0.0,1.0) , 
+        Vector4f(1.0,0.0,0.0,1.0) , 
+        // bottom
+
         Vector4f(0.0,1.0,0.0,1.0) , 
+        Vector4f(0.0,1.0,0.0,1.0) , 
+        Vector4f(0.0,1.0,0.0,1.0) , 
+
+        Vector4f(0.0,1.0,0.0,1.0) , 
+        Vector4f(0.0,1.0,0.0,1.0) , 
+        Vector4f(0.0,1.0,0.0,1.0) , 
+
+//left
         Vector4f(0.0,0.0,1.0,1.0) , 
-        Vector4f(1.0,1.0,1.0,1.0) , 
-        Vector4f(1.0,1.0,1.0,1.0) , 
-        Vector4f(1.0,1.0,1.0,1.0) , 
-        Vector4f(1.0,1.0,1.0,1.0) , 
-        Vector4f(1.0,1.0,1.0,1.0) 
+        Vector4f(0.0,0.0,1.0,1.0) , 
+        Vector4f(0.0,0.0,1.0,1.0) , 
+
+/*
+        Vector4f(0.0,1.0,0.0,1.0) , 
+        Vector4f(0.0,1.0,0.0,1.0) , 
+        Vector4f(0.0,1.0,0.0,1.0) , 
+        */
+
+        //Vector4f(1.0,1.0,1.0,1.0) , 
+        //Vector4f(1.0,1.0,1.0,1.0) , 
+        //Vector4f(1.0,1.0,1.0,1.0) , 
+        //Vector4f(1.0,1.0,1.0,1.0) , 
+        //Vector4f(1.0,1.0,1.0,1.0) 
     });
     /*
     Vector3f t(-1,-1.0,-1);
@@ -61,16 +115,16 @@ int main()
     Array<int> *triangles = new Array<int>({
         1, 0, 2,
         2, 1, 3, // front
-        2, 0, 4,
-        2, 4, 6, // left
-        //1, 3, 5,
-        //5, 3, 7, // right
+        //0, 2, 4,
+        //4, 2, 6, // left
+        //3, 1, 5,
+        //3, 5, 7, // right
         //4, 5, 6,
-        //6, 5, 7, // back
-        //2, 3, 6,
-        //3, 6, 7, // top
+        //5, 6, 7, // back
+        //3, 2, 6,
+        //6, 3, 7, // top
         //0, 1, 4,
-        //4, 1, 5 // bottom
+        //1, 4, 5 // bottom
     });
 
     Mesh * mesh = new Mesh();
@@ -104,7 +158,7 @@ int main()
     CameraUnit * camera = World::thisWorld()->activeLevel()->currentCamera();
     TransformComponent * trans_comp = World::thisWorld()->activeLevel()->currentCamera()->getTransformComponent();
     CameraComponent * camera_comp = World::thisWorld()->activeLevel()->currentCamera()->camera();
-    trans_comp->setLocalPosition(Vector3f(0.0,5.0 , 0));
+    trans_comp->setLocalPosition(Vector3f(-0.5,-2.0 , 0));
     camera_comp->updateViewMatrix();
 
 

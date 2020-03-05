@@ -128,6 +128,7 @@ namespace Persist
         }
         //virtual int setValue(uint32_t size ,const void * value)  = 0 ;
 
+        virtual uint32_t vertexCount() = 0 ;
 
         protected :
 

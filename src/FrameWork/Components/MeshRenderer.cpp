@@ -71,6 +71,8 @@ void MeshRenderer::commitMesh()
        uint32_t size = sizeof(Matrix4x4f) * 3;
        constant_buffer_ =IRHIContext::RHIContext()->createConstantBuffer(size ,Buf_Dynamic , constant_info);
 
+        IRHIContext::RHIContext()->setDepthStencilState(depthState_);
+
 
 
     }
@@ -88,9 +90,9 @@ void MeshRenderer::commitConstant()
     CameraUnit * camera = World::thisWorld()->activeLevel()->currentCamera();
     CameraComponent * com = camera->camera();
 
-    const Matrix4x4f & worldMat = getComponent<TransformComponent>()->worldMat();
-    const Matrix4x4f & viewMat = com->viewMat();
-    const Matrix4x4f & projMat = com->projectionMat();
+    Matrix4x4f && worldMat = (getComponent<TransformComponent>()->worldMat()).Transpose();
+    Matrix4x4f && viewMat = (com->viewMat()).Transpose();
+    Matrix4x4f && projMat = (com->projectionMat()).Transpose();
 
     uint8_t matBuffer [sizeof(Matrix4x4f) * 3];
     uint32_t size = sizeof(Matrix4x4f) ;
@@ -105,12 +107,11 @@ void MeshRenderer::commitConstant()
 
     IRHIContext::RHIContext()->setConstantBuffer(constant_buffer_);
 
-    IRHIContext::RHIContext()->setDepthStencilState(depthState_);
 
 
 
-    IRHIContext::RHIContext()->drawTriangleListRip(indexBuffer_->indexNum(), 0, 0);
-    //IRHIContext::RHIContext()->drawTriangleList(3,0);
+    //IRHIContext::RHIContext()->drawTriangleListRip(indexBuffer_->indexNum(), 0, 0);
+    IRHIContext::RHIContext()->drawTriangleList(vertexBuffer_->vertexCount(),0);
 
 }
 

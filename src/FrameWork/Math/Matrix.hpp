@@ -2,6 +2,7 @@
 #include "Vectors.hpp"
 #include "PersistMath.hpp"
 #include <memory>
+#include <iostream>
 
 
 namespace Persist
@@ -105,17 +106,33 @@ class Matrix4x4
             // z , x, y
             Matrix4x4 rotMat = rz *rx *rz;
 
-            Matrix4x4 transMat = translateMatrix(-translate);
+            //translate.y = - translate.y;
+            Matrix4x4 transMat = translateMatrix(Vector3f(-translate.x , -translate.y , -translate.z));
+            
 
             // Right Hand Z up 
             Matrix4x4 exchangeMat ;
             exchangeMat.m22 = 0 ;
             exchangeMat.m23 = 1 ;
             exchangeMat.m33 = 0 ;
-            exchangeMat.m32 = 1;
+            exchangeMat.m32 = -1;
+            // simply exchange y and z will change hand 
             // OpenGL Right Hand Y up
 
-            return exchangeMat *  rotMat * transMat;
+            return (exchangeMat *  rotMat * transMat);
+        }
+
+        Matrix4x4 Transpose() const
+        {
+            Matrix4x4 ans ;
+            for(int i = 0 ; i< 4;++i)
+            {
+                for(int j = 0 ;j < 4; ++ j)
+                {
+                    ans.nm_[i][j] = nm_[j][i];
+                }
+            }
+            return ans;
         }
 
 
@@ -132,6 +149,20 @@ class Matrix4x4
         Matrix4x4() :
             Matrix4x4(Matrix4x4::Identity)
         {
+
+        }
+        void print()
+        {
+            for(int i = 0 ;i < 4 ; ++ i)
+            {
+                for(int j = 0 ; j < 4 ; ++j)
+                {
+                    std::cout << nm_[i][j] <<", ";
+
+                }
+                std::cout <<std::endl;
+                std:flush(std::cout);
+            }
 
         }
 

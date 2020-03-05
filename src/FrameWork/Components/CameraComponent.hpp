@@ -43,13 +43,18 @@ class CameraComponent : public BaseComponent
     }
     void updatePrjectionMat()
     {
+
         float cotHalfFov= 1.0f / tan(fov_* Degree2Rad/2);
-        projMat_.m11 =  cotHalfFov / aspect_;
-        projMat_.m22 = cotHalfFov;
+        projMat_.m11 =   cotHalfFov / aspect_;
+        projMat_.m22 =  cotHalfFov;
         float FarMinusNear = farPlane_ - nearPlane_;
-        projMat_.m33 = -1.0f *(farPlane_ + nearPlane_) / FarMinusNear;
+        //  z~ [0,1]
+        projMat_.m33 = -1.0f *(farPlane_ ) / FarMinusNear;
         projMat_.m43 = -1.0f;
-        projMat_.m34 = - 2.0 * farPlane_ * nearPlane_ / (FarMinusNear);
+        projMat_.m34 = -  farPlane_ * nearPlane_ / (FarMinusNear);
+
+        projMat_.print();
+
 
 
 
