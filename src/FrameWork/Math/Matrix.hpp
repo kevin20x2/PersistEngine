@@ -63,16 +63,16 @@ class Matrix4x4
             rx.nm_[1][2] = -sin(rot.x);
 
             Matrix4x4 ry ;
-            ry.nm_[0][0] = cos(rot.y);
-            ry.nm_[2][2] = cos(rot.y);
-            ry.nm_[2][0] = sin(rot.y);
-            ry.nm_[0][2] = - sin(rot.y);
+            ry.nm_[0][0] = cos(-rot.y);
+            ry.nm_[2][2] = cos(-rot.y);
+            ry.nm_[2][0] = sin(-rot.y);
+            ry.nm_[0][2] = - sin(-rot.y);
 
             Matrix4x4 rz ; 
-            rz.nm_[0][0] = cos(rot.z);
-            rz.nm_[1][1] = cos(rot.z);
-            rz.nm_[1][0] = -sin(rot.z);
-            rz.nm_[0][1] = sin(rot.z);
+            rz.nm_[0][0] = cos(-rot.z);
+            rz.nm_[1][1] = cos(-rot.z);
+            rz.nm_[1][0] = -sin(-rot.z);
+            rz.nm_[0][1] = sin(-rot.z);
 
             // y ,x , z
 
@@ -104,7 +104,7 @@ class Matrix4x4
             rz.nm_[0][1] = sin(invRot.z);
 
             // z , x, y
-            Matrix4x4 rotMat = rz *rx *rz;
+            Matrix4x4 rotMat = rz *rx *ry;
 
             //translate.y = - translate.y;
             Matrix4x4 transMat = translateMatrix(Vector3f(-translate.x , -translate.y , -translate.z));

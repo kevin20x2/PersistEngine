@@ -19,6 +19,10 @@ class TransformComponent : public BaseComponent
         {
             transform_.setLocalPosition(pos);
         }
+        void setLocalRotation(const Vector3f & rot)
+        {
+            transform_.setLocalRotation(rot);
+        }
         
         Transform & transform() { return transform_;}
         TransformComponent * addChild(TransformComponent * com)

@@ -62,10 +62,10 @@ class CameraComponent : public BaseComponent
     protected:
 
     TransformComponent * pTransform_ = nullptr;
-    float fov_ = 45.0f;
+    float fov_ = 60.0f;
     float nearPlane_ = 1.0f;
     float farPlane_ = 100.f;
-    float aspect_ = 1.0f;
+    float aspect_ = 0.8f;
 
     Matrix4x4f viewMat_;
     Matrix4x4f projMat_;

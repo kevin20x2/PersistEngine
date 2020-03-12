@@ -9,6 +9,10 @@ Status World::init()
 }
 void World::tick()
 {
+    for(auto it = tickList_.begin(); it != tickList_.end();++it)
+    {
+        (*it)();
+    }
     activeLevel()->tick();
 
 }

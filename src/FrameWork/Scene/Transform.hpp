@@ -29,6 +29,11 @@ public:
         localPos_ = pos;
         updateWorldMat();
     }
+    void setLocalRotation(const Vector3f & rot)
+    {
+        localRotation_ = rot;
+        updateWorldMat();
+    }
 
 
 

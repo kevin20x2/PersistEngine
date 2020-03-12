@@ -34,18 +34,41 @@ int main()
         Vector3f(-0.5,-0.5,0.5),
 
        //bottom
-        Vector3f(-0.5 ,- 0.5, -0.5), 
         Vector3f(-0.5, 0.5 , -0.5 ),
+        Vector3f(-0.5 ,- 0.5, -0.5), 
         Vector3f(0.5, 0.5, -0.5),
 
-        Vector3f( -0.5 ,-0.5,-0.5) ,
         Vector3f(0.5,0.5,-0.5),
+        Vector3f( -0.5 ,-0.5,-0.5) ,
         Vector3f( 0.5 , -0.5 ,-0.5 ) ,
         //left
 
         Vector3f(-0.5 , -0.5 ,-0.5) ,
         Vector3f(-0.5 , 0.5 , -0.5),
-        Vector3f(-0.5, -0.5 , 0.5 )
+        Vector3f(-0.5, -0.5 , 0.5 ),
+
+        Vector3f(-0.5,0.5,0.5) ,
+        Vector3f(-0.5,-0.5,0.5) , 
+        Vector3f(-0.5,0.5,-0.5),
+
+        //up 
+        Vector3f(-0.5, -0.5, 0.5) ,
+        Vector3f(-0.5,0.5,0.5) , 
+        Vector3f(0.5,0.5,0.5),
+
+        Vector3f(0.5,-0.5,0.5) ,
+        Vector3f(-0.5,-0.5,0.5) ,
+        Vector3f(0.5,0.5,0.5),
+
+        // right 
+        Vector3f(0.5,-0.5,0.5),
+        Vector3f(0.5,0.5,0.5) , 
+        Vector3f(0.5,-0.5,-0.5) , 
+
+        Vector3f(0.5,-0.5,-0.5) , 
+        Vector3f(0.5,0.5,0.5) , 
+        Vector3f(0.5,0.5,-0.5)
+        //
 
 
 
@@ -84,8 +107,28 @@ int main()
         Vector4f(0.0,0.0,1.0,1.0) , 
         Vector4f(0.0,0.0,1.0,1.0) , 
         Vector4f(0.0,0.0,1.0,1.0) , 
+        Vector4f(0.0,0.0,1.0,1.0) , 
+        Vector4f(0.0,0.0,1.0,1.0) , 
+        Vector4f(0.0,0.0,1.0,1.0) , 
 
-/*
+// up
+        Vector4f(1.0,1.0,0.0,1.0),
+        Vector4f(1.0,1.0,0.0,1.0),
+        Vector4f(1.0,1.0,0.0,1.0),
+        Vector4f(1.0,1.0,0.0,1.0),
+        Vector4f(1.0,1.0,0.0,1.0),
+        Vector4f(1.0,1.0,0.0,1.0),
+// right 
+        Vector4f(0.0,1.0,1.0,1.0) ,
+        Vector4f(0.0,1.0,1.0,1.0),
+
+        Vector4f(0.0,1.0,1.0,1.0) ,
+        Vector4f(0.0,1.0,1.0,1.0) ,
+        Vector4f(0.0,1.0,1.0,1.0),
+        Vector4f(0.0,1.0,1.0,1.0),
+
+
+        /*
         Vector4f(0.0,1.0,0.0,1.0) , 
         Vector4f(0.0,1.0,0.0,1.0) , 
         Vector4f(0.0,1.0,0.0,1.0) , 
@@ -135,6 +178,8 @@ int main()
 
     SceneUnit * cube = new SceneUnit();
 
+    cube->getTransformComponent()->setLocalRotation(Vector3f(0,45,0  ));
+
     StaticMeshComponent * meshComp = cube->addComponent<StaticMeshComponent>();
     meshComp->setMesh(mesh);
 
@@ -158,8 +203,14 @@ int main()
     CameraUnit * camera = World::thisWorld()->activeLevel()->currentCamera();
     TransformComponent * trans_comp = World::thisWorld()->activeLevel()->currentCamera()->getTransformComponent();
     CameraComponent * camera_comp = World::thisWorld()->activeLevel()->currentCamera()->camera();
-    trans_comp->setLocalPosition(Vector3f(-0.5,-2.0 , 0));
+    trans_comp->setLocalPosition(Vector3f(-0.0,-2.0 , 1.0));
     camera_comp->updateViewMatrix();
+
+    float time = 0.0f;
+    World::thisWorld()->frameTick ([&]() {
+        time += 0.016f;
+        cube->getTransformComponent()->setLocalRotation(Vector3f(0,0,time * 10));
+    });
 
 
 

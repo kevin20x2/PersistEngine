@@ -3,6 +3,7 @@
 #include "Level.hpp"
 #include <FrameWork/Common/Array.hpp>
 #include <FrameWork/Memory/SharePtr.hpp>
+#include <functional>
 
 
 namespace Persist
@@ -33,13 +34,19 @@ class World : public IRunTimeModule
 
     Level * activeLevel() {
         return levelList_[activeLevelIdx].get();
-     }
+    }
 
-
+    //template < typename T >
+        void frameTick( std::function <void( ) > &&  func)
+        {
+            tickList_.push_back(std::move(func));
+        }
 
     protected:
     int activeLevelIdx = 0 ;
     Array <SharePtr <Level> > levelList_;
+    Array <std::function <void ()>> tickList_;
+
 
     static World * thisWorld_;
 
