@@ -8,7 +8,7 @@ namespace Persist
 //class Unit;
 interface BaseComponent : extends IObject
 {
-
+    REGISTER_CLASS(BaseComponent);
     public :
         BaseComponent(Unit * unit = nullptr) : 
             unit_(unit)

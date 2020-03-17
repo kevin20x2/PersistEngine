@@ -19,6 +19,7 @@ int main()
     std::cout << "hello engine";
     Persist::IApplication * application = 
     Persist::IApplication::currentApplication();
+    std::cout << Persist::typeOf<BaseComponent>()->className() <<std::endl;
 
 
     std::cout <<"sizeof Persit:: Matrix4x4f" << sizeof(Persist::Matrix4x4f) << std::endl  ;
