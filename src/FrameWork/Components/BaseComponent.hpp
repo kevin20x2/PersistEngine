@@ -6,6 +6,7 @@
 namespace Persist
 {
 //class Unit;
+PERSIST_OBJECT()
 interface BaseComponent : extends IObject
 {
     REGISTER_CLASS(BaseComponent);

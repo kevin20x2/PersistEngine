@@ -2,6 +2,7 @@
 
 namespace Persist
 {
+    PERSIST_OBJECT()
     interface IBaseRenderer : extends BaseComponent
     {
         public : 

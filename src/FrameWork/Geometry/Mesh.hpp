@@ -7,6 +7,7 @@
 
 namespace Persist
 {
+    PERSIST_OBJECT()
     class Mesh : public IObject
     {
 

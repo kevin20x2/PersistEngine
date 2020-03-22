@@ -6,6 +6,8 @@
 namespace Persist
 {
     class GpuProgram;
+
+    PERSIST_OBJECT()
     class MeshRenderer : public IBaseRenderer
     {
         public : 
