@@ -6,7 +6,7 @@ const std::filesystem::path rootPath = std::filesystem::current_path().parent_pa
 //using fs = std::filesystem;
 std::vector <std::string > classNames ;
 
-std::string out_put_path =  std::filesystem::current_path().parent_path().string() + "\\" + "dynamic_object_init.hpp";
+std::string out_put_path =  std::filesystem::current_path().parent_path().string() + "\\" + "dynamicObjectInit.inc";
 
 
 void parseHeadFile(std::string & content)
@@ -63,7 +63,7 @@ int main()
     {
         for(int i = 0 ; i < classNames.size();++i)
         {
-            ofs << classNames[i] << std::endl;
+            ofs << "DYNAMIC_REGISTER_CLASS(" << classNames[i] <<");" << std::endl;
         }
 
     }

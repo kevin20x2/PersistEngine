@@ -1,0 +1,2 @@
+DYNAMIC_REGISTER_CLASS(BaseComponent);
+DYNAMIC_REGISTER_CLASS(TransformComponent);

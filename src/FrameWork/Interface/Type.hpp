@@ -35,7 +35,8 @@ class Type
 {
 
     public:
-    const char * className() { return interal_.className; }
+    const char * className() const { return interal_.className; }
+    const char * namespaceName() const { return interal_.namespaceName; }
 
 
     private : 
@@ -45,9 +46,9 @@ class Type
 
 
 template <typename T>
-Type * typeOf() { 
+const Type * typeOf() { 
     //typeInitializer<T>::Initializer.do_nothing();
-    return reinterpret_cast <Type *>( & RTTI_Container<T>::rtti); }
+    return reinterpret_cast<const Type *>( & RTTI_Container<T>::rtti); }
 
 
 struct TypeRegisterDesc
@@ -72,4 +73,27 @@ template <typename T>
 typeInitializer<T> typeInitializer<T>::Initializer;
 
 };
+
+// --------------------------------------------
+#include <functional>
+#include <string>
+namespace std
+{
+    
+    template <>
+    struct hash <Persist::Type>
+    {
+        public : 
+        size_t operator()(const Persist::Type & type) const
+        {
+            std::string tmp = std::string(type.className()) + std::string(type.namespaceName());
+            std::hash <std::string >  h ;
+            return  h(tmp);
+        }
+
+    };
+    
+} // namespace name
+
+
 

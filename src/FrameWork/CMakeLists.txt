@@ -4,5 +4,10 @@ add_subdirectory(Math)
 add_subdirectory(Scene)
 add_subdirectory(Components)
 
-add_library(FrameWork Interface/IApplication.cpp Interface/TypeManager.cpp  )
+add_library(FrameWork 
+Interface/IApplication.cpp 
+Interface/TypeManager.cpp 
+Engine.cpp 
+Interface/IObject.cpp 
+ )
 target_link_libraries(FrameWork Serialize Math Scene Components)

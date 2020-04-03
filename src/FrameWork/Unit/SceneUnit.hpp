@@ -17,7 +17,8 @@ class SceneUnit : public Unit
 
         TransformComponent * getTransformComponent()
         {
-            return tranform_comp_;
+            return getComponent<TransformComponent>();
+            //return tranform_comp_;
         }
     protected:
 

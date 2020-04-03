@@ -17,6 +17,8 @@ int main()
 {
 
     std::cout << "hello engine";
+    Persist::Engine::Init();
+
     Persist::IApplication * application = 
     Persist::IApplication::currentApplication();
     std::cout << Persist::typeOf<BaseComponent>()->className() <<std::endl;
@@ -179,7 +181,7 @@ int main()
 
     SceneUnit * cube = new SceneUnit();
 
-    cube->getTransformComponent()->setLocalRotation(Vector3f(0,45,0  ));
+    cube->getComponent<TransformComponent>()->setLocalRotation(Vector3f(0,45,0  ));
 
     StaticMeshComponent * meshComp = cube->addComponent<StaticMeshComponent>();
     meshComp->setMesh(mesh);

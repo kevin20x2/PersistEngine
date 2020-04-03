@@ -1,4 +1,6 @@
 #include "TypeManager.hpp"
+#include <FrameWork/Type/DynamicRegisterClass.hpp>
+#include <iostream>
 
 namespace Persist
 {
@@ -12,6 +14,10 @@ namespace Persist
         RTTI & value = * desc.value;
         value = desc.desc;
     }
+    void TypeManager::registerAllClass()
+    {
+        dynamicRegisterAllClass();
+    }
 
 
 };
@@ -19,5 +25,6 @@ namespace Persist
 void GlobalRegisterType(const Persist::TypeRegisterDesc & desc)
 {
     Persist::TypeManager::Get()->registerClass(desc);
+    std::cout << desc.value->className <<std::endl;
 
 }

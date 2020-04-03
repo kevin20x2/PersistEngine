@@ -17,6 +17,13 @@ namespace Persist
         // TODO : need a object system 
         template <typename T > 
         T * getComponent() {
+
+            if(type_component_map_.find(typeOf<T>()) != type_component_map_.end() )
+            {
+                return dynamic_cast <T*> (type_component_map_[typeOf<T>()].get() );
+            }
+
+            /*
             for(int i = 0 ;i < components_.size() ; ++ i)
             {
                 //SharePtr <BaseComponent> base = components_[i];
@@ -26,6 +33,7 @@ namespace Persist
                     return tmp.get();
                 }
             }
+            */
             return nullptr;
         } 
         template <typename T>
@@ -38,7 +46,8 @@ namespace Persist
                 comp->unit_ = this;
             }
             SharePtr <T > ptr (comp);
-            components_.push_back(ptr);
+            //components_.push_back(ptr);
+            type_component_map_[typeOf<T>()] = ptr; 
             return comp;
         }
 
@@ -49,7 +58,8 @@ namespace Persist
 
 
         protected : 
-        Array <SharePtr < BaseComponent> > components_;
+        //Array <SharePtr < BaseComponent> > components_;
+        HashMap <const Type * , SharePtr < BaseComponent > > type_component_map_;
     };
 
 }

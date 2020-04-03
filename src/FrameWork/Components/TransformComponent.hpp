@@ -6,8 +6,10 @@
 namespace Persist
 {
 // Component with transform 
+PERSIST_OBJECT()
 class TransformComponent : public BaseComponent
 {
+    REGISTER_CLASS(TransformComponent);
     public :
         TransformComponent(Unit *unit ) : 
         BaseComponent(unit),

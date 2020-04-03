@@ -17,6 +17,12 @@ set(RHI_Platform DX11)
 
 add_executable(app main.cpp)
 
+add_custom_command(TARGET app 
+                PRE_BUILD
+                COMMAND ${CMAKE_SOURCE_DIR}/HeadPraserTool/build/HeadPraserTool.exe 
+
+)
+
 if(${RHI_Platform} STREQUAL "DX11")
     target_link_directories(app PUBLIC $ENV{DXSDK_DIR}\\Lib\\x64)
     add_compile_definitions(RHI_DX11)
