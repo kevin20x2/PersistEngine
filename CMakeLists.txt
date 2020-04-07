@@ -7,6 +7,7 @@ project(PersistEngine)
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/src
+    $ENV{FBX_DIR}/include
 )
 
 set(RHI_Platform DX11)

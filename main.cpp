@@ -8,6 +8,7 @@
 #include <FrameWork/Components/Components.hpp>
 #include <FrameWork/Geometry/Mesh.hpp>
 #include <FrameWork/Unit/SceneUnit.hpp>
+#include <FrameWork/ResourceImporter/FbxImporter/FbxImporter.hpp>
 using namespace Persist;
 
 int main()
@@ -25,6 +26,12 @@ int main()
 
 
     std::cout <<"sizeof Persit:: Matrix4x4f" << sizeof(Persist::Matrix4x4f) << std::endl  ;
+
+    FbxImporter * importer = new FbxImporter();
+    importer->loadFromDisk("ICE_Beer.FBX");
+
+
+
 
     //clock wise front
     Array <Vector3f> * vertice = new Array <Vector3f>({

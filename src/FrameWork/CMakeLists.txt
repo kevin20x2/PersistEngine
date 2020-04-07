@@ -3,11 +3,14 @@ add_subdirectory(Serialize)
 add_subdirectory(Math)
 add_subdirectory(Scene)
 add_subdirectory(Components)
+add_subdirectory(ResourceImporter)
 
 add_library(FrameWork 
 Interface/IApplication.cpp 
 Interface/TypeManager.cpp 
 Engine.cpp 
 Interface/IObject.cpp 
+Unit/Unit.cpp  
+Unit/SceneUnit.cpp
  )
-target_link_libraries(FrameWork Serialize Math Scene Components)
+target_link_libraries(FrameWork Serialize Math Scene Components ResourceImporter)

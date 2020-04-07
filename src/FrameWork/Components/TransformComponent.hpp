@@ -54,6 +54,7 @@ class TransformComponent : public BaseComponent
             }
             return com;
         }
+
         const Matrix4x4f & worldMat() { return transform_.worldMatrix();}
     private : 
     Array <TransformComponent * > childList_;

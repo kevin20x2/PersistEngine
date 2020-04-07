@@ -10,10 +10,13 @@ namespace Persist
 {
     class BaseComponent;
     // base class of object in game world
+    PERSIST_OBJECT()
     class Unit : extends IObject
     {
 
+
         public : 
+        REGISTER_CLASS(Unit);
         // TODO : need a object system 
         template <typename T > 
         T * getComponent() {

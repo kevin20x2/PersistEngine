@@ -14,6 +14,7 @@ namespace Persist
         public :
         using Super = void;
         using ThisType = IObject;
+        virtual const Type * getType() { return typeOf<IObject>();}
         virtual ~IObject() {}
 
     };

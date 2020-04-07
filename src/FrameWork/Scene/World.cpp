@@ -6,6 +6,7 @@ World * World::thisWorld_ = nullptr;
 
 Status World::init()
 {
+	return Status::Ok();
 }
 void World::tick()
 {

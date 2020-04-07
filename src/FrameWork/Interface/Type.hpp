@@ -3,7 +3,7 @@
 namespace Persist
 {
 
-
+class IObject ;
 
 // --------------------------------------------------------------------
 // pod type
@@ -49,6 +49,12 @@ template <typename T>
 const Type * typeOf() { 
     //typeInitializer<T>::Initializer.do_nothing();
     return reinterpret_cast<const Type *>( & RTTI_Container<T>::rtti); }
+
+template <typename T>
+bool isTypeOf(IObject * obj)
+{
+    return obj->getType() == typeOf<T>();
+}
 
 
 struct TypeRegisterDesc
