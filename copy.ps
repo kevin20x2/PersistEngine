@@ -4,6 +4,6 @@
 float4 main(v2p input ) : SV_TARGET
 {
     float col = input.position.z / input.position.w;
-    //return float4(col,col,col,1.0);
-    return input.color;
+    return float4(col,col,col,1.0);
+    //return input.color;
 }

@@ -6,7 +6,7 @@
 public : \
     using Super = ThisType ; \
     using ThisType = TYPE_NAME_ ; \
-    virtual const Type * getType() { return typeOf<TYPE_NAME_>(); } \
+    virtual const Type * getType() override { return typeOf<TYPE_NAME_>(); } \
     /*static typeInitializer<TYPE_NAME_> initializer_;*/\
     class MISSING_SEMICOLON_AFTER_REGISTER_CLASS_MACRO  
 

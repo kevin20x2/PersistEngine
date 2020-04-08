@@ -6,6 +6,7 @@
 #include <FrameWork/Math/Matrix.hpp>
 #include <FrameWork/Scene/World.hpp>
 #include <FrameWork/Unit/CameraUnit.hpp>
+PERSIST_IMPLEMENT_CLASS(MeshRenderer ,0);
 namespace Persist
 {
 

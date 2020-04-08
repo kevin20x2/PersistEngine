@@ -14,7 +14,7 @@ void parseHeadFile(std::string & content)
     //std::cout << "file content begin " <<std::endl;
 
     //std::cout <<content;
-    std::regex persist_object ("[\\s\\S]*^(PERSIST_OBJECT\\(\\))\\s+(class|interface)\\s+(\\S+)\\s+:[\\s\\S]*$");
+    std::regex persist_object ("[\\s\\S]*(PERSIST_OBJECT\\(\\))\\s+(class|interface)\\s+(\\S+)\\s+:[\\s\\S]*$");
     std::smatch object_match;
     if(std::regex_match (content , object_match , persist_object ))
     {

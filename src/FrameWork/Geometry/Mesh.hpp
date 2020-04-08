@@ -12,6 +12,7 @@ namespace Persist
     {
 
         public :
+        REGISTER_CLASS(Mesh);
 
         friend class MeshRenderer;
         Mesh():

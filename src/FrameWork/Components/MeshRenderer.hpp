@@ -6,11 +6,13 @@
 namespace Persist
 {
     class GpuProgram;
+    class StaticMeshComponent;
 
     PERSIST_OBJECT()
     class MeshRenderer : public IBaseRenderer
     {
         public : 
+        REGISTER_CLASS(MeshRenderer);
         MeshRenderer(Unit * unit = nullptr) :
             IBaseRenderer(unit)
         {

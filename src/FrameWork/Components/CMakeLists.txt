@@ -5,4 +5,6 @@ MeshRenderer.cpp
 BaseComponent.cpp 
 CameraComponent.cpp 
 TransformComponent.cpp
+StaticMeshComponent.cpp
+BaseRenderer.cpp
 )

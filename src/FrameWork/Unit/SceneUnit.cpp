@@ -1,3 +1,3 @@
 #include "SceneUnit.hpp"
-PERSIST_IMPLEMENT_CLASS(SceneUnit);
+PERSIST_IMPLEMENT_CLASS(SceneUnit,0);
 

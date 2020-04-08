@@ -6,6 +6,7 @@ namespace Persist
     interface IBaseRenderer : extends BaseComponent
     {
         public : 
+        REGISTER_CLASS(IBaseRenderer);
         IBaseRenderer (Unit * unit = nullptr)  : 
             BaseComponent(unit)
         {

@@ -16,6 +16,8 @@ class Level : public Unit
     }
     TransformComponent * root() { return root_;}
     CameraUnit * currentCamera() { return currentCamera_;}
+    SceneUnit * addSceneUnit(SceneUnit * unit) { root_->addChild(unit->getTransformComponent()); return unit;}
+
 
     void tick() ;
 

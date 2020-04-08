@@ -6,9 +6,11 @@ namespace Persist
 {
 
 
+    static int order_index[3] = { 0 ,2,1};
     static void HandleMesh (fbxsdk :: FbxMesh * fbxMesh, SceneUnit * unit)
     {
         StaticMeshComponent * meshComp = unit->addComponent<StaticMeshComponent>();
+        MeshRenderer* renderer = unit->addComponent<MeshRenderer>();
         Mesh * mesh = new Mesh();
 
         fbxsdk::FbxVector4* controlPoints =  fbxMesh->GetControlPoints();
@@ -17,23 +19,38 @@ namespace Persist
         int vertexCounter = 0 ;
         Array <Vector3f> * vertices = new Array <Vector3f>();
         Array <int> * triangles = new Array <int>();
+        Array <Vector4f> * colors = new Array <Vector4f>();
 
         for(int i = 0 ; i < controlPointCount ; ++i)
         {
-            vertices->push_back(Vector3f(controlPoints[i][0],controlPoints[i][1],controlPoints[i][2]));
+            //vertices->push_back(Vector3f(controlPoints[i][0],controlPoints[i][1],controlPoints[i][2]));
+            //colors->push_back(Vector4f(1.0,1.0,1.0,1.0));
         }
 
         for(int i = 0 ; i < triangleCount ; ++ i)
         {
             for (int j = 0 ; j < 3 ; ++j)
             {
-                int ctrlPointIndex = fbxMesh->GetPolygonVertex(i , j );
-                triangles->push_back(ctrlPointIndex);
+                int ctrlPointIndex = fbxMesh->GetPolygonVertex(i , order_index[j] );
+
+                fbxsdk::FbxVector4 vec = controlPoints[ctrlPointIndex];
+                vertices->push_back(Vector3f(vec[0],vec[1],vec[2]));
+                colors->push_back(Vector4f(1.0, 1.0, 1.0, 1.0));
+                if(ctrlPointIndex == -1)
+                {
+                    std::cout << "GetPolygonVertex fail" << std::endl;
+                }
+                triangles->push_back(vertexCounter);
+                ++vertexCounter;
                 fbxsdk::FbxVector4 ctrlPoint = controlPoints[ctrlPointIndex];
             }
-
         }
-
+        std::cout << "vertex count :"  << vertices->size()<<std::endl;
+        std::cout << "triangle count :" << triangles->size() << std::endl;
+        mesh->setVertice(vertices);
+        mesh->setTriangles(triangles);
+        mesh->setColor(colors);
+        meshComp->setMesh(mesh);
 
 
         /*

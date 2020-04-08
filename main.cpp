@@ -28,7 +28,7 @@ int main()
     std::cout <<"sizeof Persit:: Matrix4x4f" << sizeof(Persist::Matrix4x4f) << std::endl  ;
 
     FbxImporter * importer = new FbxImporter();
-    importer->loadFromDisk("ICE_Beer.FBX");
+    SceneUnit *  beer = importer->loadFromDisk("ICE_Beer.FBX");
 
 
 
@@ -208,18 +208,19 @@ int main()
 
     MeshRenderer * tmp = cube->getComponent<MeshRenderer>();
 
-    World::thisWorld()->activeLevel()->root()->addChild(cube->getTransformComponent());
+    //World::thisWorld()->activeLevel()->root()->addChild(cube->getTransformComponent());
+    World::thisWorld()->activeLevel()->addSceneUnit(beer);
 
     CameraUnit * camera = World::thisWorld()->activeLevel()->currentCamera();
     TransformComponent * trans_comp = World::thisWorld()->activeLevel()->currentCamera()->getTransformComponent();
     CameraComponent * camera_comp = World::thisWorld()->activeLevel()->currentCamera()->camera();
-    trans_comp->setLocalPosition(Vector3f(-0.0,-2.0 , 1.0));
+    trans_comp->setLocalPosition(Vector3f(-0.0,-200.0 , 0.0));
     camera_comp->updateViewMatrix();
 
     float time = 0.0f;
     World::thisWorld()->frameTick ([&]() {
         time += 0.016f;
-        cube->getTransformComponent()->setLocalRotation(Vector3f(0,0,time * 10));
+        beer->getTransformComponent()->setLocalRotation(Vector3f(0,0,time * 10));
     });
 
 
