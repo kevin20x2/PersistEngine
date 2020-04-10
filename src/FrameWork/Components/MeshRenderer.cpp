@@ -95,6 +95,8 @@ void MeshRenderer::commitConstant()
     Matrix4x4f && viewMat = (com->viewMat()).Transpose();
     Matrix4x4f && projMat = (com->projectionMat()).Transpose();
 
+
+    //worldMat.print();
     uint8_t matBuffer [sizeof(Matrix4x4f) * 3];
     uint32_t size = sizeof(Matrix4x4f) ;
     memcpy(matBuffer, & worldMat  ,sizeof(Matrix4x4f));

@@ -54,6 +54,24 @@ class SceneUnit : public Unit
 
         }
 
+        void Debug_print(int level = 0)
+        {
+            std::cout << "---level :" + level <<" " << getName()<< "---" ; 
+            int len = getChildNum();
+
+            if(len != 0)
+            {
+                std::cout <<std::endl;
+            }
+            for(int i = 0 ; i < len ;++i)
+            {
+                SceneUnit * child = getChildAt(i);
+                child->Debug_print(level + 1);
+            }
+
+
+        }
+
 
     protected:
 

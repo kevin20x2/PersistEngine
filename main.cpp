@@ -216,11 +216,14 @@ int main()
     CameraComponent * camera_comp = World::thisWorld()->activeLevel()->currentCamera()->camera();
     trans_comp->setLocalPosition(Vector3f(-0.0,-200.0 , 0.0));
     camera_comp->updateViewMatrix();
-
+    beer->Debug_print();
     float time = 0.0f;
+    //std::cout << "transform comp"<< (int)(beer->getTransformComponent()) << std::endl;
+    //std::cout << "transofrm comp2" << (int)beer->getComponent<MeshRenderer> ()->getComponent<TransformComponent>() << std::endl;
+
     World::thisWorld()->frameTick ([&]() {
         time += 0.016f;
-        beer->getTransformComponent()->setLocalRotation(Vector3f(0,0,time * 10));
+        beer->getChildAt(0)->getTransformComponent()->setLocalRotation(Vector3f(0,0,time * 10));
     });
 
 

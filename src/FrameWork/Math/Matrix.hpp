@@ -153,6 +153,7 @@ class Matrix4x4
         }
         void print()
         {
+            std::cout << "Matrix print begin ----------"<<std::endl;
             for(int i = 0 ;i < 4 ; ++ i)
             {
                 for(int j = 0 ; j < 4 ; ++j)
@@ -163,6 +164,8 @@ class Matrix4x4
                 std::cout <<std::endl;
                 std:flush(std::cout);
             }
+
+            std::cout << "Matrix print end ----------"<<std::endl;
 
         }
 

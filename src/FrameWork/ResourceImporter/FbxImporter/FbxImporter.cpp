@@ -101,6 +101,7 @@ namespace Persist
     {
         if(node != nullptr)
         {
+            unit->setName(node->GetName());
             HandleNodeAttribute(node ,unit );
         }
         int len = node->GetChildCount();

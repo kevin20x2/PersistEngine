@@ -32,6 +32,12 @@ public:
     void setLocalRotation(const Vector3f & rot)
     {
         localRotation_ = rot;
+        /*
+        std::cout << " set local rotation" 
+        << localRotation_.x <<" " 
+        << localRotation_.y <<" " 
+        << localRotation_.z <<" " <<std::endl;
+        */
         updateWorldMat();
     }
 
