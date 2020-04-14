@@ -12,6 +12,7 @@ Engine.cpp
 Interface/IObject.cpp 
 Unit/Unit.cpp  
 Unit/SceneUnit.cpp
-Geometry/Mesh.cpp
+Geometry/Mesh.cpp 
+Common/StdoutLogger.cpp 
  )
 target_link_libraries(FrameWork Serialize Math Scene Components ResourceImporter)

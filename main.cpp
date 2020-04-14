@@ -9,6 +9,7 @@
 #include <FrameWork/Geometry/Mesh.hpp>
 #include <FrameWork/Unit/SceneUnit.hpp>
 #include <FrameWork/ResourceImporter/FbxImporter/FbxImporter.hpp>
+#include <FrameWork/Common/Logger.hpp>
 using namespace Persist;
 
 int main()
@@ -24,8 +25,11 @@ int main()
     Persist::IApplication::currentApplication();
     std::cout << Persist::typeOf<BaseComponent>()->className() <<std::endl;
 
+    PLOG("test1234");
+    PLOG() << "Test 234567" << std::endl;
 
-    std::cout <<"sizeof Persit:: Matrix4x4f" << sizeof(Persist::Matrix4x4f) << std::endl  ;
+    //std::cout <<"sizeof Persit:: Matrix4x4f" << sizeof(Persist::Matrix4x4f) << std::endl  ;
+    
 
     FbxImporter * importer = new FbxImporter();
     SceneUnit *  beer = importer->loadFromDisk("ICE_Beer.FBX");
@@ -235,7 +239,6 @@ int main()
         application->tick();
     }
 
-    std::cout << " exit";
 
     return 0;
 }

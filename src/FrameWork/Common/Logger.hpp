@@ -1,8 +1,10 @@
 #pragma once
+#include <iostream>
+
 namespace Persist
 {
 
-#define PLOG(...) Logger::instance().print(__VA_ARGGS__)
+#define PLOG(...) Logger::instance().print(__FILE__ , __LINE__,__VA_ARGS__)
 
 class Logger 
 {
@@ -10,11 +12,12 @@ class Logger
     static Logger &  instance () ;
 
 
-    //virtual void print(const char * format, ...) = 0  ;
+    virtual Logger &  print(const char * strFile , int lineNum , const char * format = nullptr, ...) = 0  ;
 
 
-    //virtual Logger & operator<<(int value) = 0  ;
-    //virtual Logger & operator<< (const char * ) = 0 ;
+    virtual Logger & operator<<(int value) = 0  ;
+    virtual Logger & operator<< (const char * ) = 0 ;
+    virtual Logger & operator << (std::ostream & (*op) (std::ostream &) ) = 0;
 
 
 
