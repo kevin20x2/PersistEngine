@@ -6,7 +6,7 @@ namespace Persist
 class SubShader;
 struct SerializedGpuProgram;
 
-class GpuProgram 
+class RHIGpuProgram 
 {
 public:
     enum ProgramType
@@ -16,8 +16,8 @@ public:
     };
 
     ProgramType type() { return type_; }
-    virtual ~GpuProgram() {}
-    static GpuProgram *  createFromSerializedProgram(const SerializedGpuProgram & program,GpuProgram ::ProgramType type);
+    virtual ~RHIGpuProgram() {}
+    static RHIGpuProgram *  createFromSerializedProgram(const SerializedGpuProgram & program,RHIGpuProgram ::ProgramType type);
 
 protected:
     ProgramType type_;

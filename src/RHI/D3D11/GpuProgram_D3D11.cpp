@@ -3,7 +3,7 @@
 namespace Persist
 {
 
-    GpuProgram * GpuProgram ::createFromSerializedProgram(const SerializedGpuProgram & program , GpuProgram::ProgramType type)
+   RHIGpuProgram *RHIGpuProgram ::createFromSerializedProgram(const SerializedGpuProgram & program ,RHIGpuProgram::ProgramType type)
     {
         return GpuProgram_D3D11 :: createFromSerializedProgram(program , type);
 
@@ -11,7 +11,7 @@ namespace Persist
 
 
     GpuProgram_D3D11 * GpuProgram_D3D11 :: createFromSerializedProgram
-    (const SerializedGpuProgram & program , GpuProgram::ProgramType type)
+    (const SerializedGpuProgram & program ,RHIGpuProgram::ProgramType type)
     {
         GpuProgram_D3D11 * ans = new GpuProgram_D3D11();
         ans->type_ = type;

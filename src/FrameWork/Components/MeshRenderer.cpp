@@ -1,7 +1,7 @@
 #include "MeshRenderer.hpp"
 #include <FrameWork/Shaders/SerializeShaderData.hpp>
 #include <FrameWork/Serialize/TransferContext.hpp>
-#include <FrameWork/Shaders/GpuProgram.hpp>
+#include <RHI/RHIGpuProgram.hpp>
 #include <FrameWork/RHIContext/RHIContext.hpp>
 #include <FrameWork/Math/Matrix.hpp>
 #include <FrameWork/Scene/World.hpp>
@@ -15,13 +15,13 @@ void MeshRenderer::initShader()
     SerializedGpuProgram vs;
     TransferContext::addReadRequest("copy.vso", vs);
 
-    vs_= GpuProgram::createFromSerializedProgram(vs ,GpuProgram::PT_Vertex);
+    vs_ = RHIGpuProgram::createFromSerializedProgram(vs ,RHIGpuProgram::PT_Vertex);
     IRHIContext::RHIContext()->createVertexShader(*vs_);
 
     SerializedGpuProgram ps;
     TransferContext::addReadRequest("copy.pso",ps);
 
-    ps_= GpuProgram::createFromSerializedProgram(ps , GpuProgram::PT_Pixel);
+    ps_= RHIGpuProgram::createFromSerializedProgram(ps ,RHIGpuProgram::PT_Pixel);
     IRHIContext::RHIContext()->createPixelShader(*ps_);
 
     RHIVertexFormatElementList eleList =

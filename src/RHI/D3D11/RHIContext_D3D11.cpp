@@ -212,7 +212,7 @@ namespace Persist
         TransferContext::addReadRequest("copy.vso", program);
         TransferContext::addReadRequest("copy.pso" , ps_program);
         GpuProgram_D3D11 * pro = GpuProgram_D3D11::createFromSerializedProgram(program);
-        GpuProgram_D3D11 * ps_pro = GpuProgram_D3D11::createFromSerializedProgram(ps_program , GpuProgram::PT_Pixel);
+        GpuProgram_D3D11 * ps_pro = GpuProgram_D3D11::createFromSerializedProgram(ps_program ,RHIGpuProgram::PT_Pixel);
 
         //ID3DBlob * VS , *PS ; 
         //ID3DBlob * VS2;
@@ -258,9 +258,9 @@ namespace Persist
 
     }
 
-    Status RHIContext_D3D11 :: setVertexShader(GpuProgram & program)
+    Status RHIContext_D3D11 :: setVertexShader(RHIGpuProgram & program)
     {
-        if(program.type() != GpuProgram::PT_Vertex)
+        if(program.type() !=RHIGpuProgram::PT_Vertex)
         {
             return Status::Error(" setVertexShader : shader type error");
         }
@@ -269,9 +269,9 @@ namespace Persist
         return Status::Ok();
 
     }
-    Status RHIContext_D3D11 :: setPixelShader(GpuProgram & program)
+    Status RHIContext_D3D11 :: setPixelShader(RHIGpuProgram & program)
     {
-        if(program.type() != GpuProgram::PT_Pixel)
+        if(program.type() !=RHIGpuProgram::PT_Pixel)
         {
             return Status::Error(" setPixelShader : shader type error");
         }
@@ -495,7 +495,7 @@ namespace Persist
         return new  RHIVertexLayout_D3D11(elementList);
     }
 
-    RHIVertexLayoutPtr RHIContext_D3D11::createVertexLayout(RHIVertexFormatElementList & elementList , GpuProgram & program) 
+    RHIVertexLayoutPtr RHIContext_D3D11::createVertexLayout(RHIVertexFormatElementList & elementList , RHIGpuProgram & program) 
     {
 
         GpuProgram_D3D11 & pro_d3d11 = dynamic_cast<GpuProgram_D3D11&>(program);

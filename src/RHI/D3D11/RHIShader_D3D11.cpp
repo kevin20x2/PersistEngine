@@ -3,7 +3,7 @@
 namespace Persist
 {
 
-Status RHIContext_D3D11 ::createVertexShader(GpuProgram & program)
+Status RHIContext_D3D11 ::createVertexShader(RHIGpuProgram & program)
 {
     if(program.type() != program.PT_Vertex)
     {
@@ -23,7 +23,7 @@ Status RHIContext_D3D11 ::createVertexShader(GpuProgram & program)
     }
 }
 
-Status RHIContext_D3D11 :: createPixelShader(GpuProgram & program)
+Status RHIContext_D3D11 :: createPixelShader(RHIGpuProgram & program)
 {
     if(program.type() != program.PT_Pixel)
     {

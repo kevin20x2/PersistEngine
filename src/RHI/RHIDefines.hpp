@@ -3,6 +3,14 @@
 
 namespace Persist
 {
+
+enum class ENMRHIShaderPlatformType : uint8_t
+{
+    RHI_PT_DX11 = 0 ,
+    RHI_PT_OPENGL = 1 
+};
+
+
 enum ENMBufferUsageFlags
 {
     Buf_None = 0x0000,

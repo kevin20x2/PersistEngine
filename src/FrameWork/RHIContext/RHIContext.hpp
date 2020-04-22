@@ -2,7 +2,6 @@
 #include <FrameWork/Interface/IRunTimeModule.hpp>
 #include <cstdint>
 #include <RHI/RHI.hpp>
-#include <FrameWork/Shaders/GpuProgram.hpp>
 #include <FrameWork/Math/Vectors.hpp>
 
 namespace Persist 
@@ -45,14 +44,14 @@ namespace Persist
 
 
         virtual RHIVertexLayoutPtr createVertexLayout(RHIVertexFormatElementList & elementList ) = 0 ;  
-        virtual RHIVertexLayoutPtr createVertexLayout(RHIVertexFormatElementList & elementList , GpuProgram & vs ) = 0 ;  
+        virtual RHIVertexLayoutPtr createVertexLayout(RHIVertexFormatElementList & elementList , RHIGpuProgram & vs ) = 0 ;  
 
 
-        virtual Status createVertexShader(GpuProgram & program) = 0;
-        virtual Status createPixelShader(GpuProgram & program) = 0;
+        virtual Status createVertexShader(RHIGpuProgram & program) = 0;
+        virtual Status createPixelShader(RHIGpuProgram & program) = 0;
 
-        virtual Status setVertexShader(GpuProgram & program) = 0 ;
-        virtual Status setPixelShader(GpuProgram & program ) = 0 ;
+        virtual Status setVertexShader(RHIGpuProgram & program) = 0 ;
+        virtual Status setPixelShader(RHIGpuProgram & program ) = 0 ;
         virtual Status setVertexLayout(RHIVertexLayoutPtr &layout) = 0 ;
         
         virtual Status setVertexBuffer(RHIVertexBufferPtr buffer , RHIVertexLayoutPtr layout) = 0;

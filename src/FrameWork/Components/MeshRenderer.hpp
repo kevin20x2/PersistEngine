@@ -5,7 +5,7 @@
 
 namespace Persist
 {
-    class GpuProgram;
+    class RHIGpuProgram;
     class StaticMeshComponent;
 
     PERSIST_OBJECT()
@@ -36,8 +36,8 @@ namespace Persist
 
         RHIDepthStencilStatePtr depthState_ = nullptr;
 
-        GpuProgram * vs_ = nullptr;
-        GpuProgram * ps_ = nullptr;
+       RHIGpuProgram * vs_ = nullptr;
+       RHIGpuProgram * ps_ = nullptr;
 
         bool inited_ = false;
 
