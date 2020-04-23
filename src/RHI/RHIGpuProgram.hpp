@@ -1,4 +1,6 @@
 #pragma once
+#include "RHIDefines.hpp"
+#include "RHIResource.hpp"
 
 
 namespace Persist
@@ -6,7 +8,7 @@ namespace Persist
 class SubShader;
 struct SerializedGpuProgram;
 
-class RHIGpuProgram 
+class RHIGpuProgram  : public IRHIResource
 {
 public:
     enum ProgramType
@@ -21,8 +23,7 @@ public:
 
 protected:
     ProgramType type_;
-
-
+    //ENMRHIShaderPlatformType shader_platform_type_ ;
 };
 
 }

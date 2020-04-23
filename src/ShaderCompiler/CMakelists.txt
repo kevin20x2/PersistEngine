@@ -1,0 +1,9 @@
+
+
+
+
+add_executable(testShaderCompiler Private/TestShaderCompiler.cpp)
+
+target_link_libraries(testShaderCompiler FrameWork)
+
+

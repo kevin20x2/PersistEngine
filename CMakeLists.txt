@@ -33,6 +33,7 @@ endif()
 add_subdirectory(src/FrameWork)
 add_subdirectory(src/Platform)
 add_subdirectory(src/RHI)
+add_subdirectory(src/ShaderCompiler)
 
 target_link_libraries(app FrameWork Platform RHI )
 

@@ -4,6 +4,9 @@
 namespace Persist
 {
 
+using StdOutStream = std::basic_ostream<char , std::char_traits<char> > ;
+
+
 #define PLOG(...) Logger::instance().print(__FILE__ , __LINE__,__VA_ARGS__)
 
 class Logger 

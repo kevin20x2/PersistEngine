@@ -126,7 +126,7 @@ namespace Persist
 
         fbxsdk::FbxImporter * lImporter = fbxsdk::FbxImporter::Create(lSdkManager ,"");
 
-        if(!lImporter->Initialize(path.c_str(), -1,lSdkManager->GetIOSettings()))
+        if(!lImporter->Initialize(path.toCharArray(), -1,lSdkManager->GetIOSettings()))
         {
             std::cout << "FbxImport ::Initialize Failed" << std::endl;
 

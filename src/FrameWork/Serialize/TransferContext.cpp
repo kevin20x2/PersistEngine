@@ -15,7 +15,7 @@ Status TransferContext::addReadRequest <SerializedGpuProgram>
 (const String & path , SerializedGpuProgram & dst)
 {
     // must use binary otherwise shader will get error
-    ReadTransferBase::byte_ifstream *  ifs = new ReadTransferBase::byte_ifstream(path ,std::ios::binary);
+    ReadTransferBase::byte_ifstream *  ifs = new ReadTransferBase::byte_ifstream(path.toCharArray() ,std::ios::binary);
     if(!ifs->is_open())
     {
         throw Status::Error("open file error");
