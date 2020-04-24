@@ -15,6 +15,7 @@ class StdoutLogger : public Logger
     Logger & operator << (const char * ) override;
     Logger & operator << (int value) override;
     Logger & operator << (std::ostream  & (*op) (std::ostream & )) override ;
+    Logger & operator <<  (const String & str) override ;
 
     protected:
 
@@ -65,6 +66,13 @@ Logger & StdoutLogger::operator<< (std::ostream &  (*op) (std:: ostream & ) )
 {
     std::cout << op;
     return *this;
+}
+
+Logger & StdoutLogger :: operator<<(const String & str)
+{
+    std::cout << str.toStdString();
+    return *this;
+
 }
 
 Logger & Logger::instance()

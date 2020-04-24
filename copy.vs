@@ -9,6 +9,7 @@ cbuffer MatrixBuffer
 };
 
 
+//中文测试
 
 v2p main(a2v input )
 {

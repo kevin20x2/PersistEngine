@@ -1,13 +1,15 @@
 #pragma once
 #include <iostream>
+#include "String.hpp"
 
 namespace Persist
 {
 
-using StdOutStream = std::basic_ostream<char , std::char_traits<char> > ;
 
 
 #define PLOG(...) Logger::instance().print(__FILE__ , __LINE__,__VA_ARGS__)
+
+#define PEND std::endl
 
 class Logger 
 {
@@ -20,7 +22,9 @@ class Logger
 
     virtual Logger & operator<<(int value) = 0  ;
     virtual Logger & operator<< (const char * ) = 0 ;
+    // for std:: endl
     virtual Logger & operator << (std::ostream & (*op) (std::ostream &) ) = 0;
+    virtual Logger & operator << (const String & str) = 0;
 
 
 

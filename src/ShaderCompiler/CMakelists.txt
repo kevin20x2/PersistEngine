@@ -2,7 +2,11 @@
 
 
 
-add_executable(testShaderCompiler Private/TestShaderCompiler.cpp)
+add_executable(testShaderCompiler 
+Private/TestShaderCompiler.cpp
+Private/ShaderCompileCommon.cpp
+Private/HlslLexer.cpp
+)
 
 target_link_libraries(testShaderCompiler FrameWork)
 

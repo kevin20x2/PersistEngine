@@ -1,6 +1,7 @@
 #pragma once
 #include "String.hpp"
 #include <iostream>
+#include "Logger.hpp"
 
 namespace Persist
 {
@@ -27,7 +28,7 @@ class Status
     }
     static Status  Error(const String & err)
     {
-        std::cout << err << std::endl;
+        PLOG() << err << PEND;
         return Status(CommonErr);
 
     }
