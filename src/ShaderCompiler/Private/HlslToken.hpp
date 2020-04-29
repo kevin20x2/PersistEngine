@@ -1,4 +1,5 @@
 #pragma once
+#include <FrameWork/Common/String.hpp>
 
 namespace Persist
 {
@@ -154,8 +155,35 @@ enum class ENMHlslToken
     Dot , // "."
     Struct,
     CBuffer ,
-    Register 
+    Register ,
 
+    Identifier,
+    UnsignedIntegerConstant,
+    FloatConstant,
+    BoolConstantTrue,
+    BoolConstantFalse,
+    StringConstant,
+};
+
+struct SourceInfo
+{
+    String * fileName_;
+    uint32_t lineNum_;
+    //uin32_t colum
+    SourceInfo() : fileName_(nullptr) ,lineNum_(0){}
+};
+
+struct HlslToken
+{
+    ENMHlslToken token_;
+    String string_;
+    uint32_t integer_;
+    SourceInfo info_;
+
+    explicit HlslToken(const String & identifier) : token_(ENMHlslToken::Identifier),string_(identifier) ,integer_(0) {}
+    explicit HlslToken(ENMHlslToken inToken ,const String & identifier) : token_(inToken),string_(identifier) ,integer_(0) {}
+    explicit HlslToken(uint32_t value) : token_(ENMHlslToken::UnsignedIntegerConstant),string_(""),integer_(value) {}
+    //explicit HlslToken(bool value) : token_(ENMHlslToken::BoolConstant),string_(value?"true":"false"),integer_(value ? 1 : 0 ){};
 
 };
 

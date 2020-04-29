@@ -8,6 +8,9 @@ Private/ShaderCompileCommon.cpp
 Private/HlslLexer.cpp
 )
 
-target_link_libraries(testShaderCompiler FrameWork)
+target_include_directories(testShaderCompiler PUBLIC ${CMAKE_SOURCE_DIR}/src/ThirdParty/googletest/googletest/include )
+
+target_link_libraries(testShaderCompiler FrameWork )
+target_link_libraries(testShaderCompiler gtest)
 
 

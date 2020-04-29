@@ -19,6 +19,8 @@ using StdOutStream = std::basic_ostream<char , std::char_traits<char> > ;
 
         public :
         using value_type = char;
+        using iterator_type = char * ;
+        using const_iterator_type = const char * ;
         String(const char * str )
         {
             uint32_t len = String::Length(str);
@@ -36,6 +38,46 @@ using StdOutStream = std::basic_ostream<char , std::char_traits<char> > ;
         {
             data_.push_back('\0');
         }
+        String(const char * base , uint32_t len )
+        {
+            std::copy(base, base+len ,std::back_inserter(data_));
+            data_.push_back('\0');
+        }
+        String(const_iterator_type begin , const_iterator_type end )
+        {
+            std::copy(begin ,end , std::back_inserter(data_) );
+            data_.push_back('\0');
+        }
+        String(const String & rhs)
+        {
+            data_ = rhs.data_;
+        }
+        String & operator=(const String & rhs)
+        {
+            data_ = rhs.data_;
+            return *this;
+        }
+        String & operator=(const char * str)
+        {
+            uint32_t len = String::Length(str);
+            data_.clear();
+            std::copy(str,str+len+1 ,std::back_inserter(data_));
+            //data_.push_back('\0');
+            return * this;
+        }
+
+        String & operator=(String && rhs)
+        {
+            data_ = rhs.data_;
+            return *this;
+        }
+
+
+        bool operator ==(const String & rhs) const
+        {
+            return memcmp(data_.data(), rhs.data_.data(),data_.size()) == 0;
+        }
+
 
         const char * toCharArray() const
         {
@@ -87,6 +129,7 @@ using StdOutStream = std::basic_ostream<char , std::char_traits<char> > ;
         {
             return strlen(str);
         }
+
 
 
 

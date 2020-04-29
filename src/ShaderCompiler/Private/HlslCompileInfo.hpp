@@ -1,6 +1,7 @@
 #pragma once
 #include <FrameWork/Common/Array.hpp>
 #include <FrameWork/Common/String.hpp>
+#include <FrameWork/Common/Logger.hpp>
 
 namespace Persist
 {
@@ -19,6 +20,10 @@ namespace Persist
     struct HlslCompileInfo
     {
         HlslCompileInfo() {};
+
+        void sourceError(const String & info , int line  ){
+            PLOG() <<"Source error : "<< info  << "line  :"  << line << PEND;
+        };
 
 
 

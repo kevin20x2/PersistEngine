@@ -13,6 +13,11 @@ include_directories(
 set(RHI_Platform DX11)
 
 
+if(MSVC)
+    string(REPLACE "/MD" "/MT" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
+    string(REPLACE "/MD" "/MT" CMAKE_CXX_FLAGS_DEBUG ${CMAKE_CXX_FLAGS_DEBUG})
+    string(REPLACE "/MD" "/MT" CMAKE_CXX_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_RELEASE})
+endif(MSVC)
 
 
 
@@ -34,6 +39,7 @@ add_subdirectory(src/FrameWork)
 add_subdirectory(src/Platform)
 add_subdirectory(src/RHI)
 add_subdirectory(src/ShaderCompiler)
+add_subdirectory(src/ThirdParty/googletest)
 
 target_link_libraries(app FrameWork Platform RHI )
 
