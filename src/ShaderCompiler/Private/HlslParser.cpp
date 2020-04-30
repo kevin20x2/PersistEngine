@@ -63,23 +63,47 @@ enum ENMParseResult
     Error
 };
 
+ENMParseResult ParseGeneralDeclaration()
+{
+
+}
+
 ENMParseResult ParseCBuffer(HlslParser ::TokenHandler & tokenHandler ,AST::Node ** ppNode)
 {
     //if(tokenHandler.peekToken()->token_ != ENMHlslToken::LeftBrace)
+    const HlslToken *token = tokenHandler.peekToken();
+
+    if(!token)
+    {
+        tokenHandler.sourceError("prase cbuffer expect '{'");
+        return ENMParseResult::Error;
+    }
    
     AST::CBufferDeclaration * cbuffer = new AST::CBufferDeclaration();
 
-    const HlslToken *token = tokenHandler.peekToken();
     if(tokenHandler.matchToken(ENMHlslToken ::Identifier))
     {
         cbuffer->name_ = token->string_.toCharArray();
     }
-    if (!tokenHandler.matchToken(ENMHlslToken::LeftBrace)) // {
+    if (tokenHandler.matchToken(ENMHlslToken::LeftBrace)) // {
     {
-        tokenHandler.sourceError(String("expect '{' !"));
-        return ENMParseResult::Error;
+        while(tokenHandler.hasMoreTokens())
+        {
+            if(tokenHandler.matchToken(ENMHlslToken::RightBrace))
+            {
+                if(tokenHandler.matchToken(ENMHlslToken::Semicolon))
+                {
+
+                }
+                *ppNode =  cbuffer;
+                return ENMParseResult::Matched;
+            }
+
+        }
     }
 
+    tokenHandler.sourceError(String("expect '{' !"));
+    return ENMParseResult::Error;
 
 }
 
