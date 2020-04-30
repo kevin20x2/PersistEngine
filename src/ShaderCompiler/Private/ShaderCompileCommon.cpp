@@ -20,7 +20,11 @@ namespace ShaderCompile
         HlslParser parser;
         HlslCompileInfo compileInfo;
 
-        parser.parse(inShaderText ,compileInfo );
+       // parser.parse(inShaderText ,compileInfo );
+
+        parser.Debug_Print();
+
+
 
 
 

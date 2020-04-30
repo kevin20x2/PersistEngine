@@ -548,10 +548,7 @@ struct HlslTokenizer
 };
 
 
-HlslParser ::HlslParser()
-{
 
-}
 
 inline void HlslParser::addToken(const HlslToken & token  ,const HlslTokenizer & tokenizer)
 {
@@ -559,7 +556,7 @@ inline void HlslParser::addToken(const HlslToken & token  ,const HlslTokenizer &
     tokens_[index].info_.lineNum_ = tokenizer.line_;
 }
 
-bool HlslParser::parse(String & inSource , HlslCompileInfo & info ) 
+bool HlslParser::tokenize(String & inSource , HlslCompileInfo & info ) 
 {
     HlslTokenizer tokenizer(inSource );
     
@@ -603,6 +600,19 @@ bool HlslParser::parse(String & inSource , HlslCompileInfo & info )
             }
             else if(tokenizer.matchSymbol(identifier , symbolToken)) // keyword may not identifier
             {
+                if(symbolToken == ENMHlslToken ::Div ) // Maybe Comment
+                {
+                    if(tokenizer.peek() == '/') // C++ style comment
+                    {
+                        tokenizer.skipToNextLine();
+                        continue;
+                    }
+                    if(tokenizer.peek() == '*') //c style comment
+                    {
+                        //TODO;
+                    }
+                }
+
                 addToken(HlslToken(symbolToken,identifier),tokenizer);
             }
             else if(tokenizer.matchQuotedString(identifier))
@@ -611,22 +621,22 @@ bool HlslParser::parse(String & inSource , HlslCompileInfo & info )
             }
             else if(tokenizer.hasAvailableChars())
             {
-
+                info.sourceError(String("unkown token at line "),tokenizer.line_);
+                return false;
 
             }
+        } // end of else 
 
-
-
-        }
-
-    
-
-
+    }  // end of while
+    return true;
+}
+void HlslParser::Debug_Print()
+{
+    for(int i = 0 ;i  < tokens_.size();++i)
+    {
+        HlslToken token = tokens_[i];
+        PLOG() << "token  " << i  << " :" << token.string_ << PEND;
     }
-
-
-
-
 }
 
 #define ArrayLen(ArrayName) sizeof(ArrayName)/sizeof(ArrayName[0])

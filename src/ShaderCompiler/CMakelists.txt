@@ -6,6 +6,7 @@ add_executable(testShaderCompiler
 Private/TestShaderCompiler.cpp
 Private/ShaderCompileCommon.cpp
 Private/HlslLexer.cpp
+Private/HlslParser.cpp
 )
 
 target_include_directories(testShaderCompiler PUBLIC ${CMAKE_SOURCE_DIR}/src/ThirdParty/googletest/googletest/include )

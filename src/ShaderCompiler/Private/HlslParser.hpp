@@ -14,15 +14,23 @@ class HlslParser
     HlslParser();
 
 
-    bool parse(String & inSource , HlslCompileInfo & compileInfo);
 
     inline void addToken(const HlslToken &  token , const struct HlslTokenizer & tokenizer);
 
+    bool prase(String & inSource , String &fileName , HlslCompileInfo & compileInfo);
+
+    void Debug_Print();
+
+    struct TokenHandler;
+
+
     private:
+    bool tokenize(String & inSource , HlslCompileInfo & compileInfo);
 
 
     Array <String > fileNames_;
     Array <HlslToken> tokens_;
+    TokenHandler * tokenHandler_ = nullptr;
 
 
 };
