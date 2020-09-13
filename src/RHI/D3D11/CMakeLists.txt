@@ -12,6 +12,6 @@ RHIResource_D3D11.cpp
 RHIRenderState.cpp
 )
 
-target_link_directories(RHI_D3D11 PUBLIC $ENV{DXSDK_DIR}\\Lib\\x64)
+link_directories(RHI_D3D11 PUBLIC $ENV{DXSDK_DIR}\\Lib\\x64)
 target_link_libraries(RHI_D3D11 dxgi.lib d3d11.lib  d3dx11.lib  D3DCompiler.lib)
 

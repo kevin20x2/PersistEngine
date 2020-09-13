@@ -30,16 +30,16 @@ add_custom_command(TARGET app
 )
 
 if(${RHI_Platform} STREQUAL "DX11")
-    target_link_directories(app PUBLIC $ENV{DXSDK_DIR}\\Lib\\x64)
-    add_compile_definitions(RHI_DX11)
-    add_compile_definitions(DATA_TYPE_DX)
+    link_directories(app PUBLIC $ENV{DXSDK_DIR}\\Lib\\x64)
+    target_compile_definitions(app PUBLIC RHI_DX11)
+    target_compile_definitions(app PUBLIC DATA_TYPE_DX)
 endif()
 
 add_subdirectory(src/FrameWork)
 add_subdirectory(src/Platform)
 add_subdirectory(src/RHI)
 add_subdirectory(src/ShaderCompiler)
-add_subdirectory(src/ThirdParty/googletest)
+#add_subdirectory(src/ThirdParty/googletest)
 
 target_link_libraries(app FrameWork Platform RHI )
 
